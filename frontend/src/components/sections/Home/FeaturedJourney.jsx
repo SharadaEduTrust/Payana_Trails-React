@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-// Mock images - replace these with your actual image imports
 import elephantImg from "../../../assets/Home/FeaturedJourney/elephant.webp";
 import pyramidImg from "../../../assets/Home/FeaturedJourney/pyramid.webp";
 import leopardImg from "../../../assets/Home/FeaturedJourney/leopard.webp";
@@ -8,10 +7,8 @@ import MainFeaturedCard from "../../common/cards/MainFeaturedCard";
 import FeaturedCard from "../../common/cards/FeaturedCard";
 
 const FeaturedJourney = () => {
-  // Reference for the scrolling container
   const sliderRef = useRef(null);
 
-  // Scroll functions for the arrow buttons
   const slideLeft = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: -360, behavior: "smooth" });
@@ -24,7 +21,6 @@ const FeaturedJourney = () => {
     }
   };
 
-  // Dummy data for the bottom cards
   const subJourneys = [
     {
       id: 1,
@@ -47,8 +43,8 @@ const FeaturedJourney = () => {
   ];
 
   return (
-    <section className="bg-[#F3EFE9] w-full py-16 sm:py-20 lg:py-24">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-[#F3EFE9] w-full py-16 sm:py-20 lg:py-2">
+      <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <h2 className="text-[#4A3B2A] text-4xl sm:text-5xl font-bold text-center mb-12 sm:mb-16 tracking-wide">
           Featured Journeys
@@ -63,8 +59,8 @@ const FeaturedJourney = () => {
           />
         </div>
 
-        {/* 2. Bottom Section: Carousel with Arrows */}
-        <div className="relative group flex items-center justify-center">
+        {/* 2. Bottom Section */}
+        <div className="relative flex items-center justify-center">
           {/* Left Arrow Button */}
           <button
             onClick={slideLeft}
@@ -88,7 +84,6 @@ const FeaturedJourney = () => {
           {/* Scrollable Container for Featured Cards */}
           <div
             ref={sliderRef}
-            // THE FIX: Replaced "w-full" with "w-max max-w-full"
             className="flex gap-6 sm:gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth w-max max-w-full px-12 sm:px-16 lg:px-8 py-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
             {subJourneys.map((journey) => (

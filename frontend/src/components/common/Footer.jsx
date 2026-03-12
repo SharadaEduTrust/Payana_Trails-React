@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"; // IMPORT REACT ROUTER LINK
+import { Link } from "react-router-dom";
 import {
   FaYoutube,
   FaInstagram,
@@ -18,7 +18,7 @@ const Footer = () => {
     { name: "Connect", path: "/connect" },
   ];
 
-  // Social media icon configurations
+  // Social media icon
   const socialLinks = [
     {
       name: "YouTube",
@@ -132,5 +132,4 @@ const Footer = () => {
     </footer>
   );
 };
-
 export default Footer;

@@ -9,7 +9,6 @@ const MainFeaturedCard = ({ image, title, desc, btnText = "View Journey" }) => {
         <img
           src={image}
           alt={title}
-          // The thick border-[8px] recreates the cream frame around the image
           className="w-full h-full object-cover border-[8px] border-[#F3EFE9] rounded-[24px] shadow-sm"
         />
       </div>
@@ -27,11 +26,9 @@ const MainFeaturedCard = ({ image, title, desc, btnText = "View Journey" }) => {
         </p>
 
         {/* Action Button */}
-        {/* Wrapping it in a div with mt-auto pushes the button to the bottom if the text is short */}
         <div className="mt-auto lg:mt-0">
           <CreamBtn
             text={btnText}
-            // w-fit ensures the button only takes up as much horizontal space as it needs, instead of stretching full width
             className="w-fit px-8 py-3 sm:py-3.5 text-[18px] sm:text-[20px] shadow-md hover:shadow-lg"
           />
         </div>

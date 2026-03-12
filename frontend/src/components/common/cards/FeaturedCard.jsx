@@ -14,7 +14,7 @@ const FeaturedCard = ({ imgSrc, title, desc, btnText = "View Journey" }) => {
       {/* 2. Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#1a140f] via-[#1a140f]/50 to-transparent opacity-90 transition-opacity duration-300"></div>
 
-      {/* 3. Content Container (Pinned to the bottom) */}
+      {/* 3. Content Container */}
       <div className="absolute bottom-0 w-full p-5 sm:p-6 flex flex-col z-10">
         {/* Title */}
         <h3 className="text-white text-[24px] sm:text-[28px] font-bold leading-tight mb-2">

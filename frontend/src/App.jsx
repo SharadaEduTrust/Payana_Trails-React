@@ -1,24 +1,25 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom"; // 1. Import BrowserRouter
-import BrownBtn from "./components/common/buttons/BrownBtn";
-import CreamBtn from "./components/common/buttons/CreamBtn";
-import Header from "./components/common/Header";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/common/layout/Layout";
 import Home from "./pages/Home";
+import Journeys from "./pages/Journeys";
+import PayanaWay from "./pages/PayanaWay";
+import Stories from "./pages/Stories";
+import Connect from "./pages/Connect";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <div>
-        <Header />
-        <Home />
-
-        {/* Just some padding so the buttons aren't hidden under your sticky header */}
-        <main className="p-10 flex gap-4">
-          <BrownBtn text="Sign Up" />
-          <CreamBtn text="Login" />
-        </main>
-      </div>
-    </BrowserRouter>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/journeys" element={<Journeys />} />
+          <Route path="/payana-way" element={<PayanaWay />} />
+          <Route path="/stories" element={<Stories />} />
+          <Route path="/connect" element={<Connect />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 };
 

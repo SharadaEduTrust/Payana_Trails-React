@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const PayanaWay = () => {
-  return (
-    <div>PayanaWay</div>
-  )
-}
+  return <div>PayanaWay</div>;
+};
 
-export default PayanaWay
+export default PayanaWay;

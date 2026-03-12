@@ -39,7 +39,6 @@ export default function Header() {
       : "";
 
   return (
-    // CHANGED: "fixed" to "sticky", and added "|| isMenuOpen" to the background logic
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 py-2 ${
         isScrolled || isMenuOpen ? "bg-[#F3EFE9] shadow-md" : "bg-transparent"

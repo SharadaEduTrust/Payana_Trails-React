@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 import {
   FaYoutube,
   FaInstagram,
-  FaXTwitter,
-  FaLinkedinIn,
   FaWhatsapp,
+  FaFacebook,
 } from "react-icons/fa6";
-import logoImg from "../../assets/logo.png";
+import logoImg from "../../assets/logo.png"; // Ensure this path is correct
 
 const Footer = () => {
   const navLinks = [
@@ -18,8 +17,18 @@ const Footer = () => {
     { name: "Connect", path: "/connect" },
   ];
 
-  // Social media icon
+  // Social media icons
   const socialLinks = [
+    {
+      name: "WhatsApp",
+      icon: <FaWhatsapp className="text-[#25D366]" size={22} />,
+      href: "#",
+    },
+    {
+      name: "Facebook",
+      icon: <FaFacebook className="text-black" size={20} />,
+      href: "#",
+    },
     {
       name: "YouTube",
       icon: <FaYoutube className="text-[#FF0000]" size={22} />,
@@ -30,20 +39,39 @@ const Footer = () => {
       icon: <FaInstagram className="text-[#E1306C]" size={22} />,
       href: "#",
     },
+  ];
+
+  // Data for the new middle section columns
+  const footerMenus = [
     {
-      name: "X",
-      icon: <FaXTwitter className="text-black" size={20} />,
-      href: "#",
+      title: "Journeys",
+      links: [
+        { name: "Wildlife Trails", path: "/wildlife-trails" },
+        { name: "UNESCO Trails", path: "/unesco-trails" },
+        { name: "Immersive Trails", path: "/immersive-trails" },
+        { name: "Signature Journeys", path: "/signature-journeys" },
+      ],
     },
     {
-      name: "LinkedIn",
-      icon: <FaLinkedinIn className="text-[#0A66C2]" size={22} />,
-      href: "#",
+      title: "The Payana Way",
+      links: [
+        { name: "About Payana", path: "/about" },
+        { name: "Our Philosophy", path: "/philosophy" },
+        { name: "How We Curate", path: "/curate" },
+        { name: "Responsible Travel", path: "/responsible-travel" },
+        { name: "Voices from the Trail", path: "/voices" },
+        { name: "Press & Media", path: "/press" },
+      ],
     },
     {
-      name: "WhatsApp",
-      icon: <FaWhatsapp className="text-[#25D366]" size={22} />,
-      href: "#",
+      title: "Connect",
+      links: [
+        { name: "Enquiry", path: "/enquiry" },
+        { name: "Contact", path: "/contact" },
+        { name: "FAQs", path: "/faqs" },
+        { name: "Refer a Friend", path: "/refer" },
+        { name: "Gift a Journey", path: "/gift" },
+      ],
     },
   ];
 
@@ -51,17 +79,18 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#4A3B2A] w-full pt-12 pb-8">
-      <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* === TOP SECTION === */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
-          <div className="flex flex-col gap-6">
+        <div className="flex flex-col xl:flex-row justify-between items-start gap-12 xl:gap-8">
+          {/* Left: Brand & Socials */}
+          <div className="flex flex-col gap-6 xl:w-1/4">
             <div className="flex items-center gap-4">
               <img
                 src={logoImg}
                 alt="Payana Trails"
                 className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover shadow-md"
               />
-              <span className="text-[#F3EFE9] text-3xl sm:text-4xl italic tracking-wide font-serif">
+              <span className="text-[#F3EFE9] text-2xl sm:text-2xl italic tracking-wide font-serif">
                 Payana Trails
               </span>
             </div>
@@ -82,31 +111,67 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex flex-col md:items-end text-[#F3EFE9] gap-2 text-left md:text-right">
-            <h3 className="font-bold text-[20px] sm:text-[22px] tracking-wide mb-1">
+          {/* Middle: 3-Column Navigation */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 xl:w-2/4 w-full">
+            {footerMenus.map((menu, index) => (
+              <div key={index} className="flex flex-col text-[#F3EFE9]">
+                <h4 className="font-bold text-[18px] mb-4 tracking-wide font-serif">
+                  {menu.title}
+                </h4>
+                <ul className="flex flex-col gap-2">
+                  {menu.links.map((link, idx) => (
+                    <li key={idx}>
+                      <Link
+                        to={link.path}
+                        className="text-[15px] sm:text-[16px] opacity-80 hover:opacity-100 hover:text-white hover:underline transition-all"
+                        onClick={() => window.scrollTo(0, 0)}
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Right: Contact Info */}
+          <div className="flex flex-col xl:items-end text-[#F3EFE9] gap-3 text-left xl:text-right xl:w-1/4">
+            <h3 className="font-bold text-[20px] sm:text-[22px] tracking-wide mb-1 font-serif">
               Journeys, thoughtfully curated!
             </h3>
+
+            {/* Address added here */}
+            <address className="not-italic text-[15px] sm:text-[16px] opacity-90 leading-relaxed max-w-62.5">
+              110, Sowmya Springs, Basavanagudi, <br />
+              Bangalore - 560 004
+            </address>
+
             <a
               href="mailto:info@payanatrails.com"
-              className="text-[16px] sm:text-[18px] underline hover:text-white transition-colors"
+              className="text-[16px] sm:text-[18px] underline hover:text-white transition-colors opacity-90 hover:opacity-100"
             >
               info@payanatrails.com
             </a>
+
+            {/* Updated Phone / WhatsApp */}
             <a
-              href="tel:+910000000000"
-              className="text-[16px] sm:text-[18px] italic hover:text-white transition-colors tracking-widest"
+              href="tel:+918660460512"
+              className="text-[12px] sm:text-[16px] hover:text-white transition-colors opacity-90 hover:opacity-100"
             >
-              +91 0000000000
+              Call or WhatsApp:{" "}
+              <span className="italic tracking-widest">+91 8660460512</span>
             </a>
           </div>
         </div>
 
         {/* === DIVIDER === */}
-        <hr className="border-[#F3EFE9] opacity-40 my-8 sm:my-10" />
+        <hr className="border-[#F3EFE9] opacity-30 my-10" />
 
         {/* === BOTTOM SECTION === */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[#F3EFE9] text-[15px] sm:text-[16px]">
-          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-semibold tracking-wide">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[#F3EFE9] text-[14px] sm:text-[15px]">
+          {/* Bottom inline links */}
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-medium tracking-wide opacity-80">
             {navLinks.map((link, index) => (
               <React.Fragment key={index}>
                 <Link
@@ -118,13 +183,14 @@ const Footer = () => {
                 </Link>
 
                 {index < navLinks.length - 1 && (
-                  <span className="opacity-80 font-normal select-none">|</span>
+                  <span className="opacity-60 font-light select-none">|</span>
                 )}
               </React.Fragment>
             ))}
           </div>
 
-          <div className="font-semibold tracking-wide text-center md:text-right">
+          {/* Copyright */}
+          <div className="font-medium tracking-wide text-center md:text-right opacity-80">
             © {currentYear} Payana Trails. All Rights Reserved.
           </div>
         </div>
@@ -132,4 +198,5 @@ const Footer = () => {
     </footer>
   );
 };
+
 export default Footer;

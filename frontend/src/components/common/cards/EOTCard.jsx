@@ -1,7 +1,7 @@
 import React from "react";
 import CreamBtn from "../buttons/CreamBtn";
 
-const WWD = ({ imgSrc, title, btnText = "Explore" }) => {
+const EOTCard = ({ imgSrc, title, btnText = "Explore" }) => {
   return (
     <div className="group w-full max-w-sm p-4 bg-slate-50 rounded-[2.5rem] border-[3px] border-[#4A3B2A] transition-all duration-500 hover:bg-white hover:shadow-[0_8px_30px_rgb(0,0,0,0.4)]">
       {/* Image Section */}
@@ -56,4 +56,4 @@ const WWD = ({ imgSrc, title, btnText = "Explore" }) => {
   );
 };
 
-export default WWD;
+export default EOTCard;

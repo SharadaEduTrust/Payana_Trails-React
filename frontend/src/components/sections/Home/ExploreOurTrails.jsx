@@ -2,9 +2,9 @@ import React from "react";
 import wildlifeImg from "../../../assets/Home/Whatwedo/wildlife.webp";
 import unescoImg from "../../../assets/Home/Whatwedo/unesco.webp";
 import culturalImg from "../../../assets/Home/Whatwedo/cultural.webp";
-import WWD from "../../common/cards/WWD";
+import EOTCard from "../../common/cards/EOTCard";
 
-const Whatwedo = () => {
+const ExploreOurTrails = () => {
   const services = [
     {
       id: 1,
@@ -35,7 +35,7 @@ const Whatwedo = () => {
         {/* Responsive Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 justify-items-center">
           {services.map((service) => (
-            <WWD
+            <EOTCard
               key={service.id}
               title={service.title}
               imgSrc={service.imgSrc}
@@ -47,4 +47,4 @@ const Whatwedo = () => {
   );
 };
 
-export default Whatwedo;
+export default ExploreOurTrails;

@@ -6,7 +6,7 @@ import {
   FaWhatsapp,
   FaFacebook,
 } from "react-icons/fa6";
-import logoImg from "../../assets/logo.png"; // Ensure this path is correct
+import logoImg from "../../../public/logo.svg";
 
 const Footer = () => {
   const navLinks = [
@@ -41,15 +41,14 @@ const Footer = () => {
     },
   ];
 
-  // Data for the new middle section columns
   const footerMenus = [
     {
       title: "Journeys",
       links: [
         { name: "Wildlife Trails", path: "/wildlife-trails" },
-        { name: "UNESCO Trails", path: "/unesco-trails" },
+        { name: "Heritage Trails", path: "/unesco-trails" },
         { name: "Immersive Trails", path: "/immersive-trails" },
-        { name: "Signature Journeys", path: "/signature-journeys" },
+        { name: "Signature Trails", path: "/signature-journeys" },
       ],
     },
     {
@@ -79,7 +78,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#4A3B2A] w-full pt-12 pb-8">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
         {/* === TOP SECTION === */}
         <div className="flex flex-col xl:flex-row justify-between items-start gap-12 xl:gap-8">
           {/* Left: Brand & Socials */}
@@ -111,7 +110,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Middle: 3-Column Navigation */}
+          {/* 3-Column Navigation */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8 xl:w-2/4 w-full">
             {footerMenus.map((menu, index) => (
               <div key={index} className="flex flex-col text-[#F3EFE9]">
@@ -135,15 +134,15 @@ const Footer = () => {
             ))}
           </div>
 
-          {/* Right: Contact Info */}
+          {/* Contact Info */}
           <div className="flex flex-col xl:items-end text-[#F3EFE9] gap-3 text-left xl:text-right xl:w-1/4">
-            <h3 className="font-bold text-[20px] sm:text-[22px] tracking-wide mb-1 font-serif">
+            <h3 className="font-bold text-[20px] sm:text-[18px] tracking-wide mb-1 font-serif">
               Journeys, thoughtfully curated!
             </h3>
 
-            {/* Address added here */}
+            {/* Address */}
             <address className="not-italic text-[15px] sm:text-[16px] opacity-90 leading-relaxed max-w-62.5">
-              110, Sowmya Springs, Basavanagudi, <br />
+              Address: 110, Sowmya Springs, Basavanagudi, <br />
               Bangalore - 560 004
             </address>
 
@@ -154,7 +153,7 @@ const Footer = () => {
               info@payanatrails.com
             </a>
 
-            {/* Updated Phone / WhatsApp */}
+            {/* Phone / WhatsApp */}
             <a
               href="tel:+918660460512"
               className="text-[12px] sm:text-[16px] hover:text-white transition-colors opacity-90 hover:opacity-100"
@@ -166,7 +165,7 @@ const Footer = () => {
         </div>
 
         {/* === DIVIDER === */}
-        <hr className="border-[#F3EFE9] opacity-30 my-10" />
+          <hr className="border-[#F3EFE9] opacity-30 my-10" />
 
         {/* === BOTTOM SECTION === */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[#F3EFE9] text-[14px] sm:text-[15px]">

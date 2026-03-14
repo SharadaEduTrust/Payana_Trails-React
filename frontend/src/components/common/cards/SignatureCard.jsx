@@ -1,7 +1,7 @@
 import React from "react";
 import CreamBtn from "../buttons/CreamBtn";
 
-const FeaturedCard = ({ imgSrc, title, desc, btnText = "View Journey" }) => {
+const SignatureCard = ({ imgSrc, title, desc, btnText = "View Journey" }) => {
   return (
     <div className="relative w-full max-w-[340px] h-[420px] sm:h-[450px] rounded-[32px] overflow-hidden shadow-lg group cursor-pointer mx-auto">
       {/* 1. Background Image */}
@@ -36,4 +36,4 @@ const FeaturedCard = ({ imgSrc, title, desc, btnText = "View Journey" }) => {
   );
 };
 
-export default FeaturedCard;
+export default SignatureCard;

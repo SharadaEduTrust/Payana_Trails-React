@@ -3,10 +3,10 @@ import elephantImg from "../../../assets/Home/FeaturedJourney/elephant.webp";
 import pyramidImg from "../../../assets/Home/FeaturedJourney/pyramid.webp";
 import leopardImg from "../../../assets/Home/FeaturedJourney/leopard.webp";
 import islandImg from "../../../assets/Home/FeaturedJourney/island.webp";
-import MainFeaturedCard from "../../common/cards/MainFeaturedCard";
-import FeaturedCard from "../../common/cards/FeaturedCard";
+import MainSignatureCard from "../../common/cards/MainSignatureCard";
+import SignatureCard from "../../common/cards/SignatureCard";
 
-const FeaturedJourney = () => {
+const SignatureTrails = () => {
   const sliderRef = useRef(null);
 
   const slideLeft = () => {
@@ -52,8 +52,8 @@ const FeaturedJourney = () => {
 
         {/* 1. Top Section: Main Featured Card */}
         <div className="mb-16 sm:mb-20">
-          <MainFeaturedCard
-            title="Journey Title"
+          <MainSignatureCard
+            title="Signature Journey Title"
             desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             image={elephantImg}
           />
@@ -91,7 +91,7 @@ const FeaturedJourney = () => {
                 key={journey.id}
                 className="snap-center shrink-0 w-full sm:w-[340px]"
               >
-                <FeaturedCard
+                <SignatureCard
                   title={journey.title}
                   desc={journey.desc}
                   imgSrc={journey.imgSrc}
@@ -125,4 +125,4 @@ const FeaturedJourney = () => {
   );
 };
 
-export default FeaturedJourney;
+export default SignatureTrails;

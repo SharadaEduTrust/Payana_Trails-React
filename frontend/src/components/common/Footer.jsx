@@ -27,17 +27,17 @@ const Footer = () => {
     {
       name: "Facebook",
       icon: <FaFacebook className="text-black" size={20} />,
-      href: "#",
+      href: "https://www.facebook.com/payanatrails/",
     },
     {
       name: "YouTube",
       icon: <FaYoutube className="text-[#FF0000]" size={22} />,
-      href: "#",
+      href: "www.youtube.com/@PayanaTrails",
     },
     {
       name: "Instagram",
       icon: <FaInstagram className="text-[#E1306C]" size={22} />,
-      href: "#",
+      href: "https://www.instagram.com/payanatrails/",
     },
   ];
 

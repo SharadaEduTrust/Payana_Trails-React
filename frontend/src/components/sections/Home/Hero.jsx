@@ -11,7 +11,7 @@ export default function Hero() {
       <div className="max-w-400 w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="max-w-md sm:max-w-xl lg:max-w-2xl mb-20 sm:mb-0 pt-18 sm:pt-20">
           <h1 className="text-[#4A3B2A] text-2xl sm:text-3xl lg:text-[40px] italic font-bold leading-[1.1] mb-6 [text-shadow:0_2px_20px_rgba(255,255,255,0.9)]">
-            Curated Journeys For Discerning Senior Traveller
+            Thoughtfully Curated Journeys for the Discerning Traveller
           </h1>
 
           <p className="text-white text-sm sm:text-base lg:text-lg font-bold uppercase tracking-[0.2em] mb-10 [text-shadow:0_2px_4px_rgba(0,0,0,0.6)]">

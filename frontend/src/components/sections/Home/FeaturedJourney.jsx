@@ -47,7 +47,7 @@ const FeaturedJourney = () => {
       <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <h2 className="text-[#4A3B2A] text-4xl sm:text-5xl font-bold text-center mb-12 sm:mb-16 tracking-wide">
-          Featured Journeys
+          Signature Trails
         </h2>
 
         {/* 1. Top Section: Main Featured Card */}

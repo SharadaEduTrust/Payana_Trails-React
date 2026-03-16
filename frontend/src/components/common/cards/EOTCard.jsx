@@ -1,56 +1,90 @@
 import React from "react";
-import CreamBtn from "../buttons/CreamBtn";
+import {
+  LuLuggage,
+  LuMapPin,
+  LuBuilding,
+  LuMap,
+  LuCar,
+  LuConciergeBell,
+  LuTicket,
+} from "react-icons/lu";
 
-const EOTCard = ({ imgSrc, title, btnText = "Explore" }) => {
+const EOTCard = ({
+  imgSrc,
+  title = "Vietnam Mosaic – From Delta to the Bay",
+  category = "Small Group Adventures / Couple & Family Escapes",
+  location = "India",
+  duration = "7D - 6N",
+}) => {
   return (
-    <div className="group w-full max-w-sm p-4 bg-slate-50 rounded-[2.5rem] border-[3px] border-[#4A3B2A] transition-all duration-500 hover:bg-white hover:shadow-[0_8px_30px_rgb(0,0,0,0.4)]">
+    <div className="group w-full max-w-[400px] p-4 bg-gradient-to-bl from-[#E3D5C4] to-[#F3EFE9] border-[3px] border-[#4A3B2A] rounded-[2.5rem] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl font-sans">
       {/* Image Section */}
-      <div className="relative mb-6">
-        <div className="absolute top-6 inset-x-4 h-full bg-[#E8E2D5] blur-2xl rounded-3xl opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105 group-hover:translate-y-2"></div>
+      <div className="relative w-full h-[260px] rounded-3xl overflow-hidden mb-5 shadow-sm">
+        <img
+          src={
+            imgSrc ||
+            "https://images.unsplash.com/photo-1555921015-5532091f6026?q=80&w=1000&auto=format&fit=crop"
+          }
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
 
-        {/* Floating Image Container */}
-        <div className="relative z-10 overflow-hidden rounded-4xl border-[6px] border-white shadow-lg transition-all duration-500 transform group-hover:-translate-y-2 group-hover:rotate-1">
-          <img
-            src={
-              imgSrc ||
-              "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop"
-            }
-            alt={title || "Styled image"}
-            className="w-full h-64 object-cover scale-105 transition-transform duration-700 group-hover:scale-100"
-          />
-          <div className="absolute inset-0 bg-[#4A3B2A]/5 mix-blend-overlay"></div>
+        {/* Top Left Badge */}
+        <div className="absolute top-4 left-4 bg-[#4A3B2A] text-[#F3EFE9] px-4 py-1.5 rounded-xl text-sm font-semibold tracking-wide shadow-md">
+          Best Seller
+        </div>
+
+        {/* Bottom Category Overlay */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[92%] bg-[#F3EFE9]/95 backdrop-blur-sm text-[#4A3B2A] py-2.5 px-3 rounded-[14px] flex items-center justify-center gap-2 shadow-md">
+          <LuLuggage className="w-4 h-4 shrink-0" />
+          <span className="text-xs sm:text-[13px] font-bold truncate">
+            {category}
+          </span>
         </div>
       </div>
 
       {/* Content Section */}
-      <div className="px-4 pb-4 flex flex-col items-center text-center">
-        <h3 className="text-xl font-bold text-[#4A3B2A] mb-5 leading-tight line-clamp-2">
+      <div className="px-2 pb-1 flex flex-col gap-5">
+        {/* Title */}
+        <h3 className="text-[22px] font-bold text-[#4A3B2A] leading-[1.3] line-clamp-2">
           {title}
         </h3>
 
-        <CreamBtn
-          text={
-            <span className="flex items-center gap-2">
-              {btnText}
-              <svg
-                className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2.5"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                ></path>
-              </svg>
-            </span>
-          }
-          className="group/btn shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
-          onClick={() => console.log("Card button clicked!")}
-        />
+        {/* Location & Duration */}
+        <div className="flex justify-between items-center text-[#4A3B2A]">
+          <div className="flex items-center gap-1.5">
+            <LuMapPin className="w-5 h-5" strokeWidth="2.5" />
+            <span className="text-lg font-semibold">{location}</span>
+          </div>
+
+          <div className="px-4 py-1 rounded-full border-2 border-[#4A3B2A]/20 text-[#4A3B2A] text-sm font-bold tracking-wide bg-white/30">
+            {duration}
+          </div>
+        </div>
+
+        {/* Divider: Package Includes */}
+        <div className="flex items-center gap-2 text-[#4A3B2A]/50 w-full mt-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-[#4A3B2A]/20 shrink-0"></div>
+          <div className="flex-1 h-[2px] bg-[#4A3B2A]/10"></div>
+          <div className="w-1.5 h-1.5 rounded-full bg-[#4A3B2A]/20 shrink-0"></div>
+
+          <span className="text-[13px] font-semibold uppercase tracking-wider px-1">
+            Package Includes
+          </span>
+
+          <div className="w-1.5 h-1.5 rounded-full bg-[#4A3B2A]/20 shrink-0"></div>
+          <div className="flex-1 h-[2px] bg-[#4A3B2A]/10"></div>
+          <div className="w-1.5 h-1.5 rounded-full bg-[#4A3B2A]/20 shrink-0"></div>
+        </div>
+
+        {/* Icons */}
+        <div className="bg-white rounded-2xl p-4 flex justify-between items-center shadow-sm border border-[#4A3B2A]/5">
+          <LuBuilding className="w-6 h-6 text-[#4A3B2A]" />
+          <LuMap className="w-6 h-6 text-[#4A3B2A]" />
+          <LuCar className="w-6 h-6 text-[#4A3B2A]" />
+          <LuConciergeBell className="w-6 h-6 text-[#4A3B2A]" />
+          <LuTicket className="w-6 h-6 text-[#4A3B2A]" />
+        </div>
       </div>
     </div>
   );

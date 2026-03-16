@@ -3,6 +3,7 @@ import wildlifeImg from "../../../assets/Home/Whatwedo/wildlife.webp";
 import unescoImg from "../../../assets/Home/Whatwedo/unesco.webp";
 import culturalImg from "../../../assets/Home/Whatwedo/cultural.webp";
 import EOTCard from "../../common/cards/EOTCard";
+import BrownBtn from "../../common/buttons/BrownBtn";
 
 const ExploreOurTrails = () => {
   const services = [
@@ -41,6 +42,35 @@ const ExploreOurTrails = () => {
               imgSrc={service.imgSrc}
             />
           ))}
+        </div>
+
+        {/* CTA Button Wrapper */}
+        <div className="flex justify-center mt-12 sm:mt-16">
+          <BrownBtn
+            text={
+              <span className="flex items-center justify-center gap-2">
+                View All Trails
+                {/* Tailwind styled SVG Arrow */}
+                <svg
+                  className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  ></path>
+                </svg>
+              </span>
+            }
+            onClick={() => console.log("Navigate to trails page")}
+            // Group class added for the arrow hover effect, plus padding/text size for height/width
+            className="group px-8 py-4 sm:px-10 sm:py-4 text-lg font-semibold min-w-[240px] shadow-md hover:shadow-lg transition-all duration-300"
+          />
         </div>
       </div>
     </section>

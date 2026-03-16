@@ -6,14 +6,13 @@ import BrownBtn from "./buttons/BrownBtn";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isUiHidden, setIsUiHidden] = useState(false); // NEW: State for Cinematic Mode
+  const [isUiHidden, setIsUiHidden] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
 
-    // NEW: Listen for the custom event from the Hero component
     const handleUiToggle = (e) => {
       setIsUiHidden(e.detail);
     };
@@ -42,7 +41,6 @@ export default function Header() {
 
   return (
     <header
-      // NEW: Added transform/opacity to hide the header smoothly
       className={`fixed top-0 left-0 z-50 w-full pointer-events-none transition-all duration-700 ${
         isUiHidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
       }`}
@@ -57,6 +55,7 @@ export default function Header() {
               : "w-[92%] max-w-[1100px] rounded-[100px] px-6 py-1.5 shadow-lg border border-[#4A3B2A]/10"
           }`}
         >
+          {/* Top Bar (Logo, Desktop Nav, Hamburger) */}
           <div className="flex items-center justify-between h-12 sm:h-14 gap-4">
             <Link
               to="/"
@@ -77,6 +76,7 @@ export default function Header() {
               </span>
             </Link>
 
+            {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center justify-center flex-1">
               <div className="flex items-center text-[#4A3B2A] font-semibold text-[15px] xl:text-[17px]">
                 {navItems.map((item, index) => (
@@ -96,12 +96,14 @@ export default function Header() {
               </div>
             </nav>
 
+            {/* Desktop Sign Up Button */}
             <div className="hidden lg:flex shrink-0">
               <Link to="/signup" onClick={handleNavClick}>
                 <BrownBtn text="Sign Up" className="scale-90" />
               </Link>
             </div>
 
+            {/* Mobile Hamburger Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden p-2 text-[#4A3B2A]"
@@ -123,10 +125,16 @@ export default function Header() {
             </button>
           </div>
 
+          {/* Mobile Navigation Dropdown */}
           <div
-            className={`lg:hidden transition-all duration-500 ${isMenuOpen ? "max-h-[400px] opacity-100 pb-6" : "max-h-0 opacity-0"}`}
+            className={`lg:hidden transition-all duration-500 overflow-hidden ${
+              isMenuOpen
+                ? "max-h-[500px] opacity-100 pb-6"
+                : "max-h-0 opacity-0"
+            }`}
           >
             <nav className="flex flex-col gap-1 border-t border-[#4A3B2A]/10 pt-4">
+              {/* Mobile Links */}
               {navItems.map((item, index) => (
                 <Link
                   key={index}
@@ -137,6 +145,16 @@ export default function Header() {
                   {item.name}
                 </Link>
               ))}
+
+              {/* Mobile Sign Up Button */}
+              <div className="px-4 py-4 mt-2 border-t border-[#4A3B2A]/10">
+                <Link to="/signup" onClick={handleNavClick}>
+                  <BrownBtn
+                    text="Sign Up"
+                    className="w-full justify-center flex"
+                  />
+                </Link>
+              </div>
             </nav>
           </div>
         </div>

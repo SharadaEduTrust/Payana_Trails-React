@@ -2,7 +2,7 @@ import React from "react";
 import { FaUserPlus, FaGift, FaHeart } from "react-icons/fa6";
 import BrownBtn from "../../common/buttons/BrownBtn";
 import referFriendPic from "../../../assets/Home/Refer/referFriendPic.webp";
-import giftAJourney from "../../../assets/Home/Refer/gift.webp";
+import giftAJourney from "../../../assets/Home/Refer/Gift.webp";
 
 const ShareExperience = () => {
   return (

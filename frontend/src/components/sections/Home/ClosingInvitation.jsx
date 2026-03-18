@@ -1,5 +1,5 @@
 import React from "react";
-import closingImg from "../../../assets/Home/ClosingInvitation/closing-invitation.jpg";
+import closingImg from "../../../assets/Home/ClosingInvitation/closing-invitation.webp";
 import BrownBtn from "../../common/buttons/BrownBtn";
 
 const ClosingInvitation = () => {

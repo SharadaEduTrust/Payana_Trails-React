@@ -7,12 +7,17 @@ const ClosingInvitation = () => {
     <section className="bg-[#F3EFE9] w-full py-16 sm:py-16 lg:py-10">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-          {/* 1. Image Section */}
-          <div className="w-full lg:w-1/2 shrink-0">
+          {/* 1. Image Section - 3D Hover Transform */}
+          <div className="w-full lg:w-1/2 shrink-0 p-2 sm:p-4">
             <img
               src={closingImg}
               alt="Traveler walking towards sunrise"
-              className="w-full h-auto object-cover border-[8px] border-[#4A3B2A] rounded-[24px] shadow-lg"
+              className="w-full h-auto object-cover border-[8px] border-[#4A3B2A] rounded-[24px] 
+              shadow-[8px_8px_0px_rgba(74,59,42,0.6)] 
+              hover:shadow-[16px_16px_0px_rgba(74,59,42,0.4)] 
+              hover:-translate-y-2 hover:-translate-x-2 hover:scale-[1.02]
+              transition-all duration-500 ease-out 
+              sepia-[0.2] hover:sepia-0"
             />
           </div>
 
@@ -28,7 +33,7 @@ const ClosingInvitation = () => {
 
             {/* Action Button */}
             <BrownBtn
-              text="Connect to a Travel Curator &rarr;"
+              text="Connect With Us &rarr;"
               className="px-6 py-3 sm:px-8 sm:py-4 text-[16px] sm:text-[18px] shadow-md hover:shadow-lg w-fit"
             />
           </div>

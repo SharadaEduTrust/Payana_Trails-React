@@ -15,12 +15,13 @@ const PayanaWay = () => {
       <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
         {/* === Header Section === */}
         <div className="text-center mb-16">
-          <h2 className="text-[#4A3B2A] text-4xl sm:text-5xl font-bold tracking-widest uppercase mb-4 relative inline-block group cursor-default">
-            The Payana Way
-            {/* Animated underline that expands from the center on hover */}
-            <span className="absolute -bottom-2 left-1/2 w-0 h-[2px] bg-[#4A3B2A] transition-all duration-500 ease-out group-hover:w-1/2 group-hover:-translate-x-full"></span>
-            <span className="absolute -bottom-2 right-1/2 w-0 h-[2px] bg-[#4A3B2A] transition-all duration-500 ease-out group-hover:w-1/2"></span>
-          </h2>
+          <div className="flex items-center justify-center gap-6">
+            <div className="h-[1px] w-12 md:w-24 bg-[#4A3B2A] opacity-30"></div>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#4A3B2A] tracking-wide text-center">
+              The Payana Way
+            </h2>
+            <div className="h-[1px] w-12 md:w-24 bg-[#4A3B2A] opacity-30"></div>
+          </div>
           <p className="text-[#4A3B2A] text-2xl sm:text-3xl font-serif italic mt-6 opacity-90">
             A more thoughtful way to travel
           </p>
@@ -70,7 +71,7 @@ const PayanaWay = () => {
                   className="group/item flex items-center gap-4 cursor-default"
                 >
                   {/* Line expands from 24px to 48px on hover */}
-                  <div className="h-[2px] w-6 bg-[#F3EFE9]/30 transition-all duration-500 ease-out group-hover/item:w-8 group-hover/item:bg-[#F3EFE9]"></div>  
+                  <div className="h-[2px] w-6 bg-[#F3EFE9]/30 transition-all duration-500 ease-out group-hover/item:w-8 group-hover/item:bg-[#F3EFE9]"></div>
 
                   {/* Text slides slightly to the right */}
                   <span className="text-[17px] font-medium tracking-wide opacity-80 transition-all duration-500 group-hover/item:opacity-100 group-hover/item:translate-x-1">

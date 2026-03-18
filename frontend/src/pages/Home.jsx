@@ -36,6 +36,7 @@ import imgM9 from "../assets/Home/hero/Mobile/9.TigersNest-Bhutan-Portrait.webp"
 import imgM10 from "../assets/Home/hero/Mobile/10.GreatWallofChina-Portrait.webp";
 import imgM11 from "../assets/Home/hero/Mobile/11.FloatingMarket-Thailand-Portrait.webp";
 import imgM12 from "../assets/Home/hero/Mobile/12.MountKailas-Tibet-Portrait.webp";
+import ExploreDestination from "../components/sections/Home/ExploreDestination";
 
 const Home = () => {
   const heroImages = [
@@ -58,6 +59,7 @@ const Home = () => {
       <Hero images={heroImages} />
       <ExploreOurTrails />
       {/* <SignatureTrails /> */}
+      <ExploreDestination />
       <PayanaWay />
       <StoriesMoments />
       <ClosingInvitation />

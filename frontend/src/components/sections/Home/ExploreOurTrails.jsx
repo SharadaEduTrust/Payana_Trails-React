@@ -25,13 +25,17 @@ const ExploreOurTrails = () => {
   ];
 
   return (
-    <section className="bg-[#F3EFE9] w-full py-16 sm:py-20 lg:py-24">
+    <section className="bg-[#F3EFE9] w-full py-2 sm:py-4 lg:py-8 px-2 sm:px-2 lg:px-2">
       {/* Main Container */}
       <div className="max-w-310 mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
-        <h2 className="text-[#4A3B2A] text-4xl sm:text-5xl font-bold text-center mb-12 sm:mb-16 tracking-wide">
-          Explore Our Trails
-        </h2>
+        <div className="flex items-center justify-center gap-6 mb-16">
+          <div className="h-[1px] w-12 md:w-24 bg-[#4A3B2A] opacity-30"></div>
+          <h2 className="text-3xl md:text-4xl font-serif text-[#4A3B2A] tracking-wide text-center">
+            Explore Our Trails
+          </h2>
+          <div className="h-[1px] w-12 md:w-24 bg-[#4A3B2A] opacity-30"></div>
+        </div>
 
         {/* Responsive Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 justify-items-center">

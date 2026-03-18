@@ -67,7 +67,7 @@ export default function Hero({ images = [] }) {
             {[
               { icon: "🦁", text: "WILDLIFE" },
               { icon: "🏛️", text: "HERITAGE" },
-              { icon: "🌿", text: "SLOW TRAVEL" },
+              { icon: "🌿", text: "CULTURAL & IMMERSIVE" },
             ].map((item, idx) => (
               <div
                 key={idx}

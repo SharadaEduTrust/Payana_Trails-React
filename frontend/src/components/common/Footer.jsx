@@ -8,6 +8,7 @@ import {
   FaLocationDot,
   FaEnvelope,
   FaPhone,
+  FaLinkedin,
 } from "react-icons/fa6";
 import logoImg from "/logo.svg";
 
@@ -30,7 +31,7 @@ const Footer = () => {
           size={20}
         />
       ),
-      href: "#",
+      href: "https://wa.me/918660460512",
       bgHover: "hover:bg-[#25D366]",
     },
     {
@@ -63,8 +64,20 @@ const Footer = () => {
           size={20}
         />
       ),
-      href: "www.youtube.com/@PayanaTrails",
+      href: "https://www.youtube.com/@PayanaTrails",
       bgHover: "hover:bg-[#FF0000]",
+    },
+    // Added LinkedIn here
+    {
+      name: "LinkedIn",
+      icon: (
+        <FaLinkedin
+          className="text-[#0077B5] group-hover:text-white transition-colors duration-300"
+          size={20}
+        />
+      ),
+      href: "https://www.linkedin.com/company/payana-trails/",
+      bgHover: "hover:bg-[#0077B5]",
     },
   ];
 
@@ -135,7 +148,7 @@ const Footer = () => {
               travel experiences.
             </p>
 
-            <div className="flex gap-3 mt-1">
+            <div className="flex gap-3 mt-1 flex-wrap justify-center lg:justify-start">
               {socialLinks.map((social, index) => (
                 <a
                   key={index}

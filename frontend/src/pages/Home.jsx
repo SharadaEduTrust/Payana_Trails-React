@@ -23,19 +23,19 @@ import imgD10 from "../assets/Home/hero/Desktop/10.Great_Wall_of_China_Landscape
 import imgD11 from "../assets/Home/hero/Desktop/11.Floating_Market_Thailand.webp";
 import imgD12 from "../assets/Home/hero/Desktop/12.Mount_Kailas_Tibet.webp";
 //Mobile
-import heroBgMob from "../assets/Home/hero/Mobile/heroBg.webp";
+import heroBgMob from "../assets/Home/hero/Mobile/heroBg.jpg";
 // import imgM1 from "../assets/Home/hero/Mobile/1.LionesswithcubsKenya-Portrait.webp";
-import imgM2 from "../assets/Home/hero/Mobile/2.Cheetah-Tanzania-Portrait.webp";
-import imgM3 from "../assets/Home/hero/Mobile/3.PyramidsandCamels-Egypt-Portrait.webp";
-import imgM4 from "../assets/Home/hero/Mobile/4.Rose CityofPetra-Jordan-Portrait.webp";
-import imgM5 from "../assets/Home/hero/Mobile/5.Bali-Indonesia-Portrait.webp";
-import imgM6 from "../assets/Home/hero/Mobile/6.HalongBay-Vietnam-Portrait.webp";
-import imgM7 from "../assets/Home/hero/Mobile/7.Borneo-Orangutan-Malaysia-Portrait.webp";
-import imgM8 from "../assets/Home/hero/Mobile/8.TaProhmTemple-Cambodia-Portrait.webp";
-import imgM9 from "../assets/Home/hero/Mobile/9.TigersNest-Bhutan-Portrait.webp";
-import imgM10 from "../assets/Home/hero/Mobile/10.GreatWallofChina-Portrait.webp";
-import imgM11 from "../assets/Home/hero/Mobile/11.FloatingMarket-Thailand-Portrait.webp";
-import imgM12 from "../assets/Home/hero/Mobile/12.MountKailas-Tibet-Portrait.webp";
+import imgM2 from "../assets/Home/hero/Mobile/2.Cheetah-Tanzania-Portrait.jpg";
+import imgM3 from "../assets/Home/hero/Mobile/3.PyramidsandCamels-Egypt-Portrait.jpg";
+import imgM4 from "../assets/Home/hero/Mobile/4.Rose CityofPetra-Jordan-Portrait.jpg";
+import imgM5 from "../assets/Home/hero/Mobile/5.Bali-Indonesia-Portrait.jpg";
+import imgM6 from "../assets/Home/hero/Mobile/6.HalongBay-Vietnam-Portrait.jpg";
+import imgM7 from "../assets/Home/hero/Mobile/7.Borneo-Orangutan-Malaysia-Portrait.jpg";
+import imgM8 from "../assets/Home/hero/Mobile/8.TaProhmTemple-Cambodia-Portrait.jpg";
+import imgM9 from "../assets/Home/hero/Mobile/9.TigersNest-Bhutan-Portrait.jpg";
+import imgM10 from "../assets/Home/hero/Mobile/10.GreatWallofChina-Portrait.jpg";
+import imgM11 from "../assets/Home/hero/Mobile/11.FloatingMarket-Thailand-Portrait.jpg";
+import imgM12 from "../assets/Home/hero/Mobile/12.MountKailas-Tibet-Portrait.jpg";
 import ExploreDestination from "../components/sections/Home/ExploreDestination";
 
 const Home = () => {

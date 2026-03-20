@@ -12,9 +12,9 @@ const EOTCard = ({
   trail = "Siem Reap - Ho Chi Minh City - Da Nang - Hanoi",
 }) => {
   return (
-    <div className="group w-full max-w-[400px] p-4 bg-linear-to-bl from-[#E3D5C4] to-[#F3EFE9] border-[3px] border-[#4A3B2A] rounded-[2.5rem] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl font-sans">
+    <div className="group w-full max-w-[400px] p-4 bg-linear-to-bl from-[#E3D5C4] to-[#F3EFE9] border-[6px] border-[#5C4033] outline outline-1 outline-[#3A281F] ring-2 ring-inset ring-[#8B6A55]/30 rounded-[2.2rem] shadow-[0_10px_30px_rgba(92,64,51,0.2),inset_0_4px_15px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(92,64,51,0.3)] font-sans">
       {/* Image Section */}
-      <div className="relative w-full h-[260px] rounded-3xl overflow-hidden mb-5 shadow-sm">
+      <div className="relative w-full h-[260px] rounded-[1.8rem] overflow-hidden mb-5 shadow-inner">
         <img
           src={
             imgSrc ||
@@ -24,14 +24,25 @@ const EOTCard = ({
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* Top Left Badge (Now Location) */}
-        <div className="absolute top-4 left-4 bg-[#4A3B2A] text-[#F3EFE9] px-3 py-1.5 rounded-xl text-sm font-semibold tracking-wide shadow-md flex items-center gap-1.5">
-          <LuMapPin className="w-[16px] h-[16px] shrink-0" strokeWidth="2.5" />
-          <span className="truncate max-w-[150px]">{location}</span>
+        {/* Top Badges (Signature Text Left, Date Right) */}
+        <div className="absolute top-4 left-4 right-4 flex justify-between items-start gap-2">
+          {/* Signature Heritage Trail */}
+          <div className="bg-[#4A3B2A] text-[#F3EFE9] px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold tracking-wide shadow-md overflow-hidden">
+            <span className="truncate block">Signature Heritage Trail</span>
+          </div>
+
+          {/* Calendar & Date */}
+          <div className="bg-[#4A3B2A]/90 backdrop-blur-md text-[#F3EFE9] px-3 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold tracking-wide shadow-md flex items-center gap-1.5 shrink-0">
+            <LuCalendarDays
+              className="w-[14px] h-[14px] shrink-0"
+              strokeWidth="2.5"
+            />
+            <span className="truncate">{date}</span>
+          </div>
         </div>
 
         {/* Bottom Category Overlay */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[92%] bg-[#F3EFE9]/95 backdrop-blur-sm text-[#4A3B2A] py-2.5 px-3 rounded-[14px] flex items-center justify-center gap-2 shadow-md">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[92%] bg-[#F3EFE9]/95 backdrop-blur-sm text-[#4A3B2A] py-2.5 px-3 rounded-[14px] flex items-center justify-center gap-2 shadow-md border border-[#5C4033]/10">
           <LuLuggage className="w-4 h-4 shrink-0" />
           <span className="text-xs sm:text-[13px] font-bold truncate">
             {category}
@@ -57,26 +68,29 @@ const EOTCard = ({
           </p>
         </div>
 
-        {/* Info Row: Duration (Left) and Date (Right) */}
-        <div className="flex justify-between items-center w-full text-[#4A3B2A] mt-1">
+        {/* Info Row: Location (Left) and Duration (Right) */}
+        <div className="flex justify-between items-center w-full text-[#4A3B2A] mt-1 gap-2">
+          {/* Location */}
+          <div className="flex items-center gap-1 justify-start overflow-hidden">
+            <LuMapPin
+              className="w-[17px] h-[17px] shrink-0"
+              strokeWidth="2.5"
+            />
+            <span className="text-[13px] sm:text-[14px] font-bold truncate">
+              {location}
+            </span>
+          </div>
+
           {/* Duration */}
-          <div className="flex justify-start">
+          <div className="flex justify-end shrink-0">
             <div className="px-3 py-1 rounded-full border border-[#4A3B2A]/20 text-[12px] sm:text-[13px] font-bold tracking-wide bg-white/40 whitespace-nowrap shadow-sm">
               {duration}
             </div>
           </div>
-
-          {/* Date */}
-          <div className="flex items-center gap-1 justify-end">
-            <LuCalendarDays className="w-[17px] h-[17px] shrink-0" />
-            <span className="text-[13px] sm:text-[14px] font-bold truncate">
-              {date}
-            </span>
-          </div>
         </div>
 
         {/* Trail Route Text */}
-        <div className="bg-white rounded-2xl p-4 flex justify-center items-center shadow-sm border border-[#4A3B2A]/5 w-full mt-1">
+        <div className="bg-white rounded-2xl p-4 flex justify-center items-center shadow-inner border border-[#4A3B2A]/10 w-full mt-1">
           <span className="text-[#4A3B2A] font-serif font-semibold text-center text-[13px] sm:text-[12.5px] block w-full">
             {trail}
           </span>

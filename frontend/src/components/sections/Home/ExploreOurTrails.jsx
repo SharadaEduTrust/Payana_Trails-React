@@ -7,7 +7,6 @@ import EOTCard from "../../common/cards/EOTCard";
 import BrownBtn from "../../common/buttons/BrownBtn";
 
 const ExploreOurTrails = () => {
-  // Added the new data fields to match the new EOTCard layout
   const services = [
     {
       id: 1,
@@ -43,9 +42,7 @@ const ExploreOurTrails = () => {
 
   return (
     <section className="bg-[#F3EFE9] w-full py-8 sm:py-8 lg:py-8 px-4 sm:px-6 lg:px-8">
-      {/* Main Container */}
       <div className="max-w-7xl mx-auto">
-        
         {/* Section Title */}
         <div className="flex items-center justify-center gap-4 sm:gap-6 mb-12 sm:mb-16">
           <div className="h-[1px] w-12 md:w-24 bg-[#4A3B2A] opacity-30"></div>
@@ -102,4 +99,4 @@ const ExploreOurTrails = () => {
   );
 };
 
-export default ExploreOurTrails; 
+export default ExploreOurTrails;

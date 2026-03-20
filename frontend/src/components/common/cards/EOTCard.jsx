@@ -5,7 +5,7 @@ const EOTCard = ({
   imgSrc,
   title = "Vietnam Mosaic – From Delta to the Bay",
   description = "A comprehensive journey through Vietnam's iconic highlights.",
-  category = "Small Group Adventures / Couple & Family Escapes",
+  // Prop and default value removed for 'category'
   location = "Vietnam",
   duration = "7D - 6N",
   date = "Oct 12 - Oct 18",
@@ -33,7 +33,7 @@ const EOTCard = ({
 
           {/* Calendar & Date */}
           <div className="bg-[#4A3B2A]/90 backdrop-blur-md text-[#F3EFE9] px-3 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold tracking-wide shadow-md flex items-center gap-1.5 shrink-0">
-            <LuCalendarDays 
+            <LuCalendarDays
               className="w-[14px] h-[14px] shrink-0"
               strokeWidth="2.5"
             />
@@ -41,13 +41,7 @@ const EOTCard = ({
           </div>
         </div>
 
-        {/* Bottom Category Overlay */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[92%] bg-[#F3EFE9]/95 backdrop-blur-sm text-[#4A3B2A] py-2.5 px-3 rounded-[14px] flex items-center justify-center gap-2 shadow-md border border-[#5C4033]/10">
-          <LuLuggage className="w-4 h-4 shrink-0" />
-          <span className="text-xs sm:text-[13px] font-bold truncate">
-            {category}
-          </span>
-        </div>
+        {/* Bottom Category Overlay REMOVED */}
       </div>
 
       {/* Content Section */}

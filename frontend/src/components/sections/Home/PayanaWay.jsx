@@ -4,7 +4,7 @@ import CreamBtn from "../../common/buttons/CreamBtn";
 
 const PayanaWay = () => {
   const features = [
-    "Designed for Seniors",
+    "Designed for discerning Senior Travellers",
     "Expertly Crafted Itineraries",
     "Journeys Designed Around You",
     "Trusted & Transparent Pricing",
@@ -73,7 +73,7 @@ const PayanaWay = () => {
                   <div className="h-[2px] w-6 bg-[#F3EFE9]/30 transition-all duration-500 ease-out group-hover/item:w-8 group-hover/item:bg-[#F3EFE9]"></div>
 
                   {/* Text slides slightly to the right */}
-                  <span className="text-[15px] font-medium tracking-wide opacity-90 transition-all duration-500 group-hover/item:opacity-100 group-hover/item:translate-x-1">
+                  <span className="text-[16px] font-medium tracking-wide opacity-90 transition-all duration-500 group-hover/item:opacity-100 group-hover/item:translate-x-1">
                     {feature}
                   </span>
                 </div>

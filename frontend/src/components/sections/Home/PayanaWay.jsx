@@ -1,6 +1,6 @@
 import React from "react";
 import wildlifeImg from "../../../assets/Home/PayanaWay/Payana-way.webp";
-import CreamBtn from "../../common/buttons/CreamBtn";
+import BrownBtn from "../../common/buttons/BrownBtn";
 
 const PayanaWay = () => {
   const features = [
@@ -11,12 +11,12 @@ const PayanaWay = () => {
   ];
 
   return (
-    <section className="bg-[#F3EFE9] w-full py-2 sm:py-2 font-sans">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
+    <section className="bg-[#F3EFE9] w-full py-2 sm:py-14 font-sans">
+      <div className="max-w-350 mx-auto px-6 lg:px-8">
         {/* === Header Section === */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-6">
-            <div className="h-[1px] w-12 md:w-24 bg-[#4A3B2A] opacity-30"></div>
+            <div className="h-px w-12 md:w-24 bg-[#4A3B2A] opacity-30"></div>
             <h2 className="text-3xl md:text-4xl font-serif text-[#4A3B2A] tracking-wide text-center">
               The Payana Way
             </h2>
@@ -28,29 +28,29 @@ const PayanaWay = () => {
         </div>
 
         {/* === Main Content Card === */}
-        {/* Notice the asymmetrical rounded corners (tr & bl) for an organic, premium shape */}
-        <div className="group/main flex flex-col lg:flex-row items-center gap-12 lg:gap-16 bg-[#4A3B2A] rounded-tr-[4rem] rounded-bl-[4rem] rounded-tl-2xl rounded-br-2xl p-6 sm:p-10 lg:p-14 shadow-2xl transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
-          {/* 1. Image Section - 100% visible, no forced cropping */}
-          <div className="w-full lg:w-[45%] shrink-0 relative mt-4 lg:mt-0">
-            {/* Offset decorative frame that shifts outward when you hover over the card */}
-            <div className="absolute inset-0 border border-[#F3EFE9]/30 rounded-tr-[3rem] rounded-bl-[3rem] rounded-tl-xl rounded-br-xl translate-x-3 translate-y-3 transition-transform duration-500 ease-out group-hover/main:translate-x-5 group-hover/main:translate-y-5"></div>
+        {/* Changed to items-stretch to make both columns equal height, updated bg to darker cream */}
+        <div className="group/main flex flex-col lg:flex-row items-stretch gap-12 lg:gap-16 bg-[#E3D5C4] rounded-tr-[4rem] rounded-bl-[4rem] rounded-tl-2xl rounded-br-2xl p-6 sm:p-10 lg:p-14 shadow-2xl transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+          {/* 1. Image Section - Now stretches to match text height */}
+          <div className="w-full lg:w-[45%] shrink-0 relative mt-4 lg:mt-0 flex flex-col min-h-[300px]">
+            {/* Offset decorative frame - inverted border color */}
+            <div className="absolute inset-0 border border-[#4A3B2A]/20 rounded-tr-[3rem] rounded-bl-[3rem] rounded-tl-xl rounded-br-xl translate-x-3 translate-y-3 transition-transform duration-500 ease-out group-hover/main:translate-x-5 group-hover/main:translate-y-5"></div>
 
-            {/* Image Container */}
-            <div className="relative overflow-hidden rounded-tr-[3rem] rounded-bl-[3rem] rounded-tl-xl rounded-br-xl shadow-lg bg-[#F3EFE9]/5">
+            {/* Image Container - takes up full height of parent */}
+            <div className="relative overflow-hidden rounded-tr-[3rem] rounded-bl-[3rem] rounded-tl-xl rounded-br-xl shadow-lg bg-[#4A3B2A]/5 h-full w-full flex-1">
               <img
                 src={wildlifeImg}
                 alt="The Payana Way"
-                className="w-full h-auto object-cover transition-transform duration-1000 ease-out group-hover/main:scale-105"
+                className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover/main:scale-105"
               />
-              <div className="absolute inset-0 bg-[#4A3B2A]/10 transition-opacity duration-500 group-hover/main:opacity-0"></div>
+              <div className="absolute inset-0 bg-[#F3EFE9]/10 transition-opacity duration-500 group-hover/main:opacity-0"></div>
             </div>
           </div>
 
-          {/* 2. Text Section */}
-          <div className="w-full lg:w-[55%] flex flex-col justify-center text-[#F3EFE9]">
+          {/* 2. Text Section - Text color inverted to brown */}
+          <div className="w-full lg:w-[55%] flex flex-col justify-center text-[#4A3B2A] py-4">
             {/* Description with subtle quote marks */}
             <div className="relative mb-10">
-              <span className="text-5xl absolute -top-6 -left-4 text-[#F3EFE9]/10 font-serif leading-none">
+              <span className="text-5xl absolute -top-6 -left-4 text-[#4A3B2A]/15 font-serif leading-none">
                 "
               </span>
               <p className="text-[16px] sm:text-[18px] font-sans italic leading-relaxed opacity-90 relative z-10">
@@ -62,7 +62,7 @@ const PayanaWay = () => {
               </p>
             </div>
 
-            {/* Features List - Minimalist expanding lines */}
+            {/* Features List - Minimalist expanding lines updated to brown */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-12">
               {features.map((feature, index) => (
                 <div
@@ -70,7 +70,7 @@ const PayanaWay = () => {
                   className="group/item flex items-center gap-4 cursor-default"
                 >
                   {/* Line expands from 24px to 48px on hover */}
-                  <div className="h-[2px] w-6 bg-[#F3EFE9]/30 transition-all duration-500 ease-out group-hover/item:w-8 group-hover/item:bg-[#F3EFE9]"></div>
+                  <div className="h-[2px] w-6 bg-[#4A3B2A]/30 transition-all duration-500 ease-out group-hover/item:w-8 group-hover/item:bg-[#4A3B2A]"></div>
 
                   {/* Text slides slightly to the right */}
                   <span className="text-[16px] font-medium tracking-wide opacity-90 transition-all duration-500 group-hover/item:opacity-100 group-hover/item:translate-x-1">
@@ -80,9 +80,9 @@ const PayanaWay = () => {
               ))}
             </div>
 
-            {/* Action Button */}
+            {/* Action Button - Replaced with BrownBtn */}
             <div className="flex justify-start">
-              <CreamBtn
+              <BrownBtn
                 text="Discover The Payana Way &rarr;"
                 className="w-full sm:w-fit px-8 py-4 text-[16px] sm:text-[18px] shadow-lg transition-transform duration-300 hover:-translate-y-1"
               />

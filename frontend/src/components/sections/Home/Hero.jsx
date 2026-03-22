@@ -116,7 +116,7 @@ export default function Hero({ images = [] }) {
       {/* Cinematic Toggle Eye Button (Always Visible) */}
       <button
         onClick={toggleUi}
-        className="absolute bottom-6 right-6 sm:bottom-8 sm:right-10 z-50 p-3 rounded-full bg-[#4A3B2A]/40 hover:bg-[#4A3B2A]/70 backdrop-blur-md border border-[#F3EFE9]/30 transition-all duration-300 group"
+        className="absolute bottom-6 right-6 sm:bottom-8 sm:right-10 z-30 p-3 rounded-full bg-[#4A3B2A]/40 hover:bg-[#4A3B2A]/70 backdrop-blur-md border border-[#F3EFE9]/30 transition-all duration-300 group"
         aria-label={isUiHidden ? "Show UI" : "Hide UI"}
       >
         {isUiHidden ? (

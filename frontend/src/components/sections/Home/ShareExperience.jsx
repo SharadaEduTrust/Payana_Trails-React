@@ -48,7 +48,7 @@ const ShareExperience = () => {
 
             {/* Content */}
             <h3 className="text-2xl lg:text-3xl font-bold font-serif text-[#4A3B2A] mb-3">
-              Refer a Friend
+              Refer Your Friends
             </h3>
             <p className="text-[#4A3B2A]/80 mb-8 grow leading-relaxed text-[16px]">
               Know someone who loves meaningful travel? Invite them to the

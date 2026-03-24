@@ -5,7 +5,7 @@ const SignatureJourneys = () => {
   // Sample data to populate the 3 cards
   const featuredJourneys = [
     {
-      title: "Vietnam Mosaic – From Delta to the Bay",
+      title: "Vietnam Mosaic",
       description:
         "A comprehensive journey through Vietnam's iconic highlights.",
       location: "Vietnam",

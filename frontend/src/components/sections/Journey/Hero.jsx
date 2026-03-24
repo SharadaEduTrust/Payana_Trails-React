@@ -1,42 +1,107 @@
 import React from "react";
-import CreamBtn from "../../common/buttons/CreamBtn";
+import { motion } from "framer-motion";
+import { Compass, Map, Minus } from "lucide-react";
+import BrownBtn from "../../common/buttons/BrownBtn";
 
 export default function Hero() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2, delayChildren: 0.3 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+
   return (
-    // Removed the pt-24 from this main wrapper so it snaps to the very top edge of the screen
-    <div className="flex flex-col md:flex-row min-h-screen w-full font-['Lato',_sans-serif] bg-[#F3EFE9]">
-      {/* Content Section */}
-      {/* Added pt-32 (padding-top) here so the background reaches the top, but the text is pushed safely down below the floating header */}
-      <div className="flex-1 flex flex-col justify-center items-center md:items-start px-8 pt-32 pb-16 md:px-[10%] text-[#4A3B2A] text-center md:text-left min-h-[50vh] md:min-h-screen">
-        <div className="w-full max-w-[500px] flex flex-col items-center md:items-start">
-          <h1 className="text-4xl md:text-[3.5vw] font-bold mb-6 leading-[1.1] tracking-[2px] font-serif">
-            CURATED
-            <br />
-            JOURNEYS
-          </h1>
+    <div className="relative w-full h-screen min-h-[750px] bg-[#F3EFE9] flex items-center overflow-hidden font-sans">
+      {/* Background Image */}
+      <motion.div
+        initial={{ opacity: 0, scale: 1.05 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute right-0 top-0 w-full md:w-[75%] lg:w-[65%] h-full z-0"
+      >
+        <img
+          src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+          alt="Sunset Safari Landscape"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F3EFE9] via-[#F3EFE9]/40 to-transparent md:w-1/2" />
+      </motion.div>
 
-          <div className="w-15 h-0.5 bg-[#4A3B2A] mb-8"></div>
+      {/* Main Content Wrapper */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center px-4 sm:px-8 md:px-12 lg:px-16">
+        {/* Hero Card */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="relative bg-[#F3EFE9] rounded-[2rem] p-8 md:p-12 w-full max-w-[420px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden"
+        >
+          {/* Top Right Decorative Elements */}
+          <div className="absolute top-8 right-8 flex flex-col items-end text-[#4A3B2A] opacity-60">
+            <Compass strokeWidth={1} size={28} />
+            <div className="flex items-center mt-2 -mr-3 gap-1">
+              <Minus strokeWidth={1} className="w-4 h-4" />
+              <Minus strokeWidth={1} className="w-4 h-4" />
+            </div>
+          </div>
 
-          <p className="text-lg md:text-xl font-light leading-[1.8] mb-10">
-            Each journey is thoughtfully designed to explore landscapes,
-            wildlife, and culture at an unhurried pace.
-          </p>
+          {/* Bottom Right Decorative Elements */}
+          <div className="absolute bottom-8 right-8 text-[#4A3B2A] opacity-60">
+            <Map strokeWidth={1} size={32} />
+            <div className="absolute -bottom-16 -left-20 w-32 h-32 border-[0.5px] border-[#4A3B2A]/20 rounded-full" />
+          </div>
 
-          <CreamBtn
-            text="Begin Exploring"
-            className="px-8 py-4 border border-[#4A3B2A] !bg-transparent text-[#4A3B2A] text-sm uppercase tracking-[2px] hover:!bg-[#4A3B2A] hover:!text-[#F3EFE9] transition-colors duration-400 ease-in-out font-semibold !rounded-none"
-          />
-        </div>
+          {/* Text Content */}
+          <div className="relative z-20">
+            <motion.h1
+              variants={itemVariants}
+              className="text-[2.75rem] md:text-5xl leading-[1.1] font-serif text-[#4A3B2A] mb-6"
+            >
+              CURATED
+              <br />
+              JOURNEYS{" "}
+              <span className="text-2xl font-light align-top ml-1 text-[#4A3B2A]/60">
+                |
+              </span>
+            </motion.h1>
+
+            <motion.p
+              variants={itemVariants}
+              className="text-[#4A3B2A] text-[20px] leading-relaxed mb-10 pr-4 font-light relative"
+            >
+              Each journey is thoughtfully designed to explore landscapes,
+              wildlife, and culture at an unhurried pace.
+              <span className="inline-flex items-center mx-1 align-middle opacity-80">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#B89474] mix-blend-multiply relative z-10" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#4A3B2A] -ml-1.5 mix-blend-multiply" />
+              </span>
+            </motion.p>
+
+            <motion.div
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-block"
+            >
+              <BrownBtn
+                text="EXPLORE YOUR JOURNEY"
+                className="!px-7 !py-3.5 !rounded !text-[13px] !tracking-[0.15em] !font-medium"
+              />
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
-
-      {/* Image Section */}
-      <div
-        className="flex-1 min-h-[50vh] md:min-h-screen bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?q=80&w=2072&auto=format&fit=crop')",
-        }}
-      ></div>
     </div>
   );
 }

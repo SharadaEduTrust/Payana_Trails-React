@@ -44,15 +44,15 @@ const SignatureJourneys = () => {
       {/* Section Header */}
       <div className="flex flex-col items-center mb-16 text-center max-w-3xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold text-[#4A3B2A] mb-6 font-serif">
-          Signature Journeys
+          Explore Our Trails
         </h2>
 
         {/* Divider Line matching the Hero section */}
         <div className="w-[60px] h-[2px] bg-[#4A3B2A] mb-6"></div>
 
         <p className="text-lg md:text-xl text-[#4A3B2A]/80 font-light leading-relaxed">
-          Discover our most highly curated experiences, blending immersive
-          culture, breathtaking landscapes, and unforgettable wildlife
+          Discover our carefully curated experiences, blending rich heritage,
+          immersive culture, breathtaking landscapes and unforgettable wildlife
           encounters.
         </p>
       </div>

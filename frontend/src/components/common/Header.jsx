@@ -1,40 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import BrownBtn from "./buttons/BrownBtn";
 
-// Inline Chevron SVGs for dropdown arrows
-const ChevronDown = ({ className = "" }) => (
-  <svg
-    className={`w-4 h-4 transition-transform ${className}`}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2.5"
-      d="M19 9l-7 7-7-7"
-    />
-  </svg>
-);
-
-const ChevronRight = ({ className = "" }) => (
-  <svg
-    className={`w-4 h-4 transition-transform ${className}`}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2.5"
-      d="M9 5l7 7-7 7"
-    />
-  </svg>
-);
+// Importing React Icons
+import { FiChevronDown, FiChevronRight, FiMenu, FiX } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -110,7 +80,6 @@ export default function Header() {
       }`}
     >
       <div className="flex justify-center w-full pt-4">
-        {/* Removed overflow-hidden from this wrapper so absolute dropdowns can bleed out */}
         <div
           className={`pointer-events-auto transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] 
           flex flex-col bg-[#F3EFE9]
@@ -154,7 +123,7 @@ export default function Header() {
                           className="flex items-center gap-1 hover:opacity-60 transition-opacity whitespace-nowrap py-4"
                         >
                           {item.name}
-                          <ChevronDown />
+                          <FiChevronDown className="w-4 h-4 transition-transform" />
                         </Link>
 
                         {/* Primary Dropdown Container */}
@@ -170,7 +139,7 @@ export default function Header() {
                                       className="flex items-center justify-between px-4 py-2.5 hover:bg-[#E3D5C4] rounded-xl transition-colors cursor-pointer"
                                     >
                                       {sub.name}
-                                      <ChevronRight />
+                                      <FiChevronRight className="w-4 h-4 transition-transform" />
                                     </Link>
 
                                     {/* Secondary Dropdown Container */}
@@ -224,11 +193,17 @@ export default function Header() {
               </div>
             </nav>
 
-            {/* Desktop Sign Up Button */}
+            {/* Desktop WhatsApp Button */}
             <div className="hidden lg:flex shrink-0">
-              <Link to="/signup" onClick={handleNavClick}>
-                <BrownBtn text="Sign Up" className="scale-90" />
-              </Link>
+              <a
+                href="https://wa.me/918660460512?text=Hello!%20I%20would%20like%20to%20plan%20a%20journey%20with%20Payana%20Trails."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-[#4A3B2A] text-[#F3EFE9] hover:bg-[#68533B] transition-colors duration-300 rounded-full px-5 py-2 text-[14px] font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5"
+              >
+                <FaWhatsapp className="w-4 h-4" />
+                Connect on WA
+              </a>
             </div>
 
             {/* Mobile Hamburger Menu Button */}
@@ -236,20 +211,11 @@ export default function Header() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden p-2 text-[#4A3B2A]"
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                {isMenuOpen ? (
-                  <path d="M18 6L6 18M6 6l12 12" />
-                ) : (
-                  <path d="M3 12h18M3 6h18M3 18h18" />
-                )}
-              </svg>
+              {isMenuOpen ? (
+                <FiX className="w-6 h-6" strokeWidth="2.5" />
+              ) : (
+                <FiMenu className="w-6 h-6" strokeWidth="2.5" />
+              )}
             </button>
           </div>
 
@@ -279,10 +245,10 @@ export default function Header() {
                           onClick={(e) => toggleMobileMenu(item.name, e)}
                           className="p-2 text-[#4A3B2A] bg-[#4A3B2A]/5 rounded-md"
                         >
-                          <ChevronDown
-                            className={
+                          <FiChevronDown
+                            className={`w-4 h-4 transition-transform ${
                               mobileMenuState[item.name] ? "rotate-180" : ""
-                            }
+                            }`}
                           />
                         </button>
                       </div>
@@ -314,12 +280,12 @@ export default function Header() {
                                       }
                                       className="p-1.5 text-[#4A3B2A] bg-[#4A3B2A]/5 rounded-md"
                                     >
-                                      <ChevronDown
-                                        className={
+                                      <FiChevronDown
+                                        className={`w-4 h-4 transition-transform ${
                                           mobileMenuState[sub.name]
                                             ? "rotate-180"
                                             : ""
-                                        }
+                                        }`}
                                       />
                                     </button>
                                   </div>
@@ -373,14 +339,17 @@ export default function Header() {
                 </div>
               ))}
 
-              {/* Mobile Sign Up Button */}
+              {/* Mobile WhatsApp Button */}
               <div className="px-4 py-4 mt-2 border-t border-[#4A3B2A]/10">
-                <Link to="/signup" onClick={handleNavClick}>
-                  <BrownBtn
-                    text="Sign Up"
-                    className="w-full justify-center flex"
-                  />
-                </Link>
+                <a
+                  href="https://wa.me/918660460512?text=Hello!%20I%20would%20like%20to%20plan%20a%20journey%20with%20Payana%20Trails."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 bg-[#4A3B2A] text-[#F3EFE9] hover:bg-[#68533B] transition-colors duration-300 rounded-full w-full py-3 text-[16px] font-medium shadow-md"
+                >
+                  <FaWhatsapp className="w-5 h-5" />
+                  Connect on WhatsApp
+                </a>
               </div>
             </nav>
           </div>

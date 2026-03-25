@@ -66,22 +66,19 @@ export default function Hero() {
           <div className="relative z-20">
             <motion.h1
               variants={itemVariants}
-              className="text-[2.75rem] md:text-5xl leading-[1.1] font-serif text-[#4A3B2A] mb-6"
+              className="text-[2.75rem] md:text-2xl font-semibold leading-[1.1] font-serif text-[#4A3B2A] mb-6"
             >
-              CURATED
+              JOURNEYS THAT STAY,
               <br />
-              JOURNEYS{" "}
-              <span className="text-2xl font-light align-top ml-1 text-[#4A3B2A]/60">
-                |
-              </span>
+              LONG AFTER YOU RETURN
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="text-[#4A3B2A] text-[20px] leading-relaxed mb-10 pr-4 font-light relative"
+              className="text-[#4A3B2A] text-[18px] leading-relaxed mb-10 pr-4 font-light relative"
             >
-              Each journey is thoughtfully designed to explore landscapes,
-              wildlife, and culture at an unhurried pace.
+              Trails designed for those who value depth over distance – shaped
+              by stories, places and experiences that stay with you.
               <span className="inline-flex items-center mx-1 align-middle opacity-80">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#B89474] mix-blend-multiply relative z-10" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#4A3B2A] -ml-1.5 mix-blend-multiply" />

@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Compass, Map, Minus } from "lucide-react";
 import BrownBtn from "../../common/buttons/BrownBtn";
 
-export default function Hero() {
+// Updated default images to match your new object structure { desktop, mobile }
+const defaultImages = [
+  {
+    desktop:
+      "https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+    mobile:
+      "https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    desktop:
+      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+    mobile:
+      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  },
+];
+
+export default function Hero({ images = defaultImages }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Auto-slide effect
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 6000); // 6 seconds per image
+    return () => clearInterval(timer);
+  }, [images.length]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -23,23 +50,39 @@ export default function Hero() {
 
   return (
     <div className="relative w-full h-screen min-h-[750px] bg-[#F3EFE9] flex items-center overflow-hidden font-sans">
-      {/* Background Image */}
+      {/* Background Image Slider */}
       <motion.div
         initial={{ opacity: 0, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
         className="absolute right-0 top-0 w-full md:w-[75%] lg:w-[65%] h-full z-0"
       >
-        <img
-          src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-          alt="Sunset Safari Landscape"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F3EFE9] via-[#F3EFE9]/40 to-transparent md:w-1/2" />
+        {images.map((img, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 w-full h-full transition-opacity duration-[2000ms] ease-in-out ${
+              index === currentIndex ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {/* Mobile Image (Visible on small screens, hidden on sm and up) */}
+            <div
+              className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat sm:hidden"
+              style={{ backgroundImage: `url(${img.mobile})` }}
+            />
+
+            {/* Desktop Image (Hidden on small screens, visible on sm and up) */}
+            <div
+              className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hidden sm:block"
+              style={{ backgroundImage: `url(${img.desktop})` }}
+            />
+          </div>
+        ))}
+        {/* Gradient Overlay to blend images into the background color */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F3EFE9] via-[#F3EFE9]/40 to-transparent md:w-1/2 z-10" />
       </motion.div>
 
       {/* Main Content Wrapper */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center px-4 sm:px-8 md:px-12 lg:px-16">
+      <div className="relative z-20 w-full max-w-7xl mx-auto flex items-center px-4 sm:px-8 md:px-12 lg:px-16">
         {/* Hero Card */}
         <motion.div
           variants={containerVariants}

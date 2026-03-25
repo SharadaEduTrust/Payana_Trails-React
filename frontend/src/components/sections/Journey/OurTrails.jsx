@@ -64,7 +64,7 @@ export default function OurTrails() {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl font-bold font-serif text-[#4A3B2A] tracking-tight mb-4"
           >
-            Discover Our Trails
+            Our Trails
           </motion.h2>
 
           {/* Centered Divider Line */}

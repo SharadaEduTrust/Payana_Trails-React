@@ -1,97 +1,134 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { LuLandmark, LuTrees, LuUsers } from "react-icons/lu";
+import { Compass, Landmark, Users, } from "lucide-react";
 
-const TrailTypeCard = ({ icon: Icon, title, description, delay }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: delay }}
-      whileHover={{ y: -10 }}
-      className="group relative p-8 bg-white/50 backdrop-blur-sm border border-[#4A3B2A]/10 rounded-[2rem] shadow-sm hover:shadow-xl hover:bg-white transition-all duration-500 flex flex-col items-center text-center"
-    >
-      {/* Icon Container */}
-      <div className="mb-6 p-5 bg-[#4A3B2A] rounded-2xl text-[#F3EFE9] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg">
-        {/* Render icon if it exists, otherwise a fallback */}
-        {Icon ? (
-          <Icon size={32} strokeWidth={1.5} />
-        ) : (
-          <div className="w-8 h-8" />
-        )}
-      </div>
+const trailsData = [
+  {
+    id: 1,
+    title: "Wildlife Trails",
+    description:
+      "Safari landscapes and wildlife encounters across iconic reserves.",
+    icon: Compass,
+  },
+  {
+    id: 2,
+    title: "Heritage Trails",
+    description: "Journeys through sites of exceptional cultural significance.",
+    icon: Landmark,
+  },
+  {
+    id: 3,
+    title: "Cultural & Immersive Trails",
+    description:
+      "Experience the living culture of a destination — its people, traditions, food, art, and spiritual life.",
+    icon: Users,
+  },
+];
 
-      {/* Content */}
-      <h3 className="text-2xl font-bold text-[#4A3B2A] mb-4 font-serif">
-        {title}
-      </h3>
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
 
-      <p className="text-[#4A3B2A]/80 leading-relaxed font-light text-lg">
-        {description}
-      </p>
-
-      {/* Subtle Bottom Accent */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-[#4A3B2A] transition-all duration-500 group-hover:w-1/3 rounded-t-full"></div>
-    </motion.div>
-  );
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
 };
 
 export default function OurTrails() {
-  const trails = [
-    {
-      icon: LuTrees,
-      title: "Wildlife Trails",
-      description:
-        "Safari landscapes and wildlife encounters across iconic reserves, focusing on conservation and the raw beauty of nature.",
-      delay: 0.1,
-    },
-    {
-      icon: LuLandmark,
-      title: "Heritage Trails",
-      description:
-        "Journeys through sites of exceptional cultural significance, uncovering the architectural marvels and stories of the past.",
-      delay: 0.3,
-    },
-    {
-      icon: LuUsers,
-      title: "Cultural & Immersive Trails",
-      description:
-        "Experience the living culture of a destination—its people, traditions, food, art, and spiritual life in an unhurried pace.",
-      delay: 0.5,
-    },
-  ];
-
   return (
-    <section className="w-full bg-[#F3EFE9] py-24 px-6 md:px-12 lg:px-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col items-center text-center mb-20"
-        >
-          <span className="text-sm uppercase tracking-[4px] text-[#4A3B2A]/60 mb-3 font-semibold">
-            Explore by style
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#4A3B2A] font-serif">
-            Our Trails
-          </h2>
-          <div className="w-16 h-0.5 bg-[#4A3B2A] mt-6"></div>
-        </motion.div>
+    <section className="py-12 bg-[#F3EFE9] relative overflow-hidden">
+      {/* Decorative background blob */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#4A3B2A]/5 rounded-full blur-3xl -z-10" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-          {trails.map((trail, index) => (
-            <TrailTypeCard
-              key={index}
-              icon={trail.icon}
-              title={trail.title}
-              description={trail.description}
-              delay={trail.delay}
-            />
-          ))}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl font-bold font-serif text-[#4A3B2A] tracking-tight mb-4"
+          >
+            Discover Our Trails
+          </motion.h2>
+
+          {/* Centered Divider Line */}
+          <div className="w-[60px] h-[2px] bg-[#4A3B2A] mx-auto mb-6"></div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg text-[#4A3B2A]/80"
+          >
+            Choose your path. Whether you seek the thrill of the wild, the
+            echoes of history, or the heartbeat of local communities, we have a
+            journey for you.
+          </motion.p>
         </div>
+
+        {/* Trail Cards Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
+          {trailsData.map((trail) => {
+            const Icon = trail.icon;
+            return (
+              <motion.div
+                key={trail.id}
+                variants={cardVariants}
+                className="group relative bg-white p-8 rounded-3xl shadow-sm border border-[#4A3B2A]/10 hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-2 cursor-pointer hover:border-[#4A3B2A]/40"
+              >
+                {/* Icon Container */}
+                <div className="w-16 h-16 rounded-2xl bg-[#4A3B2A]/10 flex items-center justify-center mb-6 transform group-hover:scale-110 transition-transform duration-300">
+                  <Icon className="w-8 h-8 text-[#4A3B2A]" strokeWidth={2} />
+                </div>
+
+                {/* Content */}
+                <h3 className="text-2xl font-bold text-[#4A3B2A] mb-3 group-hover:text-[#4A3B2A]/90 transition-colors">
+                  {trail.title}
+                </h3>
+                <p className="text-[#4A3B2A]/70 leading-relaxed mb-6">
+                  {trail.description}
+                </p>
+
+                {/* Call to Action Link */}
+                <div className="flex items-center text-sm font-semibold text-[#4A3B2A] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                  Explore Trail
+                  <svg
+                    className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </div>
     </section>
   );

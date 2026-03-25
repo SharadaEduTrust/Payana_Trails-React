@@ -63,7 +63,7 @@ export default function Hero() {
           </div>
 
           {/* Text Content */}
-          <div className="relative z-20">
+          <div className="relative z-20 text-center md:text-left">
             <motion.h1
               variants={itemVariants}
               className="text-[1.5rem] md:text-2xl font-semibold leading-[1.1] font-serif text-[#4A3B2A] mb-6"
@@ -75,7 +75,7 @@ export default function Hero() {
 
             <motion.p
               variants={itemVariants}
-              className="text-[#4A3B2A] text-[18px] leading-relaxed mb-10 pr-4 font-light relative"
+              className="text-[#4A3B2A] text-[18px] leading-relaxed mb-10 md:pr-4 font-light relative"
             >
               Trails designed for those who value depth over distance – shaped
               by stories, places and experiences that stay with you.

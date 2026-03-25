@@ -9,7 +9,6 @@ import ShareExperience from "../components/sections/Home/ShareExperience";
 
 //HardCoded Hero Images
 //Desktop
-import heroBg from "../assets/Home/hero/Desktop/heroBg.webp";
 // import imgD1 from "../assets/Home/hero/Desktop/4.Lioness_with_cubs_Kenya.webp";
 import imgD2 from "../assets/Home/hero/Desktop/1.Rose_City_of_Petra_Jordan.webp";
 import imgD3 from "../assets/Home/hero/Desktop/3.Pyramids_and_Camels_Egypt.webp";
@@ -22,8 +21,8 @@ import imgD9 from "../assets/Home/hero/Desktop/9.Tigers_Nest_Bhutan.webp";
 import imgD10 from "../assets/Home/hero/Desktop/10.Great_Wall_of_China_Landscape.webp";
 import imgD11 from "../assets/Home/hero/Desktop/11.Floating_Market_Thailand.webp";
 import imgD12 from "../assets/Home/hero/Desktop/12.Mount_Kailas_Tibet.webp";
+
 //Mobile
-import heroBgMob from "../assets/Home/hero/Mobile/heroBg.jpg";
 // import imgM1 from "../assets/Home/hero/Mobile/1.LionesswithcubsKenya-Portrait.webp";
 import imgM2 from "../assets/Home/hero/Mobile/1.Rose CityofPetra-Jordan-Portrait.jpg";
 import imgM3 from "../assets/Home/hero/Mobile/3.PyramidsandCamels-Egypt-Portrait.jpg";
@@ -40,7 +39,7 @@ import ExploreDestination from "../components/sections/Home/ExploreDestination";
 
 const Home = () => {
   const heroImages = [
-    { desktop: heroBg, mobile: heroBgMob },
+    { desktop: "/heroBg-desktop.webp", mobile: "/heroBg-mobile.jpg" },
     // { desktop: imgD1, mobile: imgM1 },
     { desktop: imgD2, mobile: imgM2 },
     { desktop: imgD3, mobile: imgM3 },

@@ -193,18 +193,30 @@ export default function Header() {
               </div>
             </nav>
 
-            {/* Desktop WhatsApp Button */}
+            {/* ====== MODIFIED DESKTOP CONTACT BUTTON ====== */}
             <div className="hidden lg:flex shrink-0">
-              <a
-                href="https://wa.me/918660460512?text=Hello!%20I%20would%20like%20to%20plan%20a%20journey%20with%20Payana%20Trails."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-[#4A3B2A] text-[#F3EFE9] hover:bg-[#68533B] transition-colors duration-300 rounded-full px-5 py-2 text-[14px] font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5"
-              >
-                <FaWhatsapp className="w-4 h-4" />
-                Connect on WA
-              </a>
+              <div className="flex items-center bg-[#4A3B2A] text-[#F3EFE9] rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 overflow-hidden">
+                {/* WhatsApp Icon Link */}
+                <a
+                  href="https://wa.me/918660460512?text=Hello!%20I%20would%20like%20to%20plan%20a%20journey%20with%20Payana%20Trails."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center pl-5 pr-3 py-2 hover:bg-[#68533B] transition-colors border-r border-[#F3EFE9]/20"
+                  title="Chat on WhatsApp"
+                >
+                  <FaWhatsapp className="w-4 h-4" />
+                </a>
+                {/* Phone Number Link */}
+                <a
+                  href="tel:+918660460512"
+                  className="pr-5 pl-3 py-2 text-[14px] font-medium hover:bg-[#68533B] transition-colors tracking-wide"
+                  title="Call Us"
+                >
+                  +91 86604 60512
+                </a>
+              </div>
             </div>
+            {/* =============================================== */}
 
             {/* Mobile Hamburger Menu Button */}
             <button
@@ -339,18 +351,30 @@ export default function Header() {
                 </div>
               ))}
 
-              {/* Mobile WhatsApp Button */}
+              {/* ====== MODIFIED MOBILE CONTACT BUTTON ====== */}
               <div className="px-4 py-4 mt-2 border-t border-[#4A3B2A]/10">
-                <a
-                  href="https://wa.me/918660460512?text=Hello!%20I%20would%20like%20to%20plan%20a%20journey%20with%20Payana%20Trails."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-[#4A3B2A] text-[#F3EFE9] hover:bg-[#68533B] transition-colors duration-300 rounded-full w-full py-3 text-[16px] font-medium shadow-md"
-                >
-                  <FaWhatsapp className="w-5 h-5" />
-                  Connect on WhatsApp
-                </a>
+                <div className="flex items-center w-full bg-[#4A3B2A] text-[#F3EFE9] rounded-full shadow-md overflow-hidden text-[16px] font-medium">
+                  {/* WhatsApp Icon Link */}
+                  <a
+                    href="https://wa.me/918660460512?text=Hello!%20I%20would%20like%20to%20plan%20a%20journey%20with%20Payana%20Trails."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center py-3 px-5 hover:bg-[#68533B] transition-colors duration-300 border-r border-[#F3EFE9]/20"
+                    title="Chat on WhatsApp"
+                  >
+                    <FaWhatsapp className="w-5 h-5" />
+                  </a>
+                  {/* Phone Number Link */}
+                  <a
+                    href="tel:+918660460512"
+                    className="flex-1 flex items-center justify-center py-3 hover:bg-[#68533B] transition-colors duration-300 tracking-wide"
+                    title="Call Us"
+                  >
+                    +91 86604 60512
+                  </a>
+                </div>
               </div>
+              {/* ============================================== */}
             </nav>
           </div>
         </div>

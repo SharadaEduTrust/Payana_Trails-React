@@ -16,12 +16,7 @@ const Journeys = () => {
       mobile:
         "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     },
-    {
-      desktop:
-        "https://images.unsplash.com/photo-1506461883276-594c8cb258cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-      mobile:
-        "https://images.unsplash.com/photo-1506461883276-594c8cb258cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    },
+
     {
       desktop:
         "https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",

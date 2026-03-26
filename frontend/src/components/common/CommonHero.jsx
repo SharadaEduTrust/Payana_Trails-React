@@ -40,7 +40,6 @@ const CommonHero = ({ title, description, bgImage, breadcrumbs }) => {
   );
 
   return (
-    // Changed <section> to <motion.section> and applied the master variants here
     <motion.section
       initial="hidden"
       animate="visible"
@@ -49,7 +48,7 @@ const CommonHero = ({ title, description, bgImage, breadcrumbs }) => {
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#4A3B2A]/80 via-[#4A3B2A]/60 to-[#4A3B2A]/80"></div>
+      <div className="absolute inset-0 bg-linear-to-b from-[#4A3B2A]/60 via-[#4A3B2A]/20 to-[#4A3B2A]/60"></div>
 
       {/* Top Left Controls: Back Button (Desktop Only) */}
       <motion.div
@@ -123,4 +122,4 @@ const CommonHero = ({ title, description, bgImage, breadcrumbs }) => {
   );
 };
 
-export default CommonHero;
+export default CommonHero; 

@@ -1,6 +1,6 @@
 import React from "react";
 import CommonHero from "../../common/CommonHero";
-import wildlifeImg from "../../../assets/Home/Whatwedo/wildlife.webp";
+import wildlifeImg from "../../../assets/Journey/Wildlife_Main.avif";
 
 const Wildlife = () => {
   return (

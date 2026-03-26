@@ -1,6 +1,6 @@
 import React from "react";
 import CommonHero from "../../common/CommonHero";
-import heritageImg from "../../../assets/Home/Whatwedo/unesco.webp";
+import heritageImg from "../../../assets/Journey/Heritage_Main.webp";
 
 const Heritage = () => {
   return (

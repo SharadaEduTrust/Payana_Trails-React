@@ -1,6 +1,6 @@
 import React from "react";
 import CommonHero from "../../common/CommonHero";
-import culturalImg from "../../../assets/Home/Whatwedo/cultural.webp";
+import culturalImg from "../../../assets/Journey/Cultural_Main.webp";
 
 const Cultural = () => {
   return (

@@ -3,6 +3,7 @@ import Hero from "../components/sections/Journey/Hero";
 import SignatureJourneys from "../components/sections/Journey/SignatureJourneys";
 import OurTrails from "../components/sections/Journey/OurTrails";
 import OurDestinations from "../components/sections/Journey/OurDestinations";
+import PayanaJourney from "../components/sections/Journey/PayanaJourney";
 
 // If you have local images, you would import them here like this:
 // import journeyDesktop1 from "../assets/Journey/desktop-1.jpg";
@@ -33,6 +34,7 @@ const Journeys = () => {
       <SignatureJourneys />
       <OurTrails />
       <OurDestinations />
+      <PayanaJourney />
     </>
   );
 };

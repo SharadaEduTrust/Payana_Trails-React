@@ -27,7 +27,7 @@ const AddTrail = () => {
     comfortLevel: "",
     overview: "",
     isThisJourneyForYou: "",
-    highlights: "",
+    highlights: [{ title: "", description: "" }],
     whatsIncluded: "",
     whatsNotIncluded: "",
   };
@@ -64,6 +64,26 @@ const AddTrail = () => {
     setImageFile(e.target.files[0]);
   };
 
+  const handleHighlightChange = (index, field, value) => {
+    const newHighlights = [...formData.highlights];
+    newHighlights[index][field] = value;
+    setFormData((prev) => ({ ...prev, highlights: newHighlights }));
+  };
+
+  const addHighlight = () => {
+    if (formData.highlights.length < 6) {
+      setFormData((prev) => ({
+        ...prev,
+        highlights: [...prev.highlights, { title: "", description: "" }],
+      }));
+    }
+  };
+
+  const removeHighlight = (index) => {
+    const newHighlights = formData.highlights.filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, highlights: newHighlights }));
+  };
+
   const resetForm = () => {
     setFormData(initialFormState);
     setImageFile(null);
@@ -88,9 +108,22 @@ const AddTrail = () => {
       const submitData = new FormData();
 
       Object.keys(formData).forEach((key) => {
-        if (["highlights", "whatsIncluded", "whatsNotIncluded"].includes(key)) {
+        if (key === "highlights") {
+          const arrayValue = formData.highlights
+            .filter((h) => h.title.trim() || h.description.trim())
+            .map((h) => {
+              if (h.title.trim() && h.description.trim()) {
+                return `*${h.title.trim()}* ${h.description.trim()}`;
+              } else if (h.title.trim()) {
+                return `*${h.title.trim()}*`;
+              } else {
+                return h.description.trim();
+              }
+            });
+          submitData.append(key, JSON.stringify(arrayValue));
+        } else if (["whatsIncluded", "whatsNotIncluded"].includes(key)) {
           const arrayValue = formData[key]
-            .split(",")
+            .split("\n")
             .map((item) => item.trim())
             .filter(Boolean);
           submitData.append(key, JSON.stringify(arrayValue));
@@ -128,10 +161,20 @@ const AddTrail = () => {
     setFormData({
       ...trail,
       journeyDate: trail.journeyDate ? trail.journeyDate.split("T")[0] : "",
-      highlights: trail.highlights ? trail.highlights.join(", ") : "",
-      whatsIncluded: trail.whatsIncluded ? trail.whatsIncluded.join(", ") : "",
+      highlights: trail.highlights && trail.highlights.length > 0 
+        ? trail.highlights.map((h) => {
+            const match = h.match(/^\*(.*?)\*\s*(.*)$/);
+            if (match) return { title: match[1], description: match[2] };
+            
+            const matchTitleOnly = h.match(/^\*(.*?)\*$/);
+            if (matchTitleOnly) return { title: matchTitleOnly[1], description: "" };
+
+            return { title: "", description: h };
+          })
+        : [{ title: "", description: "" }],
+      whatsIncluded: trail.whatsIncluded ? trail.whatsIncluded.join("\n") : "",
       whatsNotIncluded: trail.whatsNotIncluded
-        ? trail.whatsNotIncluded.join(", ")
+        ? trail.whatsNotIncluded.join("\n")
         : "",
     });
     setIsEditing(true);
@@ -206,6 +249,9 @@ const AddTrail = () => {
           isEditing={isEditing}
           resetForm={resetForm}
           setShowForm={setShowForm}
+          handleHighlightChange={handleHighlightChange}
+          addHighlight={addHighlight}
+          removeHighlight={removeHighlight}
         />
       )}
 

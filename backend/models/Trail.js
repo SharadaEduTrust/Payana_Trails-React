@@ -37,7 +37,6 @@ const trailSchema = new mongoose.Schema(
     },
     journeyDate: {
       type: Date,
-      required: true,
       // Mongoose stores this as an ISO date.
       // Formatting it to "DD MMM YYYY" (e.g., 18-Jun-26) should be handled on the frontend.
     },

@@ -9,6 +9,9 @@ const TrailForm = ({
   isEditing,
   resetForm,
   setShowForm,
+  handleHighlightChange,
+  addHighlight,
+  removeHighlight,
 }) => {
   const inputClasses =
     "w-full p-2.5 border border-gray-300 rounded text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#4A3B2A] focus:border-[#4A3B2A] transition-colors";
@@ -113,7 +116,6 @@ const TrailForm = ({
                 value={formData.journeyDate}
                 onChange={handleChange}
                 className={inputClasses}
-                required
               />
             </div>
 
@@ -220,42 +222,71 @@ const TrailForm = ({
             {/* BULLET ARRAYS */}
             <div className="md:col-span-2">
               <label className="block text-xs font-semibold text-gray-600 mb-1">
-                Highlights (Max 6 - Comma Separated)
+                Highlights (Max 6)
               </label>
-              <input
-                type="text"
-                name="highlights"
-                value={formData.highlights}
-                onChange={handleChange}
-                className={inputClasses}
-                required
-              />
+              {formData.highlights.map((highlight, index) => (
+                <div key={index} className="flex gap-2 mb-2 items-start">
+                  <input
+                    type="text"
+                    placeholder="Title (will be bold)"
+                    value={highlight.title}
+                    onChange={(e) => handleHighlightChange(index, "title", e.target.value)}
+                    className={`${inputClasses} flex-1 font-semibold`}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Description"
+                    value={highlight.description}
+                    onChange={(e) => handleHighlightChange(index, "description", e.target.value)}
+                    className={`${inputClasses} flex-[2]`}
+                  />
+                  {formData.highlights.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeHighlight(index)}
+                      className="p-2.5 text-red-500 hover:bg-red-50 rounded"
+                      title="Remove"
+                    >
+                      X
+                    </button>
+                  )}
+                </div>
+              ))}
+              {formData.highlights.length < 6 && (
+                <button
+                  type="button"
+                  onClick={addHighlight}
+                  className="mt-1 text-sm text-[#4A3B2A] font-medium hover:underline"
+                >
+                  + Add Another Highlight
+                </button>
+              )}
             </div>
 
             <div className="md:col-span-2">
               <label className="block text-xs font-semibold text-gray-600 mb-1">
-                What's Included (Max 8 - Comma Separated)
+                What's Included (Max 8 - One per line)
               </label>
-              <input
-                type="text"
+              <textarea
                 name="whatsIncluded"
                 value={formData.whatsIncluded}
                 onChange={handleChange}
-                className={inputClasses}
+                rows="4"
+                className={`${inputClasses} resize-none`}
                 required
               />
             </div>
 
             <div className="md:col-span-2">
               <label className="block text-xs font-semibold text-gray-600 mb-1">
-                What's Not Included (Max 8 - Comma Separated)
+                What's Not Included (Max 8 - One per line)
               </label>
-              <input
-                type="text"
+              <textarea
                 name="whatsNotIncluded"
                 value={formData.whatsNotIncluded}
                 onChange={handleChange}
-                className={inputClasses}
+                rows="4"
+                className={`${inputClasses} resize-none`}
                 required
               />
             </div>

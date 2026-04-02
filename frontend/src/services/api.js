@@ -154,4 +154,57 @@ export const api = {
       throw error;
     }
   },
+
+  // --- DESTINATION ROUTES ---
+  getDestinations: async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/destinations`);
+      if (!response.ok) throw new Error("Failed to fetch destinations");
+      return await response.json();
+    } catch (error) {
+      console.error("API Error (getDestinations):", error);
+      throw error;
+    }
+  },
+
+  addDestination: async (formData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/destinations`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Failed to add destination");
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  updateDestination: async (id, formData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/destinations/${id}`, {
+        method: "PUT",
+        body: formData,
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Failed to update destination");
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  deleteDestination: async (id) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/destinations/${id}`, {
+        method: "DELETE",
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Failed to delete destination");
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

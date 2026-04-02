@@ -1,30 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DestinationCard from "../../common/cards/DestinationCard";
 import BrownBtn from "../../common/buttons/BrownBtn";
-import bhutanImg from "../../../assets/Home/ExploreByDestination/bhutan.jpg";
+import { api, IMAGE_BASE_URL } from "../../../services/api";
 
 const OurDestinations = () => {
-  const destinations = [
-    {
-      name: "Kenya",
-      image:
-        "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=800&auto=format&fit=crop",
-    },
-    {
-      name: "Tanzania",
-      image:
-        "https://images.unsplash.com/photo-1523805009345-7448845a9e53?q=80&w=800&auto=format&fit=crop",
-    },
-    {
-      name: "Jordan",
-      image:
-        "https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?q=80&w=800&auto=format&fit=crop",
-    },
-    {
-      name: "Bhutan",
-      image: bhutanImg,
-    },
-  ];
+  const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDestinations = async () => {
+      try {
+        const data = await api.getDestinations();
+        setDestinations(data);
+      } catch (err) {
+        console.error("Error fetching destinations:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDestinations();
+  }, []);
 
   return (
     <section className="relative w-full py-12 md:py-12 px-6 md:px-12 lg:px-24 bg-[#F3EFE9]">
@@ -46,15 +41,23 @@ const OurDestinations = () => {
 
         {/* Responsive Grid for Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {destinations.map((dest, index) => (
-            <div
-              key={index}
-              className="animate-fade-in-up w-full flex justify-center"
-              style={{ animationDelay: `${index * 150}ms` }}
-            >
-              <DestinationCard name={dest.name} image={dest.image} />
-            </div>
-          ))}
+          {loading ? (
+             <div className="col-span-full flex justify-center items-center py-10">
+               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#4A3B2A]"></div>
+             </div>
+          ) : destinations.length === 0 ? (
+             <div className="col-span-full text-center text-[#4A3B2A]/70 py-10">No destinations available.</div>
+          ) : (
+            destinations.map((dest, index) => (
+              <div
+                key={dest._id}
+                className="animate-fade-in-up w-full flex justify-center"
+                style={{ animationDelay: `${index * 150}ms` }}
+              >
+                <DestinationCard name={dest.name} image={`${IMAGE_BASE_URL}${dest.heroImage}`} />
+              </div>
+            ))
+          )}
         </div>
 
         {/* Call to Action Button */}

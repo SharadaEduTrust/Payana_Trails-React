@@ -18,7 +18,7 @@ const AdminLogin = () => {
     setMessage({ type: "", text: "" }); // Clear previous messages
     try {
       const data = await api.adminLogin({ email, password });
-      localStorage.setItem("adminToken", data.token);
+      sessionStorage.setItem("adminToken", data.token);
       navigate("/admin/dashboard");
     } catch (err) {
       setMessage({

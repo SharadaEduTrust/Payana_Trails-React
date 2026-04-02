@@ -14,10 +14,12 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //Routes Import
 const trailRoutes = require("./routes/trailRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const destinationRoutes = require("./routes/destinationRoutes");
 
 //Routes
 app.use("/admin", adminRoutes);
 app.use("/api/trails", trailRoutes);
+app.use("/api/destinations", destinationRoutes);
 
 // Basic health check route
 app.get("/", (req, res) => {

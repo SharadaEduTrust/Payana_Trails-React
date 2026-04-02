@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import EOTCard from "../../common/cards/EOTCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { api, IMAGE_BASE_URL } from "../../../services/api";
 
 const SignatureJourneys = () => {
   const [journeys, setJourneys] = useState([]);
@@ -12,11 +13,7 @@ const SignatureJourneys = () => {
   useEffect(() => {
     const fetchTrails = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/trails");
-        if (!response.ok) {
-          throw new Error("Failed to fetch trails");
-        }
-        const data = await response.json();
+        const data = await api.getTrails();
         
         // Filter only signature journeys (based on trailType containing 'signature' or being exactly 'Signature Journey')
         const signatureTrips = data.filter(trail => 
@@ -130,7 +127,7 @@ const SignatureJourneys = () => {
                   duration={journey.duration}
                   date={formatDate(journey.journeyDate)}
                   trail={journey.trailRoute}
-                  imgSrc={journey.heroImage ? `http://localhost:8000${journey.heroImage}` : null}
+                  imgSrc={journey.heroImage ? `${IMAGE_BASE_URL}${journey.heroImage}` : null}
                 />
               </div>
             ))}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../../services/api";
+import { api, IMAGE_BASE_URL } from "../../../services/api";
 import EOTCard from "../../common/cards/EOTCard";
 import BrownBtn from "../../common/buttons/BrownBtn";
 import CreamBtn from "../../common/buttons/CreamBtn";
@@ -26,9 +26,6 @@ const ExploreOurTrails = () => {
               year: "numeric",
             });
           }
-          const backendBase = import.meta.env.VITE_API_BASE_URL
-            ? import.meta.env.VITE_API_BASE_URL.replace("/api", "")
-            : "http://localhost:8000";
 
           return {
             id: trail._id,
@@ -41,7 +38,7 @@ const ExploreOurTrails = () => {
             trail: trail.trailRoute,
             // Assuming the hero image is returned as a relative path
             imgSrc: trail.heroImage
-              ? `${backendBase}${trail.heroImage}`
+              ? `${IMAGE_BASE_URL}${trail.heroImage}`
               : undefined,
           };
         });

@@ -1,4 +1,5 @@
 import React from "react";
+import { IMAGE_BASE_URL } from "../../../../services/api";
 
 const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete }) => {
   return (
@@ -45,7 +46,7 @@ const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete }) => {
                 >
                   <td className="p-4">
                     <img
-                      src={`http://localhost:8000${trail.routeMap}`}
+                      src={`${IMAGE_BASE_URL}${trail.routeMap}`}
                       alt={trail.trailName}
                       className="w-16 h-10 object-cover rounded shadow-sm border border-gray-200"
                       onError={(e) => {

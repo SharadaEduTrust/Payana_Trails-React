@@ -5,6 +5,10 @@ const API_BASE_URL =
 const ADMIN_BASE_URL =
   import.meta.env.VITE_ADMIN_BASE_URL || "http://localhost:8000/admin";
 
+export const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  ? import.meta.env.VITE_API_BASE_URL.replace("/api", "")
+  : "http://localhost:8000";
+
 export const api = {
   // 1. Fetch Trails (For ExploreOurTrails component)
   getTrails: async (category = "All") => {

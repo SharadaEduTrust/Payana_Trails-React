@@ -1,4 +1,5 @@
 import React from "react";
+import { IMAGE_BASE_URL } from "../../../../services/api";
 
 const TrailForm = ({
   formData,
@@ -236,7 +237,7 @@ const TrailForm = ({
                   <div className="flex flex-wrap gap-3">
                     {existingTrailImages.map((img, idx) => (
                       <div key={idx} className="relative group">
-                        <img src={`http://localhost:8000${img}`} alt="trail gallery piece" className="w-20 h-20 object-cover rounded shadow-sm border border-gray-200" />
+                        <img src={`${IMAGE_BASE_URL}${img}`} alt="trail gallery piece" className="w-20 h-20 object-cover rounded shadow-sm border border-gray-200" />
                         <button
                           type="button"
                           onClick={() => removeExistingTrailImage(img)}

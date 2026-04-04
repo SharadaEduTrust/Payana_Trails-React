@@ -47,7 +47,7 @@ const TrailForm = ({
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">
-                Trail Type
+                Trail Type (Optional)
               </label>
               <input
                 type="text"
@@ -141,7 +141,7 @@ const TrailForm = ({
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">
-                Visa Requirement
+                Visa Requirement (Optional)
               </label>
               <input
                 type="text"
@@ -306,7 +306,7 @@ const TrailForm = ({
             {/* BULLET ARRAYS */}
             <div className="md:col-span-2">
               <label className="block text-xs font-semibold text-gray-600 mb-1">
-                Highlights (Max 6)
+                Highlights (Max 8)
               </label>
               {formData.highlights.map((highlight, index) => (
                 <div key={index} className="flex gap-2 mb-2 items-start">
@@ -326,7 +326,7 @@ const TrailForm = ({
                   />
                   {formData.highlights.length > 1 && (
                     <button
-                      type="button"
+                      type="buhightton"
                       onClick={() => removeHighlight(index)}
                       className="p-2.5 text-red-500 hover:bg-red-50 rounded"
                       title="Remove"
@@ -336,7 +336,7 @@ const TrailForm = ({
                   )}
                 </div>
               ))}
-              {formData.highlights.length < 6 && (
+              {formData.highlights.length < 8 && (
                 <button
                   type="button"
                   onClick={addHighlight}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../../services/api";
-import TrailForm from "./TrailForm";
 import TrailList from "./TrailList";
+import TrailForm from "./TrailForm";
 
 const AddTrail = () => {
   // --- UI STATE ---
@@ -92,7 +92,7 @@ const AddTrail = () => {
   };
 
   const addHighlight = () => {
-    if (formData.highlights.length < 6) {
+    if (formData.highlights.length < 8) {
       setFormData((prev) => ({
         ...prev,
         highlights: [...prev.highlights, { title: "", description: "" }],

@@ -17,7 +17,6 @@ const trailSchema = new mongoose.Schema(
     },
     trailType: {
       type: String,
-      required: true,
     },
     trailName: {
       type: String,
@@ -37,8 +36,6 @@ const trailSchema = new mongoose.Schema(
     },
     journeyDate: {
       type: Date,
-      // Mongoose stores this as an ISO date.
-      // Formatting it to "DD MMM YYYY" (e.g., 18-Jun-26) should be handled on the frontend.
     },
     trailRoute: {
       type: String,
@@ -46,7 +43,6 @@ const trailSchema = new mongoose.Schema(
     },
     visa: {
       type: String,
-      required: true,
     },
     bestTimeToTravel: {
       type: String,
@@ -63,7 +59,7 @@ const trailSchema = new mongoose.Schema(
     highlights: {
       type: [String], // Array of strings is best for rendering bullet points
       required: true,
-      validate: [arrayLimit(6), "Highlights cannot exceed 6 bullet points"],
+      validate: [arrayLimit(8), "Highlights cannot exceed 6 bullet points"],
     },
     isThisJourneyForYou: {
       type: String,

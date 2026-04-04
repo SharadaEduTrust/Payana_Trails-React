@@ -21,8 +21,8 @@ const seedAdmin = async () => {
     }
 
     const admin = await Admin.create({
-      email: "info@payanatrails.com",
-      password: "PayanaTrails@123",
+      email: "pratibhamanral.10@gmail.com",
+      password: "Pratibhamanral@098",
     });
 
     console.log(`Admin created successfully with email: ${admin.email}`);

@@ -55,7 +55,7 @@ const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReor
                   <>
                     <td className="p-4">
                       <img
-                        src={`${IMAGE_BASE_URL}${trail.routeMap}`}
+                        src={`${IMAGE_BASE_URL}${trail.heroImage}`}
                         alt={trail.trailName}
                         className="w-16 h-10 object-cover rounded shadow-sm border border-gray-200"
                         onError={(e) => {

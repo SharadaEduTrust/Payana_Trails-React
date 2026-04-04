@@ -184,9 +184,12 @@ export const api = {
   },
 
   // --- DESTINATION ROUTES ---
-  getDestinations: async () => {
+  getDestinations: async (isAdmin = false) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/destinations`);
+      const url = isAdmin
+        ? `${API_BASE_URL}/destinations?admin=true`
+        : `${API_BASE_URL}/destinations`;
+      const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch destinations");
       return await response.json();
     } catch (error) {
@@ -230,6 +233,19 @@ export const api = {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to delete destination");
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  toggleDestinationStatus: async (id) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/destinations/${id}/toggle`, {
+        method: "PATCH",
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Failed to toggle destination status");
       return data;
     } catch (error) {
       throw error;

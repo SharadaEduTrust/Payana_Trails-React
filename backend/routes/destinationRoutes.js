@@ -29,12 +29,28 @@ const cpUpload = upload.fields([
 ]);
 
 // GET all destinations
+// Admin panel gets everything; public pages only get active destinations
 router.get("/", async (req, res) => {
   try {
-    const destinations = await Destination.find().sort({ order: 1, createdAt: -1 });
+    const isAdmin = req.query.admin === "true";
+    const filter = isAdmin ? {} : { isActive: true };
+    const destinations = await Destination.find(filter).sort({ order: 1, createdAt: -1 });
     res.status(200).json(destinations);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch destinations", error: error.message });
+  }
+});
+
+// PATCH toggle a destination's active status
+router.patch("/:id/toggle", async (req, res) => {
+  try {
+    const dest = await Destination.findById(req.params.id);
+    if (!dest) return res.status(404).json({ message: "Destination not found" });
+    dest.isActive = !dest.isActive;
+    await dest.save();
+    res.status(200).json({ isActive: dest.isActive, message: `Destination ${dest.isActive ? "activated" : "deactivated"} successfully` });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to toggle destination status", error: error.message });
   }
 });
 

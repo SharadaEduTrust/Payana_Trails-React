@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { api, IMAGE_BASE_URL } from "../../../services/api";
 import DraggableTableBody from "../../../components/admin/DraggableTableBody";
+import StatusToggle from "../../../components/admin/StatusToggle";
 
 const DestinationManager = () => {
   const [destinations, setDestinations] = useState([]);
@@ -22,7 +23,7 @@ const DestinationManager = () => {
   const fetchDestinations = async () => {
     setFetching(true);
     try {
-      const data = await api.getDestinations();
+      const data = await api.getDestinations(true); // admin=true to get all
       setDestinations(data);
     } catch (error) {
       console.error("Error fetching destinations", error);
@@ -119,6 +120,20 @@ const DestinationManager = () => {
     }
   };
 
+  const handleToggle = async (id) => {
+    // Optimistic UI update
+    setDestinations((prev) =>
+      prev.map((d) => (d._id === id ? { ...d, isActive: !d.isActive } : d))
+    );
+    try {
+      await api.toggleDestinationStatus(id);
+    } catch (error) {
+      console.error("Failed to toggle destination status", error);
+      setMessage({ type: "error", text: "Failed to update destination status." });
+      fetchDestinations(); // revert on failure
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* TOP ACTIONS BAR */}
@@ -205,13 +220,14 @@ const DestinationManager = () => {
                 <th className="p-4 w-10"></th>
                 <th className="p-4 font-medium uppercase min-w-[120px]">Image</th>
                 <th className="p-4 font-medium uppercase w-full">Destination Name</th>
+                <th className="p-4 font-medium uppercase text-center">Status</th>
                 <th className="p-4 font-medium uppercase text-center w-48">Actions</th>
               </tr>
             </thead>
             {fetching ? (
               <tbody>
                 <tr>
-                  <td colSpan="4" className="p-8 text-center text-gray-500">
+                  <td colSpan="5" className="p-8 text-center text-gray-500">
                     <div className="flex justify-center">
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600"></div>
                     </div>
@@ -221,7 +237,7 @@ const DestinationManager = () => {
             ) : destinations.length === 0 ? (
               <tbody>
                 <tr>
-                  <td colSpan="4" className="p-8 text-center text-gray-500">
+                  <td colSpan="5" className="p-8 text-center text-gray-500">
                     No destinations added yet.
                   </td>
                 </tr>
@@ -241,6 +257,12 @@ const DestinationManager = () => {
                     </td>
                     <td className="p-4 font-bold text-[#4A3B2A]">
                       {dest.name}
+                    </td>
+                    <td className="p-4 text-center">
+                      <StatusToggle
+                        isActive={dest.isActive}
+                        onToggle={() => handleToggle(dest._id)}
+                      />
                     </td>
                     <td className="p-4">
                       <div className="flex justify-center gap-2">

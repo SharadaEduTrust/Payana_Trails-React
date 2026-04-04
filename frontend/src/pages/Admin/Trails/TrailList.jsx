@@ -1,6 +1,7 @@
 import React from "react";
 import { IMAGE_BASE_URL } from "../../../services/api";
 import DraggableTableBody from "../../../components/admin/DraggableTableBody";
+import StatusToggle from "../../../components/admin/StatusToggle";
 
 const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReorder, handleToggle }) => {
   return (
@@ -75,27 +76,10 @@ const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReor
 
                     {/* TOGGLE BUTTON */}
                     <td className="p-4 text-center">
-                      <div className="flex flex-col items-center gap-1">
-                        <button
-                          onClick={() => handleToggle(trail._id)}
-                          title={trail.isActive !== false ? "Click to deactivate" : "Click to activate"}
-                          style={{
-                            backgroundColor: trail.isActive !== false ? "#4A3B2A" : "#C8B8A2",
-                          }}
-                          className="relative inline-flex items-center w-9 h-5 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#4A3B2A]"
-                        >
-                          <span
-                            className={`inline-block w-4 h-4 bg-[#F3EFE9] rounded-full shadow-sm transform transition-transform duration-300 ${
-                              trail.isActive !== false ? "translate-x-4" : "translate-x-0.5"
-                            }`}
-                          />
-                        </button>
-                        <span className={`text-xs font-medium ${
-                          trail.isActive !== false ? "text-[#4A3B2A]" : "text-[#C8B8A2]"
-                        }`}>
-                          {trail.isActive !== false ? "Active" : "Inactive"}
-                        </span>
-                      </div>
+                      <StatusToggle
+                        isActive={trail.isActive}
+                        onToggle={() => handleToggle(trail._id)}
+                      />
                     </td>
 
                     {/* EDIT / DELETE BUTTONS */}

@@ -11,12 +11,12 @@ export const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export const api = {
   // 1. Fetch Trails (For ExploreOurTrails component)
-  getTrails: async (category = "All") => {
+  getTrails: async (category = "All", isAdmin = false) => {
     try {
-      const url =
-        category === "All"
-          ? `${API_BASE_URL}/trails`
-          : `${API_BASE_URL}/trails?category=${category}`;
+      const params = new URLSearchParams();
+      if (category !== "All") params.set("category", category);
+      if (isAdmin) params.set("admin", "true");
+      const url = `${API_BASE_URL}/trails${params.toString() ? "?" + params.toString() : ""}`;
 
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch trails");
@@ -164,6 +164,19 @@ export const api = {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to reorder trails");
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  toggleTrailStatus: async (id) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/trails/${id}/toggle`, {
+        method: "PATCH",
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Failed to toggle trail status");
       return data;
     } catch (error) {
       throw error;

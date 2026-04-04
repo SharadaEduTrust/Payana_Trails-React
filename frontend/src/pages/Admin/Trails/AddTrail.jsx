@@ -45,7 +45,7 @@ const AddTrail = () => {
   const fetchExistingTrails = async () => {
     setLoadingTrails(true);
     try {
-      const data = await api.getTrails("All");
+      const data = await api.getTrails("All", true); // pass isAdmin=true to get all trails
       setTrails(data);
     } catch (error) {
       console.error("Failed to fetch trails", error);
@@ -250,6 +250,20 @@ const AddTrail = () => {
     }
   };
 
+  const handleToggle = async (id) => {
+    // Optimistic UI update
+    setTrails((prev) =>
+      prev.map((t) => (t._id === id ? { ...t, isActive: !t.isActive } : t))
+    );
+    try {
+      await api.toggleTrailStatus(id);
+    } catch (error) {
+      console.error("Failed to toggle trail status", error);
+      setMessage({ type: "error", text: "Failed to update trail status." });
+      fetchExistingTrails(); // Revert on failure
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* TOP ACTIONS BAR */}
@@ -318,6 +332,7 @@ const AddTrail = () => {
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleReorder={handleReorder}
+        handleToggle={handleToggle}
       />
     </div>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { IMAGE_BASE_URL } from "../../../services/api";
 import DraggableTableBody from "../../../components/admin/DraggableTableBody";
 
-const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReorder }) => {
+const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReorder, handleToggle }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
       <div className="overflow-x-auto">
@@ -22,6 +22,9 @@ const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReor
               <th className="p-4 font-semibold border-b border-gray-200">
                 Destination
               </th>
+              <th className="p-4 font-semibold border-b border-gray-200 text-center">
+                Status
+              </th>
               <th className="p-4 font-semibold border-b border-gray-200 text-right">
                 Actions
               </th>
@@ -30,7 +33,7 @@ const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReor
             {loadingTrails ? (
               <tbody>
                 <tr>
-                  <td colSpan="6" className="p-8 text-center text-gray-500">
+                  <td colSpan="7" className="p-8 text-center text-gray-500">
                     Loading trails...
                   </td>
                 </tr>
@@ -38,7 +41,7 @@ const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReor
             ) : trails.length === 0 ? (
               <tbody>
                 <tr>
-                  <td colSpan="6" className="p-8 text-center text-gray-500">
+                  <td colSpan="7" className="p-8 text-center text-gray-500">
                     No trails found. Click "Add New Trail" to create one.
                   </td>
                 </tr>
@@ -69,6 +72,31 @@ const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReor
                       </span>
                     </td>
                     <td className="p-4">{trail.trailDestination}</td>
+
+                    {/* TOGGLE BUTTON */}
+                    <td className="p-4 text-center">
+                      <div className="flex flex-col items-center gap-1">
+                        <button
+                          onClick={() => handleToggle(trail._id)}
+                          title={trail.isActive !== false ? "Click to deactivate" : "Click to activate"}
+                          style={{
+                            backgroundColor: trail.isActive !== false ? "#4A3B2A" : "#C8B8A2",
+                          }}
+                          className="relative inline-flex items-center w-9 h-5 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#4A3B2A]"
+                        >
+                          <span
+                            className={`inline-block w-4 h-4 bg-[#F3EFE9] rounded-full shadow-sm transform transition-transform duration-300 ${
+                              trail.isActive !== false ? "translate-x-4" : "translate-x-0.5"
+                            }`}
+                          />
+                        </button>
+                        <span className={`text-xs font-medium ${
+                          trail.isActive !== false ? "text-[#4A3B2A]" : "text-[#C8B8A2]"
+                        }`}>
+                          {trail.isActive !== false ? "Active" : "Inactive"}
+                        </span>
+                      </div>
+                    </td>
 
                     {/* EDIT / DELETE BUTTONS */}
                     <td className="p-4 text-right space-x-3">

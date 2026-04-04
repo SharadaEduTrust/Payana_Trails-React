@@ -32,15 +32,31 @@ const cpUpload = upload.fields([
   { name: 'trailImages', maxCount: 20 }
 ]);
 
-// GET all trails (Keep your existing route)
+// GET all trails
+// Admin panel gets everything; public pages only get active trails
 router.get("/", async (req, res) => {
   try {
-    const trails = await Trail.find().sort({ order: 1, createdAt: -1 });
+    const isAdmin = req.query.admin === "true";
+    const filter = isAdmin ? {} : { isActive: true };
+    const trails = await Trail.find(filter).sort({ order: 1, createdAt: -1 });
     res.status(200).json(trails);
   } catch (error) {
     res
       .status(500)
       .json({ message: "Failed to fetch trails", error: error.message });
+  }
+});
+
+// PATCH toggle a trail's active status
+router.patch("/:id/toggle", async (req, res) => {
+  try {
+    const trail = await Trail.findById(req.params.id);
+    if (!trail) return res.status(404).json({ message: "Trail not found" });
+    trail.isActive = !trail.isActive;
+    await trail.save();
+    res.status(200).json({ isActive: trail.isActive, message: `Trail ${trail.isActive ? "activated" : "deactivated"} successfully` });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to toggle trail status", error: error.message });
   }
 });
 

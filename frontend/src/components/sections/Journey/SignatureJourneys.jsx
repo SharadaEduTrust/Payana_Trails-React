@@ -127,6 +127,7 @@ const SignatureJourneys = () => {
                   duration={journey.duration}
                   date={formatDate(journey.journeyDate)}
                   trail={journey.trailRoute}
+                  trailType={journey.trailType || ""}
                   imgSrc={journey.heroImage ? `${IMAGE_BASE_URL}${journey.heroImage}` : null}
                 />
               </div>

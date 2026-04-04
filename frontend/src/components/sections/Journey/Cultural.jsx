@@ -99,6 +99,7 @@ const Cultural = () => {
                 duration={trail.duration}
                 date={formatDate(trail.journeyDate)}
                 trail={trail.trailRoute}
+                trailType={trail.trailType || ""}
                 imgSrc={trail.heroImage ? `${IMAGE_BASE_URL}${trail.heroImage}` : null}
               />
             ))}

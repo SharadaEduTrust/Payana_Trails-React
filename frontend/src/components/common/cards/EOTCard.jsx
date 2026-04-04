@@ -93,7 +93,7 @@ const EOTCard = ({
 
         {/* 4) Trail Route Text */}
         <div className="bg-[#F3EFE9]/70 backdrop-blur-sm rounded-2xl p-4 flex justify-center items-center shadow-inner border border-[#4A3B2A]/10 w-full mt-1">
-          <span className="text-[#4A3B2A]/80 text-[16px] text-center font-medium line-clamp-2 block w-full px-2">
+          <span className="text-[#4A3B2A]/80 text-[15px] text-center font-medium line-clamp-2 block w-full px-2">
             {trail}
           </span>
         </div>

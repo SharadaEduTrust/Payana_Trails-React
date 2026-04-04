@@ -9,7 +9,7 @@ export default function Hero({ images = [] }) {
     if (images.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 10000);
+    }, 8000);
     return () => clearInterval(timer);
   }, [images.length]);
 
@@ -34,7 +34,7 @@ export default function Hero({ images = [] }) {
       {images.map((img, index) => (
         <div
           key={index}
-          className={`absolute inset-0 w-full h-full transition-opacity duration-[2500ms] ease-in-out ${
+          className={`absolute inset-0 w-full h-full transition-opacity duration-2500 ease-in-out ${
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
         >

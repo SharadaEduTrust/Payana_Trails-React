@@ -2,35 +2,23 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs"); // Needed to delete old images
+const fs = require("fs");
 const Trail = require("../models/Trail");
+const processImages = require("../middlewares/processImage");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const trailName = req.body.trailName || "Unnamed_Trail";
-    const sanitizedName = trailName.replace(/[^a-z0-9]/gi, '_');
-    const uploadPath = path.join("uploads", "Trails", sanitizedName);
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    if (file.fieldname === 'heroImage') {
-      cb(null, "hero-" + Date.now() + path.extname(file.originalname));
-    } else if (file.fieldname === 'routeMap') {
-      cb(null, "routemap-" + Date.now() + path.extname(file.originalname));
-    } else {
-      cb(null, Date.now() + "-" + file.originalname);
-    }
-  },
-});
-const upload = multer({ storage: storage });
+// Use memoryStorage so Sharp can intercept buffers before writing to disk
+const upload = multer({ storage: multer.memoryStorage() });
 const cpUpload = upload.fields([
   { name: 'routeMap', maxCount: 1 },
   { name: 'heroImage', maxCount: 1 },
   { name: 'trailImages', maxCount: 20 }
 ]);
+
+// Resolves the upload folder for a trail based on the trail name in the request
+const trailFolderResolver = (req) => {
+  const sanitizedName = (req.body.trailName || "Unnamed_Trail").replace(/[^a-z0-9]/gi, '_');
+  return path.join(__dirname, "..", "uploads", "Trails", sanitizedName);
+};
 
 // GET all trails
 // Admin panel gets everything; public pages only get active trails
@@ -83,7 +71,7 @@ router.put("/reorder", async (req, res) => {
 });
 
 // POST a new trail
-router.post("/", cpUpload, async (req, res) => {
+router.post("/", cpUpload, processImages(trailFolderResolver), async (req, res) => {
   try {
     const sanitizedName = (req.body.trailName || "Unnamed_Trail").replace(/[^a-z0-9]/gi, '_');
     const basePath = `/uploads/Trails/${sanitizedName}/`;
@@ -111,7 +99,7 @@ router.post("/", cpUpload, async (req, res) => {
 });
 
 // --- NEW: PUT (Update) a trail ---
-router.put("/:id", cpUpload, async (req, res) => {
+router.put("/:id", cpUpload, processImages(trailFolderResolver), async (req, res) => {
   try {
     const trailId = req.params.id;
     let updateData = { ...req.body };

@@ -4,32 +4,22 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const Destination = require("../models/Destination");
+const processImages = require("../middlewares/processImage");
 
 const sanitizeDestinationName = (name = "Unnamed_Destination") =>
   name.replace(/[^a-z0-9]/gi, "_");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const destinationName = req.body.name || "Unnamed_Destination";
-    const sanitizedName = sanitizeDestinationName(destinationName);
-    const uploadPath = path.join("uploads", "Destinations", sanitizedName);
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    if (file.fieldname === 'heroImage') {
-      cb(null, "hero-" + Date.now() + path.extname(file.originalname));
-    } else {
-      cb(null, Date.now() + "-" + file.originalname);
-    }
-  },
-});
-const upload = multer({ storage: storage });
+// Use memoryStorage so Sharp can intercept buffers before writing to disk
+const upload = multer({ storage: multer.memoryStorage() });
 const cpUpload = upload.fields([
   { name: 'heroImage', maxCount: 1 }
 ]);
+
+// Resolves the upload folder for a destination based on the name in the request
+const destFolderResolver = (req) => {
+  const sanitizedName = sanitizeDestinationName(req.body.name);
+  return path.join(__dirname, "..", "uploads", "Destinations", sanitizedName);
+};
 
 // GET all destinations
 // Admin panel gets everything; public pages only get active destinations
@@ -80,7 +70,7 @@ router.put("/reorder", async (req, res) => {
 });
 
 // POST a new destination
-router.post("/", cpUpload, async (req, res) => {
+router.post("/", cpUpload, processImages(destFolderResolver), async (req, res) => {
   try {
     const sanitizedName = sanitizeDestinationName(req.body.name);
     const basePath = `/uploads/Destinations/${sanitizedName}/`;
@@ -106,7 +96,7 @@ router.post("/", cpUpload, async (req, res) => {
 });
 
 // PUT (Update) a destination
-router.put("/:id", cpUpload, async (req, res) => {
+router.put("/:id", cpUpload, processImages(destFolderResolver), async (req, res) => {
   try {
     const destId = req.params.id;
     let updateData = { ...req.body };

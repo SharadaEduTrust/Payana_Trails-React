@@ -4,7 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const Destination = require("../models/Destination");
-const processImages = require("../middlewares/processImage");
+const { processImages, resolveUploadPath } = require("../middlewares/processImage");
 
 const sanitizeDestinationName = (name = "Unnamed_Destination") =>
   name.replace(/[^a-z0-9]/gi, "_");
@@ -89,7 +89,7 @@ router.post("/", cpUpload, processImages(destFolderResolver), async (req, res) =
 
     const newDest = new Destination(destinationData);
     const savedDest = await newDest.save();
-    res.status(201).json(savedDest);
+    res.status(201).json({ destination: savedDest, imageStats: req.imageStats || [] });
   } catch (error) {
     res.status(400).json({ message: "Failed to create destination", error: error.message });
   }
@@ -109,7 +109,11 @@ router.put("/:id", cpUpload, processImages(destFolderResolver), async (req, res)
       
       const oldDest = await Destination.findById(destId);
       if (oldDest && oldDest.heroImage) {
-        fs.unlink(path.join(__dirname, "..", oldDest.heroImage), (err) => {});
+        // resolveUploadPath strips the leading "/" to avoid the Windows path.join trap
+        fs.unlink(resolveUploadPath(oldDest.heroImage), (err) => {
+          if (err) console.error("Failed to delete old hero image:", err.message);
+          else console.log("Deleted old hero image:", oldDest.heroImage);
+        });
       }
     }
 
@@ -120,7 +124,7 @@ router.put("/:id", cpUpload, processImages(destFolderResolver), async (req, res)
     
     if (!updatedDest) return res.status(404).json({ message: "Destination not found" });
 
-    res.status(200).json(updatedDest);
+    res.status(200).json({ destination: updatedDest, imageStats: req.imageStats || [] });
   } catch (error) {
     res.status(400).json({ message: "Failed to update destination", error: error.message });
   }

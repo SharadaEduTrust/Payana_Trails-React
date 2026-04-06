@@ -5,6 +5,16 @@ import TrailForm from "./TrailForm";
 import useScrollToTop from "../../../hooks/useScrollToTop";
 
 const AddTrail = () => {
+  // Builds a human-readable compression summary from the imageStats array
+  // returned by the API after upload (e.g. " | Images compressed: hero 2.1MB→420KB (80% saved)")
+  const buildStatsMessage = (stats) => {
+    if (!stats || stats.length === 0) return "";
+    const fmt = (bytes) => (bytes / 1024).toFixed(0) + " KB";
+    const parts = stats.map(
+      (s) => `${s.field}: ${fmt(s.originalSize)} → ${fmt(s.compressedSize)} (${s.savedPercent}% saved)`
+    );
+    return " | Compressed: " + parts.join(", ");
+  };
   // --- UI STATE ---
   const [showForm, setShowForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -199,11 +209,13 @@ const AddTrail = () => {
       }
 
       if (isEditing) {
-        await api.updateTrail(currentTrailId, submitData);
-        setMessage({ type: "success", text: "Trail updated successfully!" });
+        const result = await api.updateTrail(currentTrailId, submitData);
+        const statsMsg = buildStatsMessage(result.imageStats);
+        setMessage({ type: "success", text: `Trail updated successfully!${statsMsg}` });
       } else {
-        await api.createTrail(submitData);
-        setMessage({ type: "success", text: "Trail created successfully!" });
+        const result = await api.createTrail(submitData);
+        const statsMsg = buildStatsMessage(result.imageStats);
+        setMessage({ type: "success", text: `Trail created successfully!${statsMsg}` });
       }
 
       resetForm();

@@ -4,7 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const Trail = require("../models/Trail");
-const processImages = require("../middlewares/processImage");
+const { processImages, resolveUploadPath } = require("../middlewares/processImage");
 
 // Use memoryStorage so Sharp can intercept buffers before writing to disk
 const upload = multer({ storage: multer.memoryStorage() });
@@ -92,7 +92,7 @@ router.post("/", cpUpload, processImages(trailFolderResolver), async (req, res) 
 
     const newTrail = new Trail(trailData);
     const savedTrail = await newTrail.save();
-    res.status(201).json(savedTrail);
+    res.status(201).json({ trail: savedTrail, imageStats: req.imageStats || [] });
   } catch (error) {
     res.status(400).json({ message: "Failed to create trail", error: error.message });
   }
@@ -133,10 +133,13 @@ router.put("/:id", cpUpload, processImages(trailFolderResolver), async (req, res
     if (req.body.imagesToDelete) {
       const toDelete = JSON.parse(req.body.imagesToDelete);
       toDelete.forEach(img => {
-         const filePath = path.join(__dirname, "..", img);
-         fs.unlink(filePath, (err) => {
-           if (err) console.error("Failed to delete old image file:", err);
-         });
+        // resolveUploadPath strips the leading "/" so path.resolve works correctly
+        // on both Windows and Linux, avoiding the drive-root-relative trap.
+        const filePath = resolveUploadPath(img);
+        fs.unlink(filePath, (err) => {
+          if (err) console.error("Failed to delete old image file:", filePath, err.message);
+          else console.log("Deleted old image:", filePath);
+        });
       });
     }
 
@@ -146,7 +149,7 @@ router.put("/:id", cpUpload, processImages(trailFolderResolver), async (req, res
     if (!updatedTrail)
       return res.status(404).json({ message: "Trail not found" });
 
-    res.status(200).json(updatedTrail);
+    res.status(200).json({ trail: updatedTrail, imageStats: req.imageStats || [] });
   } catch (error) {
     console.error("Error updating trail:", error);
     res

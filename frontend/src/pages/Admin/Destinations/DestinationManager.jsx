@@ -9,6 +9,15 @@ import {
 } from "../../../constants/destinationGeographies";
 
 const DestinationManager = () => {
+  // Builds a human-readable compression summary from the imageStats array
+  const buildStatsMessage = (stats) => {
+    if (!stats || stats.length === 0) return "";
+    const fmt = (bytes) => (bytes / 1024).toFixed(0) + " KB";
+    const parts = stats.map(
+      (s) => `${s.field}: ${fmt(s.originalSize)} → ${fmt(s.compressedSize)} (${s.savedPercent}% saved)`
+    );
+    return " | Compressed: " + parts.join(", ");
+  };
   const [destinations, setDestinations] = useState([]);
   const [name, setName] = useState("");
   const [geography, setGeography] = useState("");
@@ -96,17 +105,13 @@ const DestinationManager = () => {
 
     try {
       if (isEditing) {
-        await api.updateDestination(currentId, formData);
-        setMessage({
-          type: "success",
-          text: "Destination updated successfully!",
-        });
+        const result = await api.updateDestination(currentId, formData);
+        const statsMsg = buildStatsMessage(result.imageStats);
+        setMessage({ type: "success", text: `Destination updated successfully!${statsMsg}` });
       } else {
-        await api.addDestination(formData);
-        setMessage({
-          type: "success",
-          text: "Destination added successfully!",
-        });
+        const result = await api.addDestination(formData);
+        const statsMsg = buildStatsMessage(result.imageStats);
+        setMessage({ type: "success", text: `Destination added successfully!${statsMsg}` });
       }
       resetForm();
       setShowForm(false);

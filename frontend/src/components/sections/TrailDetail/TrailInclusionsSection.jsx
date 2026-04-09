@@ -109,6 +109,9 @@ const cardConfigs = {
     itemGlowClassName: "bg-[#A18160]/30",
     watermarkClassName: "text-[#4A3B2A]/7",
     orbitClassName: "border-[#4A3B2A]/12 bg-white/55 text-[#4A3B2A]/70",
+    fadeClassName: "from-[#F8F2E9]",
+    scrollThumbClassName: "[&::-webkit-scrollbar-thumb]:bg-[#4A3B2A]/15 hover:[&::-webkit-scrollbar-thumb]:bg-[#4A3B2A]/25",
+    scrollIndicatorClassName: "bg-[#4A3B2A]/5 text-[#6B513C]",
   },
   excluded: {
     title: "What's Not Included",
@@ -137,6 +140,9 @@ const cardConfigs = {
     itemGlowClassName: "bg-[#C68C76]/15",
     watermarkClassName: "text-white/7",
     orbitClassName: "border-white/10 bg-white/10 text-[#F6E8D8]/70",
+    fadeClassName: "from-[#3D2B1F]",
+    scrollThumbClassName: "[&::-webkit-scrollbar-thumb]:bg-white/15 hover:[&::-webkit-scrollbar-thumb]:bg-white/25",
+    scrollIndicatorClassName: "bg-white/10 text-[#E5C7AA]",
   },
 };
 
@@ -176,6 +182,9 @@ const InclusionCard = ({ type, items }) => {
     itemGlowClassName,
     watermarkClassName,
     orbitClassName,
+    fadeClassName,
+    scrollThumbClassName,
+    scrollIndicatorClassName,
   } = config;
 
   const card = inclusionCards.find((entry) => entry.type === type);
@@ -258,45 +267,59 @@ const InclusionCard = ({ type, items }) => {
           </div>
         )}
 
-        <div className="mt-7 space-y-3">
-          {items.length > 0 ? (
-            items.map((item, index) => (
-              <motion.div
-                key={`${type}-${index}-${item}`}
-                variants={itemVariants}
-                whileHover={{ x: 6 }}
-                className={`relative overflow-hidden rounded-[1.35rem] border p-4 pr-12 md:p-5 ${itemClassName}`}
-              >
-                <div
-                  className={`absolute -right-5 top-1/2 h-20 w-20 -translate-y-1/2 rounded-full blur-2xl ${itemGlowClassName}`}
-                />
-                <div className="relative flex items-start gap-4">
+        <div className="relative mt-7">
+          <div className={`max-h-[480px] -mx-2 space-y-3 overflow-y-auto px-2 pb-24 pt-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full ${scrollThumbClassName}`}>
+            {items.length > 0 ? (
+              items.map((item, index) => (
+                <motion.div
+                  key={`${type}-${index}-${item}`}
+                  variants={itemVariants}
+                  whileHover={{ x: 6 }}
+                  className={`relative overflow-hidden rounded-[1.35rem] border p-4 pr-12 md:p-5 ${itemClassName}`}
+                >
                   <div
-                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[1rem] ${itemIconClassName}`}
-                  >
-                    <Icon className="h-5 w-5" />
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <p
-                      className={`text-[10px] font-semibold uppercase tracking-[0.3em] ${itemMetaClassName}`}
+                    className={`absolute -right-5 top-1/2 h-20 w-20 -translate-y-1/2 rounded-full blur-2xl ${itemGlowClassName}`}
+                  />
+                  <div className="relative flex items-start gap-4">
+                    <div
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[1rem] ${itemIconClassName}`}
                     >
-                      Item {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <p className="mt-1.5 text-sm leading-6 md:text-[15px]">
-                      {item}
-                    </p>
+                      <Icon className="h-5 w-5" />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <p
+                        className={`text-[10px] font-semibold uppercase tracking-[0.3em] ${itemMetaClassName}`}
+                      >
+                        Item {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <p className="mt-1.5 text-sm leading-6 md:text-[15px]">
+                        {item}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </motion.div>
+              ))
+            ) : (
+              <motion.div
+                variants={itemVariants}
+                className={`rounded-[1.35rem] border border-dashed p-5 text-sm leading-6 ${itemClassName}`}
+              >
+                Details for this column have not been added yet.
               </motion.div>
-            ))
-          ) : (
-            <motion.div
-              variants={itemVariants}
-              className={`rounded-[1.35rem] border border-dashed p-5 text-sm leading-6 ${itemClassName}`}
+            )}
+          </div>
+
+          {items.length > 3 && (
+            <div
+              className={`pointer-events-none absolute bottom-0 -left-2 right-0 flex h-28 flex-col justify-end bg-gradient-to-t to-transparent pb-0 ${fadeClassName}`}
             >
-              Details for this column have not been added yet.
-            </motion.div>
+              <div className="mb-[-1px] flex justify-center">
+                <span className={`animate-pulse rounded-t-lg px-4 py-1.5 text-[9px] font-bold uppercase tracking-widest backdrop-blur-md ${scrollIndicatorClassName}`}>
+                  Scroll for more ↓
+                </span>
+              </div>
+            </div>
           )}
         </div>
       </div>

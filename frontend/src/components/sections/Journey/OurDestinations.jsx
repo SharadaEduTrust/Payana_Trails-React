@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import DestinationCard from "../../common/cards/DestinationCard";
 import BrownBtn from "../../common/buttons/BrownBtn";
 import { Link } from "react-router-dom";
@@ -11,12 +12,27 @@ import {
 const OurDestinations = () => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const scrollContainerRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const { clientWidth } = scrollContainerRef.current;
+      const scrollAmount = clientWidth > 768 ? clientWidth / 2 : clientWidth;
+      scrollContainerRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
         const data = await api.getDestinations();
-        setDestinations(data);
+        const sortedData = data.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
+        setDestinations(sortedData);
       } catch (err) {
         console.error("Error fetching destinations:", err);
       } finally {
@@ -44,32 +60,53 @@ const OurDestinations = () => {
           </p>
         </div>
 
-        {/* Responsive Grid for Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {loading ? (
-             <div className="col-span-full flex justify-center items-center py-10">
-               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#4A3B2A]"></div>
-             </div>
-          ) : destinations.length === 0 ? (
-             <div className="col-span-full text-center text-[#4A3B2A]/70 py-10">No destinations available.</div>
-          ) : (
-            destinations.slice(0, 4).map((dest, index) => (
-              <div
-                key={dest._id}
-                className="animate-fade-in-up w-full flex justify-center"
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <DestinationCard
-                  name={dest.name}
-                  image={`${IMAGE_BASE_URL}${dest.heroImage}`}
-                  to={buildDestinationListingPath({
-                    geography: getDestinationGeography(dest),
-                    destination: dest.name,
-                  })}
-                />
+        {/* Carousel Slider for Cards */}
+        <div className="relative group/slider">
+          <button 
+            onClick={() => scroll('left')} 
+            className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 z-10 bg-white/90 shadow-md p-2 rounded-full text-[#4A3B2A] hover:bg-[#4A3B2A] hover:text-white transition-colors duration-300 backdrop-blur-sm opacity-0 group-hover/slider:opacity-100 hidden md:block"
+            aria-label="Previous destination"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          <div 
+            ref={scrollContainerRef} 
+            className="flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth pb-4"
+          >
+            {loading ? (
+              <div className="w-full flex justify-center items-center py-10">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#4A3B2A]"></div>
               </div>
-            ))
-          )}
+            ) : destinations.length === 0 ? (
+              <div className="w-full text-center text-[#4A3B2A]/70 py-10">No destinations available.</div>
+            ) : (
+              destinations.map((dest, index) => (
+                <div
+                  key={dest._id}
+                  className="animate-fade-in-up flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-24px)] snap-start flex justify-center"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <DestinationCard
+                    name={dest.name}
+                    image={`${IMAGE_BASE_URL}${dest.heroImage}`}
+                    to={buildDestinationListingPath({
+                      geography: getDestinationGeography(dest),
+                      destination: dest.name,
+                    })}
+                  />
+                </div>
+              ))
+            )}
+          </div>
+
+          <button 
+            onClick={() => scroll('right')} 
+            className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 z-10 bg-white/90 shadow-md p-2 rounded-full text-[#4A3B2A] hover:bg-[#4A3B2A] hover:text-white transition-colors duration-300 backdrop-blur-sm opacity-0 group-hover/slider:opacity-100 hidden md:block"
+            aria-label="Next destination"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
 
         {/* Call to Action Button */}

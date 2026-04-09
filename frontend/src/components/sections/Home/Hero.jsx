@@ -59,9 +59,13 @@ export default function Hero({ images = [] }) {
         className={`relative z-10 w-full max-w-400 mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 pointer-events-none transition-all duration-700 ${isUiHidden ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"}`}
       >
         <div className="max-w-md mx-auto sm:mx-0 sm:max-w-xl lg:max-w-2xl pointer-events-auto text-center sm:text-left">
-          <h1 className="text-[#F3EFE9] text-2xl sm:text-3xl lg:text-[40px] italic font-bold leading-[1.1] mb-6 [text-shadow:0_4px_15px_#4A3B2A,0_0_30px_#4A3B2A]">
-            Thoughtfully Curated Journeys for the Discerning Traveller
+          <h1 className="text-[#F3EFE9] text-2xl sm:text-3xl lg:text-[36px] italic font-bold leading-[1.1] mb-6 [text-shadow:0_4px_15px_#4A3B2A,0_0_30px_#4A3B2A]">
+            Curated Journeys for Travellers who value Stories over Sightseeing
           </h1>
+
+          <p className="text-[#F3EFE9] text-sm sm:text-md lg:text-[16px] font-medium mb-8 sm:mb-10 [text-shadow:0_2px_10px_#4A3B2A]">
+            Small groups. Deeper experiences. Thoughtfully designed Journeys.
+          </p>
 
           <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 sm:gap-3 mb-8 sm:mb-10">
             {[
@@ -154,4 +158,3 @@ export default function Hero({ images = [] }) {
     </section>
   );
 }
- 

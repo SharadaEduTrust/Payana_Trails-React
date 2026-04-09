@@ -85,9 +85,9 @@ const Footer = () => {
     {
       title: "Journeys",
       links: [
+        { name: "Signature Trails", path: "/journeys/signature" },
         { name: "Wildlife Trails", path: "/journeys/wildlife" },
         { name: "Heritage Trails", path: "/journeys/heritage" },
-        { name: "Signature Trails", path: "/journeys/signature" },
         { name: "Cultural & Immersive Trails", path: "/journeys/cultural" },
       ],
     },
@@ -144,8 +144,7 @@ const Footer = () => {
             </div>
 
             <p className="text-[#F3EFE9]/80 text-sm text-center lg:text-left max-w-xs leading-snug">
-              Crafting unforgettable stories through thoughtful, immersive
-              travel experiences.
+              Crafting meaningful journeys through thoughtful, immersive travel experiences.
             </p>
 
             <div className="flex gap-3 mt-1 flex-wrap justify-center lg:justify-start">

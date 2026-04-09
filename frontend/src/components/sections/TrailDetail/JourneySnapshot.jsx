@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { motion } from "framer-motion";
 import {
   LuMapPin,
   LuPalette,
@@ -7,6 +8,23 @@ import {
   LuFileText,
   LuMap,
 } from "react-icons/lu";
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+};
 
 const JourneySnapshot = ({ trail }) => {
   const snapshotItems = useMemo(() => {
@@ -42,103 +60,129 @@ const JourneySnapshot = ({ trail }) => {
   // Transform trail route into visual nodes/steps
   const routeSteps = useMemo(() => {
     if (!trail.trailRoute) return [];
-    // Assume route is string separated by '>' or '->' or ',' - parse safely
+    // Split by arrows (→, ->, >), comma, or separated hyphens
     return trail.trailRoute
-      .split(/\s*>\s*|\s*,\s*/)
+      .split(/\s*→\s*|\s*->\s*|\s*>\s*|\s*,\s*|\s+-\s+/)
       .filter((step) => step.trim() !== "");
   }, [trail.trailRoute]);
 
   return (
-    <div className="w-full overflow-hidden rounded-2xl border border-white/5 bg-[#4A3B2A] shadow-xl">
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+      className="w-full overflow-hidden rounded-3xl border border-[#4A3B2A]/10 bg-white shadow-[0_8px_30px_rgba(74,59,42,0.04)]"
+    >
       {/* Top Section: Standard Items */}
-      <div className="flex flex-col divide-y divide-white/10 lg:flex-row lg:divide-x lg:divide-y-0">
-        {snapshotItems.map((item) => {
+      <div className="grid grid-cols-2 divide-y divide-[#4A3B2A]/5 lg:flex lg:flex-row lg:divide-x lg:divide-y-0 relative z-10 border-b border-[#4A3B2A]/5">
+        {snapshotItems.map((item, idx) => {
           const Icon = item.icon;
-
           return (
-            <div
+            <motion.div
+              variants={itemVariants}
               key={item.label}
-              className="group flex flex-1 flex-col items-center justify-center p-6 text-center transition-colors duration-300 hover:bg-white/5"
+              className={`group flex flex-col items-center justify-center p-8 text-center transition-all duration-500 hover:bg-[#F3EFE9]/50 ${
+                idx === snapshotItems.length - 1 ? "col-span-2 lg:col-span-1" : ""
+              }`}
             >
-              {/* Icon */}
-              <Icon
-                className="mb-3 h-6 w-6 text-[#F3EFE9] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110"
-                strokeWidth={1.5}
-              />
+              <div className="relative mb-4 flex items-center justify-center">
+                <div className="absolute inset-0 scale-50 rounded-full bg-[#4A3B2A]/0 transition-all duration-500 group-hover:scale-150 group-hover:bg-[#4A3B2A]/5 blur-md" />
+                <Icon
+                  className="relative z-10 h-7 w-7 text-[#D4A373] transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-110 group-hover:text-[#4A3B2A]"
+                  strokeWidth={1.5}
+                />
+              </div>
 
-              {/* Label */}
-              <p className="mb-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-[#F3EFE9]/60">
+              <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-[#4A3B2A]/40 transition-colors duration-300 group-hover:text-[#4A3B2A]/70">
                 {item.label}
               </p>
 
-              {/* Value */}
-              <p className="text-sm font-semibold text-[#F3EFE9] md:text-base">
+              <p className="text-base font-semibold text-[#3D2C20] md:text-[1.05rem]">
                 {item.value}
               </p>
-            </div>
+            </motion.div>
           );
         })}
       </div>
 
       {/* Improved Bottom Section: Visual Trail Route Timeline */}
       {routeSteps.length > 0 && (
-        <div className="group border-t border-white/10 bg-transparent p-6 transition-colors duration-300 hover:bg-white/5 sm:p-10">
+        <motion.div 
+          variants={itemVariants}
+          className="group relative bg-[#F3EFE9]/50 p-8 sm:p-12 transition-colors duration-500 hover:bg-[#F3EFE9]"
+        >
           {/* Header */}
-          <div className="mb-8 flex flex-col items-center justify-center gap-3 text-center sm:mb-10 sm:flex-row sm:justify-between sm:text-left">
+          <div className="mb-12 flex flex-col items-center justify-center gap-4 text-center sm:mb-16 sm:flex-row sm:justify-between sm:text-left">
             <div className="flex flex-col">
-              <p className="mb-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-[#F3EFE9]/60">
+              <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#D4A373]">
                 Trail Route
               </p>
-              <h3 className="font-serif text-2xl font-light text-[#F3EFE9]">
+              <h3 className="font-serif text-3xl font-medium text-[#4A3B2A]">
                 Journey Sequence
               </h3>
             </div>
-            <LuMap
-              className="h-10 w-10 shrink-0 text-[#F3EFE9]/30 transition-transform duration-300 group-hover:scale-110 group-hover:text-[#F3EFE9]/50"
-              strokeWidth={1}
-            />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#4A3B2A]/5 transition-transform duration-500 group-hover:rotate-12 group-hover:bg-white group-hover:scale-110 group-hover:shadow-sm">
+              <LuMap
+                className="h-6 w-6 shrink-0 text-[#4A3B2A]/40 transition-colors duration-300 group-hover:text-[#D4A373]"
+                strokeWidth={1.5}
+              />
+            </div>
           </div>
 
           {/* Visual Stepper/Timeline */}
-          <div className="flex flex-col items-center sm:block">
-            {/* Timeline wrapper: grid/flex combination for clean layout */}
-            <div className="grid w-full grid-cols-1 gap-y-4 sm:flex sm:items-start sm:gap-x-0 sm:gap-y-0">
-              {routeSteps.map((step, index) => {
-                const isLast = index === routeSteps.length - 1;
+          <div className="relative mx-auto w-full max-w-4xl">
+            {/* Desktop Horizontal View */}
+            <div className="hidden sm:flex items-start justify-between relative">
+               {/* Background connection line */}
+               <div className="absolute left-[5%] top-[5px] h-[2px] w-[90%] bg-[#4A3B2A]/10 z-0 origin-left" />
+               
+               {routeSteps.map((step, index) => (
+                 <motion.div 
+                   key={step + index} 
+                   className="relative z-10 flex flex-col items-center flex-1 px-4"
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   transition={{ duration: 0.5, delay: index * 0.15 }}
+                   viewport={{ once: true }}
+                 >
+                   {/* Node Dot */}
+                   <div className="mb-5 flex h-3 w-3 items-center justify-center rounded-full bg-[#D4A373] ring-[6px] ring-[#F3EFE9] transition-all duration-300 group-hover:ring-white hover:scale-150 hover:bg-[#4A3B2A] hover:shadow-[0_0_20px_rgba(74,59,42,0.15)] cursor-pointer" />
+                   {/* Location Name */}
+                   <p className="text-center text-sm font-semibold tracking-wide text-[#4A3B2A] md:text-[15px]">
+                     {step}
+                   </p>
+                 </motion.div>
+               ))}
+            </div>
 
-                return (
-                  <div
-                    key={`${step}-${index}`}
-                    className="flex flex-1 items-start gap-x-4 sm:relative sm:block sm:gap-x-0"
-                  >
-                    {/* Node & Connector Wrapper */}
-                    <div className="flex flex-col items-center sm:flex-row sm:items-center">
-
-                      {/* Connector Line (visible except last item) */}
-                      {!isLast && (
-                        <>
-                          {/* Vertical line for mobile */}
-                          <div className="h-10 w-[2px] bg-[#F3EFE9]/10 transition-colors duration-300 group-hover:bg-[#F3EFE9]/20 sm:hidden" />
-                          {/* Horizontal line for desktop (positioned absolutely) */}
-                          <div className="hidden flex-grow h-[2px] bg-[#F3EFE9]/10 transition-colors duration-300 group-hover:bg-[#F3EFE9]/20 sm:block" />
-                        </>
-                      )}
-                    </div>
-
-                    {/* Content (City/Location Name) */}
-                    <div className="flex-grow pt-1 text-left sm:absolute sm:left-[-1.25rem] sm:right-[-1.25rem] sm:top-[-2.5rem] sm:pt-0 sm:text-center">
-                      <p className="text-sm font-medium leading-tight text-[#F3EFE9] transition-transform duration-300 group-hover:-translate-y-px md:text-base">
-                        {step}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Mobile Vertical View */}
+            <div className="flex flex-col sm:hidden relative ml-2">
+              {/* Background connection line */}
+              <div className="absolute left-[5px] top-2 bottom-4 w-[2px] bg-[#4A3B2A]/10 z-0 origin-top" />
+              
+              {routeSteps.map((step, index) => (
+                 <motion.div 
+                   key={step + index} 
+                   className="relative z-10 flex items-center gap-6 mb-8 last:mb-0"
+                   initial={{ opacity: 0, x: -20 }}
+                   whileInView={{ opacity: 1, x: 0 }}
+                   transition={{ duration: 0.5, delay: index * 0.15 }}
+                   viewport={{ once: true }}
+                 >
+                   {/* Node Dot */}
+                   <div className="flex h-3 w-3 shrink-0 items-center justify-center rounded-full bg-[#D4A373] ring-[5px] ring-[#F3EFE9]" />
+                   {/* Location Name */}
+                   <p className="text-left text-base font-semibold tracking-wide text-[#4A3B2A]">
+                     {step}
+                   </p>
+                 </motion.div>
+               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

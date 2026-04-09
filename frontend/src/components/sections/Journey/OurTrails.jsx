@@ -53,10 +53,10 @@ const cardVariants = {
 
 export default function OurTrails() {
   return (
-    <section className="relative overflow-hidden bg-[#F3EFE9] py-18 md:py-24">
-      <div className="absolute inset-x-0 top-12 mx-auto h-[360px] w-[92%] max-w-6xl rounded-[48px] bg-[linear-gradient(135deg,rgba(238,228,213,0.85)_0%,rgba(247,242,234,0.4)_55%,rgba(223,207,187,0.55)_100%)]"></div>
-      <div className="absolute -top-12 left-[8%] h-48 w-48 rounded-full bg-[#D7C3AA]/30 blur-3xl"></div>
-      <div className="absolute right-[6%] top-24 h-56 w-56 rounded-full bg-[#4A3B2A]/8 blur-3xl"></div>
+    <section className="relative overflow-hidden bg-[#F3EFE9] py-20 md:py-28">
+      <div className="absolute inset-x-0 inset-y-6 md:inset-y-10 mx-auto w-[96%] max-w-[84rem] rounded-[48px] bg-[linear-gradient(135deg,rgba(238,228,213,0.85)_0%,rgba(247,242,234,0.4)_55%,rgba(223,207,187,0.55)_100%)]"></div>
+      <div className="absolute top-10 left-[8%] h-48 w-48 rounded-full bg-[#D7C3AA]/30 blur-3xl"></div>
+      <div className="absolute right-[6%] bottom-24 h-56 w-56 rounded-full bg-[#4A3B2A]/8 blur-3xl"></div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
         <div className="mx-auto mb-16 max-w-3xl text-center">
@@ -100,7 +100,7 @@ export default function OurTrails() {
             <motion.div key={trail.id} variants={cardVariants}>
               <Link
                 to={trail.path}
-                className="group relative flex h-full min-h-[460px] flex-col items-center overflow-hidden rounded-[32px] border border-[#4A3B2A]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(246,239,230,0.92)_100%)] px-8 py-10 text-center shadow-[0_20px_50px_rgba(74,59,42,0.08)] transition-all duration-300 hover:-translate-y-2 hover:border-[#4A3B2A]/22 hover:shadow-[0_28px_60px_rgba(74,59,42,0.14)]"
+                className="group relative flex h-full flex-col items-center overflow-hidden rounded-[32px] border border-[#4A3B2A]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(246,239,230,0.92)_100%)] px-8 py-10 text-center shadow-[0_20px_50px_rgba(74,59,42,0.08)] transition-all duration-300 hover:-translate-y-2 hover:border-[#4A3B2A]/22 hover:shadow-[0_28px_60px_rgba(74,59,42,0.14)]"
               >
                 <div className="absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(74,59,42,0.25),transparent)]"></div>
 

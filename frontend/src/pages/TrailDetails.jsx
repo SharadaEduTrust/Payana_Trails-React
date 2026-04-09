@@ -84,12 +84,10 @@ const TrailDetails = () => {
         excludedItems={transformed.whatsNotIncluded || []}
       />
 
-      <ContentSection title="Visions of the Path">
-        <MovingGallery
-          images={transformed.gallery}
-          trailName={transformed.trailName}
-        />
-      </ContentSection>
+      <MovingGallery
+        images={transformed.gallery}
+        trailName={transformed.trailName}
+      />
 
       <TrailActionButtons />
     </div>

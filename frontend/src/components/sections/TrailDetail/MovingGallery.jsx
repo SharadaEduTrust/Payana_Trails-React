@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Maximize2, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Maximize2, X, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 
 // A simple particle component to generate floating particles around the gallery
 const Particles = () => {
@@ -121,44 +121,58 @@ const MovingGallery = ({ images = [], trailName = "Trail" }) => {
   };
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl py-8 md:py-12">
-      {/* Dynamic Background Particles */}
-      <Particles />
+    <div className="relative mx-auto w-full max-w-7xl px-4 py-8 md:px-10 md:py-12">
+      <div className="relative overflow-hidden rounded-[2.5rem] border border-[#4A3B2A]/12 bg-[linear-gradient(145deg,#fffdf8_0%,#f9f3e9_50%,#f2e9d8_100%)] p-6 md:p-10 lg:p-12 shadow-[0_20px_50px_rgba(74,59,42,0.1)]">
+        {/* Dynamic Background Particles */}
+        <Particles />
 
-      {/* Grid Layout Container */}
-      <div className="relative z-10 grid grid-cols-1 gap-4 md:h-[600px] md:grid-cols-4 md:grid-rows-2 px-2 md:px-0">
-        {currentImages.map((img, index) => (
-          <motion.div
-            key={index} // Using pure index so layout wrapper stays constant, only content animates
-            className={`group relative h-64 overflow-hidden rounded-2xl bg-[#E8E1D9] border border-[#4A3B2A]/10 shadow-[0_4px_20px_rgba(74,59,42,0.06)] md:h-auto ${gridLayoutStyles[index]} cursor-pointer`}
-            whileHover={{ y: -4, scale: 0.995 }}
-            transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            onClick={() => setSelectedIndex(img.originalIndex)}
-          >
-            <AnimatePresence mode="popLayout">
-              <motion.img
-                key={img.id}
-                src={img.src}
-                alt={`${trailName} gallery ${index + 1}`}
-                initial={{ opacity: 0, scale: 1.1, filter: "blur(6px)" }}
-                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                exit={{ opacity: 0, scale: 0.95, filter: "blur(2px)" }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }} // smooth apple-like ease
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            </AnimatePresence>
+        {/* Header Section */}
+        <div className="relative z-10 mb-10">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#4A3B2A]/10 bg-white/70 px-4 py-2 text-[15px] font-semibold uppercase tracking-[0.28em] text-[#6B513C] backdrop-blur-sm">
+            <Sparkles className="h-4 w-4" />
+            Glimpses of the Trail
+          </div>
 
-            {/* Hover Glassmorphism Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-[#2B2117]/0 opacity-0 transition-all duration-500 group-hover:bg-[#2B2117]/30 group-hover:opacity-100">
-              <div className="translate-y-8 transform rounded-full border border-white/20 bg-white/20 p-4 text-white shadow-xl backdrop-blur-md transition-all duration-500 group-hover:translate-y-0">
-                <Maximize2 size={28} strokeWidth={1.5} />
+          <h2 className="mt-5 font-serif text-[clamp(1.8rem,3.5vw,2.4rem)] leading-[1.1] tracking-tight text-[#2F2319]">
+            This is what happens when you follow the unknown.
+          </h2>
+        </div>
+
+        {/* Grid Layout Container */}
+        <div className="relative z-10 grid grid-cols-1 gap-4 md:h-[600px] md:grid-cols-4 md:grid-rows-2">
+          {currentImages.map((img, index) => (
+            <motion.div
+              key={index} // Using pure index so layout wrapper stays constant, only content animates
+              className={`group relative h-64 overflow-hidden rounded-2xl bg-[#E8E1D9] border border-[#4A3B2A]/10 shadow-[0_4px_20px_rgba(74,59,42,0.06)] md:h-auto ${gridLayoutStyles[index]} cursor-pointer`}
+              whileHover={{ y: -4, scale: 0.995 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              onClick={() => setSelectedIndex(img.originalIndex)}
+            >
+              <AnimatePresence>
+                <motion.img
+                  key={img.id}
+                  src={img.src}
+                  alt={`${trailName} gallery ${index + 1}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1.2, ease: "easeInOut" }}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </AnimatePresence>
+
+              {/* Hover Glassmorphism Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center bg-[#2B2117]/0 opacity-0 transition-all duration-500 group-hover:bg-[#2B2117]/30 group-hover:opacity-100">
+                <div className="translate-y-8 transform rounded-full border border-white/20 bg-white/20 p-4 text-white shadow-xl backdrop-blur-md transition-all duration-500 group-hover:translate-y-0">
+                  <Maximize2 size={28} strokeWidth={1.5} />
+                </div>
               </div>
-            </div>
-            
-            {/* Subtle Gradient Overlay at bottom for depth */}
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-          </motion.div>
-        ))}
+
+              {/* Subtle Gradient Overlay at bottom for depth */}
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {/* Lightbox Modal */}

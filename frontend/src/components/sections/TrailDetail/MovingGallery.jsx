@@ -61,7 +61,7 @@ const MovingGallery = ({ images = [], trailName = "Trail" }) => {
     if (!images || images.length <= 1) return;
     const interval = setInterval(() => {
       setStartIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 4500); // 4.5 sec interval for smoother consumption
+    }, 3500); // 3.5 sec interval for smoother consumption
     return () => clearInterval(interval);
   }, [images]);
 

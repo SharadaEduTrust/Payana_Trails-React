@@ -70,29 +70,57 @@ router.put("/reorder", async (req, res) => {
 });
 
 // POST a new destination
-router.post("/", cpUpload, processImages(destFolderResolver), async (req, res) => {
-  try {
-    const sanitizedName = sanitizeDestinationName(req.body.name);
-    const basePath = `/uploads/Destinations/${sanitizedName}/`;
-
-    const heroImage = req.files && req.files['heroImage'] ? basePath + req.files['heroImage'][0].filename : "";
-    
-    if (!heroImage) {
-      return res.status(400).json({ message: "Hero Image is required." });
+router.post("/", (req, res) => {
+  cpUpload(req, res, function (err) {
+    if (err) {
+      return res.status(400).json({
+        success: false,
+        message: err.message,
+      });
     }
 
-    const destinationData = {
-      name: req.body.name,
-      geography: req.body.geography,
-      heroImage: heroImage
-    };
+    processImages(destFolderResolver)(req, res, async function (err2) {
+      if (err2) {
+        return res.status(500).json({
+          success: false,
+          message: err2.message,
+        });
+      }
 
-    const newDest = new Destination(destinationData);
-    const savedDest = await newDest.save();
-    res.status(201).json({ destination: savedDest, imageStats: req.imageStats || [] });
-  } catch (error) {
-    res.status(400).json({ message: "Failed to create destination", error: error.message });
-  }
+      try {
+        const sanitizedName = sanitizeDestinationName(req.body.name);
+        const basePath = `/uploads/Destinations/${sanitizedName}/`;
+
+        const heroImage =
+          req.files && req.files["heroImage"]
+            ? basePath + req.files["heroImage"][0].filename
+            : "";
+
+        if (!heroImage) {
+          return res.status(400).json({
+            success: false,
+            message: "Hero image is required",
+          });
+        }
+
+        const newDestination = await Destination.create({
+          name: req.body.name,
+          geography: req.body.geography,
+          heroImage,
+        });
+
+        res.status(201).json({
+          success: true,
+          data: newDestination,
+        });
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          message: error.message,
+        });
+      }
+    });
+  });
 });
 
 // PUT (Update) a destination

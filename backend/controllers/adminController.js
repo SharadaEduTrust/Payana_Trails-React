@@ -10,7 +10,14 @@ const generateToken = (id) => {
 // @desc    Auth admin & get token
 // @route   POST /admin/login
 exports.loginAdmin = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body || {};
+
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "Email and password are required",
+    });
+  }
   try {
     const admin = await Admin.findOne({ email });
     if (admin && (await admin.matchPassword(password))) {

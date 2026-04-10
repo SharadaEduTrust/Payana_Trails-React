@@ -59,6 +59,7 @@ const TrailList = ({ trails, loadingTrails, handleEdit, handleDelete, handleReor
                         alt={trail.trailName}
                         className="w-16 h-10 object-cover rounded shadow-sm border border-gray-200"
                         onError={(e) => {
+                          e.target.onerror = null;
                           e.target.src =
                             "https://via.placeholder.com/64x40?text=No+Img";
                         }}

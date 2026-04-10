@@ -159,7 +159,18 @@ export const api = {
         method: "POST",
         body: trailFormData,
       });
-      const data = await response.json();
+      
+      if (response.status === 413) {
+        throw new Error("Files are too large. Please upload smaller images (limit: 1MB on your VPS).");
+      }
+      
+      let data;
+      try {
+        data = await response.json();
+      } catch (err) {
+        throw new Error(`Server error (${response.status}). If uploading images, they might be too large.`);
+      }
+
       if (!response.ok)
         throw new Error(data.message || "Failed to create trail");
       return data;
@@ -174,7 +185,18 @@ export const api = {
         method: "PUT",
         body: trailFormData, // FormData handles Content-Type automatically
       });
-      const data = await response.json();
+
+      if (response.status === 413) {
+        throw new Error("Files are too large. Please upload smaller images (limit: 1MB on your VPS).");
+      }
+      
+      let data;
+      try {
+        data = await response.json();
+      } catch (err) {
+        throw new Error(`Server error (${response.status}). If uploading images, they might be too large.`);
+      }
+
       if (!response.ok)
         throw new Error(data.message || "Failed to update trail");
       return data;

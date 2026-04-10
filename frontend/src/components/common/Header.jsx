@@ -144,6 +144,7 @@ export default function Header() {
                 alt="Payana Trails Logo"
                 className="h-8 w-auto sm:h-10 transition-transform duration-300 group-hover:scale-105"
                 onError={(e) => {
+                  e.currentTarget.onerror = null;
                   e.currentTarget.src =
                     "https://placehold.co/150x70/F3EFE9/4A3B2A?text=Logo";
                 }}

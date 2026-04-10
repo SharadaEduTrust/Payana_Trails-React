@@ -1,0 +1,36 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            set -e
+
+            cd /var/www/payana_trails
+
+            git pull origin main
+
+            cd /var/www/payana_trails/backend
+            npm install
+            pm2 restart payana-backend --update-env
+
+            cd /var/www/payana_trails/frontend
+            npm install
+            npm run build
+
+            nginx -t
+            systemctl reload nginx

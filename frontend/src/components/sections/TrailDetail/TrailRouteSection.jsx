@@ -62,9 +62,7 @@ const parseTrailRoute = (route) => {
     .trim();
 
   const steps = normalizedRoute
-    .split(
-      /\s*>\s*|\s*\|\s*|\s*,\s*|\n+|\s+(?:-|\u2013|\u2014)\s+(?=[A-Z0-9])/,
-    )
+    .split(/\s*>\s*|\s*\|\s*|\s*,\s*|\n+|\s+(?:-|\u2013|\u2014)\s+(?=[A-Z0-9])/)
     .map((step) => step.trim().replace(/^(?:\*|-|\u2022|\u00B7)\s*/, ""))
     .filter(Boolean);
 
@@ -157,7 +155,7 @@ const TrailRouteSection = ({ trail }) => {
           <motion.div variants={itemVariants} className="relative">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#4A3B2A]/10 bg-white/70 px-4 py-2 text-[15px] font-semibold uppercase tracking-[0.28em] text-[#6B513C] backdrop-blur-sm">
               <LuRoute className="h-4 w-4" />
-              Trail Route
+              Trail Highlights & Route Map
             </div>
 
             <h2 className="mt-5 w-full max-w-none overflow-hidden text-ellipsis whitespace-nowrap font-serif text-[clamp(1.75rem,3.2vw,2.75rem)] leading-tight tracking-tight text-[#2F2319]">
@@ -189,7 +187,8 @@ const TrailRouteSection = ({ trail }) => {
                   {routeSteps.length > 0 ? (
                     routeSteps.map((step, index) => {
                       const Icon = scenicIcons[index % scenicIcons.length];
-                      const stepOffset = stepOffsets[index % stepOffsets.length];
+                      const stepOffset =
+                        stepOffsets[index % stepOffsets.length];
                       const stepHighlight = stepHighlights[index];
                       const helperText = stepHighlight?.description;
 
@@ -229,7 +228,8 @@ const TrailRouteSection = ({ trail }) => {
                       variants={itemVariants}
                       className="rounded-[1.35rem] border border-dashed border-[#4A3B2A]/20 bg-white/70 p-5 text-[#5D4837]"
                     >
-                      Route details will appear here once the trail path is added.
+                      Route details will appear here once the trail path is
+                      added.
                     </motion.div>
                   )}
                 </motion.div>

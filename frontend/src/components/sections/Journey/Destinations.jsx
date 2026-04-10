@@ -11,6 +11,66 @@ import {
   buildDestinationListingPath,
   getDestinationGeography,
 } from "../../../constants/destinationGeographies";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, ArrowDown } from "lucide-react";
+
+// --- Animated Button Component ---
+const AnimatedDiscoverBtn = ({ onClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Generate random particles around the button
+  const particles = Array.from({ length: 15 }).map((_, i) => ({
+    id: i,
+    x: (Math.random() - 0.5) * 120, // random x spread
+    y: (Math.random() - 0.5) * 80,  // random y spread
+    scale: Math.random() * 0.6 + 0.4,
+    duration: Math.random() * 0.8 + 0.6,
+  }));
+
+  return (
+    <div
+      className="relative inline-block"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Particle Effects */}
+      <AnimatePresence>
+        {isHovered && particles.map((p) => (
+          <motion.div
+            key={p.id}
+            initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
+            animate={{
+              opacity: [0, 1, 0],
+              x: p.x,
+              y: p.y,
+              scale: p.scale,
+            }}
+            exit={{ opacity: 0, scale: 0 }}
+            transition={{ duration: p.duration, ease: "easeOut" }}
+            className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D4A373] pointer-events-none z-0"
+          />
+        ))}
+      </AnimatePresence>
+
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={onClick}
+        className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-full bg-[#4A3B2A] px-8 py-3.5 font-sans text-base font-semibold text-[#F3EFE9] shadow-[0_4px_20px_rgba(74,59,42,0.25)] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(74,59,42,0.4)] z-10"
+      >
+        {/* Shine hover effect */}
+        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out group-hover:translate-x-full" />
+
+        <span className="relative z-20 flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-[#D4A373] transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+          Discover More Destinations
+          <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-1 text-[#F3EFE9]/80 group-hover:text-[#F3EFE9]" />
+        </span>
+      </motion.button>
+    </div>
+  );
+};
+// -------------------------------
 
 const Destinations = () => {
   const [destinations, setDestinations] = useState([]);
@@ -21,6 +81,7 @@ const Destinations = () => {
   const [trailsError, setTrailsError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(8);
+  const [sortOrder, setSortOrder] = useState("asc"); // State for sorting
   const [searchParams] = useSearchParams();
   const geographyFilter = searchParams.get("geography") || "";
   const destinationFilter = searchParams.get("destination") || "";
@@ -106,6 +167,14 @@ const Destinations = () => {
       || getDestinationGeography(dest) === geographyFilter;
 
     return matchesSearch && matchesGeography;
+  });
+
+  // Sort the filtered destinations
+  const sortedDestinations = [...filteredDestinations].sort((a, b) => {
+    if (!a.name || !b.name) return 0;
+    return sortOrder === "asc"
+      ? a.name.localeCompare(b.name)
+      : b.name.localeCompare(a.name);
   });
 
   const selectedDestination = destinations.find((dest) =>
@@ -257,8 +326,40 @@ const Destinations = () => {
           !selectedDestination &&
           filteredDestinations.length > 0 && (
             <>
+              {/* Sorting Bar */}
+              <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 px-2">
+                <div className="text-[#4A3B2A] text-sm md:text-base font-medium">
+                  Showing {Math.min(visibleCount, sortedDestinations.length)} of {sortedDestinations.length} Destinations
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-[#4A3B2A]/70 uppercase tracking-widest font-semibold">Sort:</span>
+                  <div className="relative bg-white/40 backdrop-blur-sm rounded-full p-1 flex border border-[#4A3B2A]/10 shadow-[0_4px_12px_rgba(74,59,42,0.05)]">
+                    <button
+                      onClick={() => setSortOrder('asc')}
+                      className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase transition-all duration-300 ${
+                        sortOrder === 'asc'
+                          ? 'bg-[#4A3B2A] text-[#F3EFE9] shadow-md'
+                          : 'text-[#4A3B2A]/70 hover:text-[#4A3B2A]'
+                      }`}
+                    >
+                      A - Z
+                    </button>
+                    <button
+                      onClick={() => setSortOrder('desc')}
+                      className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase transition-all duration-300 ${
+                        sortOrder === 'desc'
+                          ? 'bg-[#4A3B2A] text-[#F3EFE9] shadow-md'
+                          : 'text-[#4A3B2A]/70 hover:text-[#4A3B2A]'
+                      }`}
+                    >
+                      Z - A
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 justify-items-center">
-                {filteredDestinations
+                {sortedDestinations
                   .slice(0, visibleCount)
                   .map((dest, index) => (
                     <div
@@ -283,9 +384,9 @@ const Destinations = () => {
               </div>
 
               {/* Load More Button */}
-              {visibleCount < filteredDestinations.length && (
+              {visibleCount < sortedDestinations.length && (
                 <div className="flex justify-center mt-12 md:mt-16">
-                  <BrownBtn text="Load More" onClick={handleLoadMore} />
+                  <AnimatedDiscoverBtn onClick={handleLoadMore} />
                 </div>
               )}
             </>

@@ -134,7 +134,7 @@ const MovingGallery = ({ images = [], trailName = "Trail" }) => {
           </div>
 
           <h2 className="mt-5 font-serif text-[clamp(1.8rem,3.5vw,2.4rem)] leading-[1.1] tracking-tight text-[#2F2319]">
-            This is what happens when you follow the unknown.
+            Moments along the trail that stay with you.
           </h2>
         </div>
 

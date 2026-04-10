@@ -113,22 +113,22 @@ const cardConfigs = {
       "The extras you may want to carry, arrange, or budget for before the journey begins.",
     Icon: LuX,
     cardClassName:
-      "border-white/10 bg-[linear-gradient(160deg,#5D3D2B_0%,#3D2B1F_100%)] shadow-[0_20px_50px_rgba(39,24,17,0.26)]",
-    glowClassName: "bg-[#C68C76]/24",
+      "border-[#4A3B2A]/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,242,233,0.98)_100%)] shadow-[0_18px_42px_rgba(74,59,42,0.12)]",
+    glowClassName: "bg-[#A18160]/35",
     iconWrapClassName:
-      "border-white/10 bg-[#F5E5CF] text-[#5D3D2B] shadow-[0_14px_32px_rgba(0,0,0,0.22)]",
-    eyebrowClassName: "text-[#E5C7AA]",
-    titleClassName: "text-[#FFF4E6]",
-    bodyClassName: "text-[#E8D6C2]",
+      "border-[#4A3B2A]/15 bg-[#4A3B2A] text-[#F8F2E9] shadow-[0_14px_30px_rgba(74,59,42,0.24)]",
+    eyebrowClassName: "text-[#6B513C]",
+    titleClassName: "text-[#2F2319]",
+    bodyClassName: "text-[#5E4938]",
     chipClassName:
-      "border-white/10 bg-white/10 text-[#F2E3D2] shadow-[0_8px_20px_rgba(0,0,0,0.14)]",
+      "border-[#4A3B2A]/12 bg-white/75 text-[#4A3B2A] shadow-[0_8px_18px_rgba(74,59,42,0.08)]",
     itemClassName:
-      "border-[#4A3B2A]/10 bg-[#F3EFE9] text-[#4A3B2A] shadow-[0_14px_28px_rgba(0,0,0,0.08)]",
+      "border-[#4A3B2A]/10 bg-white/78 text-[#2F2319] shadow-[0_12px_28px_rgba(74,59,42,0.08)]",
     itemIconClassName: "bg-[#4A3B2A] text-[#F8F2E9]",
-    itemGlowClassName: "bg-[#C68C76]/15",
-    fadeClassName: "from-[#3D2B1F]",
-    scrollThumbClassName: "[&::-webkit-scrollbar-thumb]:bg-white/15 hover:[&::-webkit-scrollbar-thumb]:bg-white/25",
-    scrollIndicatorClassName: "bg-white/10 text-[#E5C7AA]",
+    itemGlowClassName: "bg-[#A18160]/30",
+    fadeClassName: "from-[#F8F2E9]",
+    scrollThumbClassName: "[&::-webkit-scrollbar-thumb]:bg-[#4A3B2A]/15 hover:[&::-webkit-scrollbar-thumb]:bg-[#4A3B2A]/25",
+    scrollIndicatorClassName: "bg-[#4A3B2A]/5 text-[#6B513C]",
   },
 };
 

@@ -37,8 +37,8 @@ const StoriesMoments = () => {
 
             {/* Text container */}
             <div className="relative mt-4 sm:mt-8 lg:mt-8 mr-6 sm:mr-8 max-w-md lg:max-w-lg text-right">
-              <h2 className="text-white text-[16px] sm:text-[20px] lg:text-[24px] font-sans italic font-semibold leading-relaxed tracking-wide">
-                “Travel isn’t about how many places you see. It’s about the
+              <h2 className="text-white text-[16px] sm:text-[20px] lg:text-[22px] font-sans italic font-semibold leading-relaxed tracking-wide">
+                “Travel isn’t about how many places you see.<br /> It’s about the
                 moments that stay with you.”
               </h2>
             </div>

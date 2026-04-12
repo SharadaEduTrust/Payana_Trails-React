@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, IMAGE_BASE_URL } from "../services/api";
 import HeroSection from "../components/sections/TrailDetail/HeroSection";
@@ -46,23 +47,65 @@ const TrailDetails = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F3EFE9]">
-        <div className="h-14 w-14 animate-spin rounded-full border-4 border-[#4A3B2A]/20 border-t-[#4A3B2A]" />
-      </div>
+      <>
+        <Helmet>
+          <title>Loading… | Payana Trails</title>
+        </Helmet>
+        <div className="flex min-h-screen items-center justify-center bg-[#F3EFE9]">
+          <div className="h-14 w-14 animate-spin rounded-full border-4 border-[#4A3B2A]/20 border-t-[#4A3B2A]" />
+        </div>
+      </>
     );
   }
 
   if (!transformed) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-[#F3EFE9] p-6 text-center">
-        <h1 className="font-sans text-4xl text-[#4A3B2A]">Trail not found</h1>
-        <BrownBtn text="Back to Trails" onClick={() => navigate("/journeys")} />
-      </div>
+      <>
+        <Helmet>
+          <title>Trail Not Found | Payana Trails</title>
+        </Helmet>
+        <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-[#F3EFE9] p-6 text-center">
+          <h1 className="font-sans text-4xl text-[#4A3B2A]">Trail not found</h1>
+          <BrownBtn text="Back to Trails" onClick={() => navigate("/journeys")} />
+        </div>
+      </>
     );
   }
 
+  // Build absolute OG values
+  const SITE_URL = import.meta.env.VITE_SITE_URL || "http://localhost:5173";
+  const ogTitle = `${transformed.trailName} | Payana Trails`;
+  const ogDescription = (transformed.overview || "Discover this amazing trail with Payana Trails.")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 160);
+  const ogImage = transformed.heroImageUrl || `${SITE_URL}/heroBg-desktop.webp`;
+  const ogUrl = `${SITE_URL}/trails/${transformed.slug || slug}`;
+
   return (
-    <div className="bg-[#F3EFE9] pb-20">
+    <>
+      <Helmet>
+        <title>{ogTitle}</title>
+        <meta name="description" content={ogDescription} />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Payana Trails" />
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content={ogUrl} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={ogTitle} />
+        <meta name="twitter:description" content={ogDescription} />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
+
+      <div className="bg-[#F3EFE9] pb-20">
       <HeroSection trail={transformed} />
 
       <ContentSection title="Overview">
@@ -90,7 +133,8 @@ const TrailDetails = () => {
       />
 
       <TrailActionButtons />
-    </div>
+      </div>
+    </>
   );
 };
 

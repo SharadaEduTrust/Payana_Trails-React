@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import Hero from "../components/sections/Home/Hero";
 import ExploreOurTrails from "../components/sections/Home/ExploreOurTrails";
 import SignatureTrails from "../components/sections/Home/SignatureTrails";
@@ -38,6 +39,9 @@ import imgM12 from "../assets/Home/hero/Mobile/12.MountKailas-Tibet-Portrait.jpg
 import ExploreDestination from "../components/sections/Home/ExploreDestination";
 
 const Home = () => {
+  const SITE_URL = import.meta.env.VITE_SITE_URL || "http://localhost:5173";
+  const OG_IMAGE = `${SITE_URL}/heroBg-desktop.webp`;
+
   const heroImages = [
     { desktop: "/heroBg-desktop.webp", mobile: "/heroBg-mobile.jpg" },
     // { desktop: imgD1, mobile: imgM1 },
@@ -54,7 +58,29 @@ const Home = () => {
     { desktop: imgD12, mobile: imgM12 },
   ];
   return (
-    <div>
+    <>
+      <Helmet>
+        <title>Payana Trails | Thoughtfully Designed Journeys</title>
+        <meta name="description" content="Small groups. Deeper experiences. Discover our curated trails around the world." />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Payana Trails" />
+        <meta property="og:title" content="Payana Trails | Thoughtfully Designed Journeys" />
+        <meta property="og:description" content="Small groups. Deeper experiences. Discover our curated trails around the world." />
+        <meta property="og:image" content={OG_IMAGE} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content={SITE_URL} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Payana Trails | Thoughtfully Designed Journeys" />
+        <meta name="twitter:description" content="Small groups. Deeper experiences. Discover our curated trails around the world." />
+        <meta name="twitter:image" content={OG_IMAGE} />
+      </Helmet>
+
+      <div>
       <Hero images={heroImages} />
       <ExploreOurTrails />
       {/* <SignatureTrails /> */}
@@ -63,7 +89,8 @@ const Home = () => {
       <StoriesMoments />
       <ClosingInvitation />
       <ShareExperience />
-    </div>
+      </div>
+    </>
   );
 };
 

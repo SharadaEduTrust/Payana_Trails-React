@@ -3,33 +3,51 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, FileText, Sparkles } from "lucide-react";
 
-const TrailActionButtons = () => {
+const TrailActionButtons = ({ trailSlug, trailState, hasItinerary = false }) => {
   const navigate = useNavigate();
   const [isHoveringEnquire, setIsHoveringEnquire] = useState(false);
 
-  const handleEnquireClick = (e) => {
+  const handleEnquireClick = () => {
     // Slight delay before navigation for effect
     setTimeout(() => {
       navigate("/connect");
     }, 400);
   };
 
+  const handleItineraryClick = () => {
+    if (!trailSlug || !hasItinerary) return;
+
+    navigate(`/trails/${trailSlug}/itinerary`, {
+      state: trailState ? { trail: trailState } : undefined,
+    });
+  };
+
   return (
     <section className="relative mx-auto mt-12 mb-8 flex max-w-7xl flex-wrap justify-center gap-6 px-6 md:px-10">
-      
       {/* View Itinerary Button */}
       <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-full border border-[#4A3B2A]/20 bg-[#F3EFE9] px-8 py-4 font-sans text-base font-semibold text-[#4A3B2A] transition-all duration-300 hover:border-[#4A3B2A]/40 hover:bg-white hover:shadow-lg"
+        whileHover={hasItinerary ? { scale: 1.02 } : undefined}
+        whileTap={hasItinerary ? { scale: 0.98 } : undefined}
+        onClick={handleItineraryClick}
+        disabled={!hasItinerary}
+        className={`group relative flex items-center justify-center gap-2 overflow-hidden rounded-full border px-8 py-4 font-sans text-base font-semibold transition-all duration-300 ${
+          hasItinerary
+            ? "border-[#4A3B2A]/20 bg-[#F3EFE9] text-[#4A3B2A] hover:border-[#4A3B2A]/40 hover:bg-white hover:shadow-lg"
+            : "cursor-not-allowed border-[#4A3B2A]/10 bg-[#E9E0D4] text-[#4A3B2A]/45"
+        }`}
       >
         <span className="relative z-10 flex items-center gap-2">
-          <FileText className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5" />
-          View Itinerary
+          <FileText
+            className={`h-5 w-5 transition-transform duration-300 ${
+              hasItinerary ? "group-hover:-translate-y-0.5" : ""
+            }`}
+          />
+          {hasItinerary ? "View Itinerary" : "Itinerary Coming Soon"}
         </span>
         {/* Subtle hover background effect */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-[#4A3B2A]/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        {hasItinerary && (
+          <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-[#4A3B2A]/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        )}
       </motion.button>
 
       {/* Enquire Now Button */}

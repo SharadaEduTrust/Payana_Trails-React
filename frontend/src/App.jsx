@@ -9,6 +9,7 @@ import Connect from "./pages/Connect";
 import NotFound from "./pages/NotFound";
 
 import TrailDetails from "./pages/TrailDetails";
+import TrailItinerary from "./pages/TrailItinerary";
 
 // Import standard journey sections
 import Wildlife from "./components/sections/Journey/Wildlife";
@@ -52,6 +53,10 @@ const App = () => {
                 <Route path="/stories" element={<Stories />} />
                 <Route path="/connect" element={<Connect />} />
                 <Route path="/trails/:slug" element={<TrailDetails />} />
+                <Route
+                  path="/trails/:slug/itinerary"
+                  element={<TrailItinerary />}
+                />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
-import { api, IMAGE_BASE_URL } from "../services/api";
+import { api } from "../services/api";
 import HeroSection from "../components/sections/TrailDetail/HeroSection";
 import ContentSection from "../components/sections/TrailDetail/ContentSection";
 import JourneySnapshot from "../components/sections/TrailDetail/JourneySnapshot";
@@ -10,6 +10,7 @@ import TrailRouteSection from "../components/sections/TrailDetail/TrailRouteSect
 import MovingGallery from "../components/sections/TrailDetail/MovingGallery";
 import BrownBtn from "../components/common/buttons/BrownBtn";
 import TrailActionButtons from "../components/sections/TrailDetail/TrailActionButtons";
+import { transformTrailMedia } from "../utils/trailPresentation";
 
 const TrailDetails = () => {
   const { slug } = useParams();
@@ -32,17 +33,7 @@ const TrailDetails = () => {
   }, [slug]);
 
   const transformed = useMemo(() => {
-    if (!trail) return null;
-    return {
-      ...trail,
-      heroImageUrl: trail.heroImage
-        ? `${IMAGE_BASE_URL}${trail.heroImage}`
-        : "",
-      routeMapUrl: trail.routeMap ? `${IMAGE_BASE_URL}${trail.routeMap}` : "",
-      gallery: (trail.trailImages || []).map(
-        (img) => `${IMAGE_BASE_URL}${img}`,
-      ),
-    };
+    return transformTrailMedia(trail);
   }, [trail]);
 
   if (loading) {
@@ -132,7 +123,13 @@ const TrailDetails = () => {
         trailName={transformed.trailName}
       />
 
-      <TrailActionButtons />
+      <TrailActionButtons
+        trailSlug={transformed.slug || slug}
+        trailState={trail}
+        hasItinerary={
+          Array.isArray(transformed.itinerary) && transformed.itinerary.length > 0
+        }
+      />
       </div>
     </>
   );

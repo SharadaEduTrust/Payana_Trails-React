@@ -6,6 +6,7 @@ import Journeys from "./pages/Journeys";
 import PayanaWay from "./pages/PayanaWay";
 import Stories from "./pages/Stories";
 import Connect from "./pages/Connect";
+import NotFound from "./pages/NotFound";
 
 import TrailDetails from "./pages/TrailDetails";
 
@@ -51,6 +52,7 @@ const App = () => {
                 <Route path="/stories" element={<Stories />} />
                 <Route path="/connect" element={<Connect />} />
                 <Route path="/trails/:slug" element={<TrailDetails />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
           }

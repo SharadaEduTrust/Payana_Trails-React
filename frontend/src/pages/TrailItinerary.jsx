@@ -69,7 +69,7 @@ const DayCard = ({ day, dayNumber, isOpen, onToggle }) => {
                 )}
                 {day.meals && (
                   <span className="rounded-full bg-[#4A3B2A]/6 px-3 py-1 text-xs font-medium text-[#5A4738]">
-                    Meals noted
+                    Meals Included
                   </span>
                 )}
               </div>
@@ -114,7 +114,7 @@ const DayCard = ({ day, dayNumber, isOpen, onToggle }) => {
                     <Compass className="h-4 w-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8B6B50]">
+                    <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
                       Day highlights
                     </p>
                     <p className="text-sm text-[#8B6B50]">
@@ -156,7 +156,7 @@ const DayCard = ({ day, dayNumber, isOpen, onToggle }) => {
                         <Home className="h-4 w-4" />
                       </div>
                       <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8B6B50]">
+                        <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
                           Accommodation
                         </p>
                         <p className="text-sm text-[#8B6B50]">
@@ -177,7 +177,7 @@ const DayCard = ({ day, dayNumber, isOpen, onToggle }) => {
                         <Coffee className="h-4 w-4" />
                       </div>
                       <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8B6B50]">
+                        <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
                           Meals included
                         </p>
                         <p className="text-sm text-[#8B6B50]">
@@ -217,18 +217,22 @@ const OptionalExperiencesSection = ({ lines }) => {
   if (!filled.length) return null;
 
   return (
-    <div id="itinerary-optional" className="w-full rounded-[28px] border border-[#E5D7C5]/80 bg-[#FAF7F2] p-6 md:p-8 shadow-[0_12px_30px_rgba(74,59,42,0.04)] scroll-mt-24">
+    <div
+      id="itinerary-optional"
+      className="w-full rounded-[28px] border border-[#E5D7C5]/80 bg-[#FAF7F2] p-6 md:p-8 shadow-[0_12px_30px_rgba(74,59,42,0.04)] scroll-mt-24"
+    >
       {/* Section label */}
       <div className="mb-6 flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E5D7C5] bg-[#FDFBF7] text-[#8B6B50]">
           <Sparkles className="h-4 w-4" />
         </div>
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8B6B50]">
+          <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
             Optional experiences
           </p>
           <p className="text-sm text-[#8B6B50]">
-            Key experiences, route insights, and meaningful stops along the way.
+            Additional experiences along the way - some included, others
+            available to add.
           </p>
         </div>
       </div>
@@ -284,7 +288,7 @@ const FlightsSection = ({ flights }) => {
           <Plane className="h-4 w-4" />
         </div>
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8B6B50]">
+          <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
             Flights
           </p>
           <p className="text-sm text-[#8B6B50]">
@@ -304,7 +308,7 @@ const FlightsSection = ({ flights }) => {
                 <PlaneLanding className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8B6B50]">
+                <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
                   Domestic flights
                 </p>
                 {domesticIntro?.trim() && (
@@ -344,7 +348,7 @@ const FlightsSection = ({ flights }) => {
                 <PlaneTakeoff className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8B6B50]">
+                <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
                   International flights
                 </p>
                 {internationalIntro?.trim() && (

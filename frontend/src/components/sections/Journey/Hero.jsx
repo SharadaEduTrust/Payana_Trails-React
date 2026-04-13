@@ -49,13 +49,13 @@ export default function Hero({ images = defaultImages }) {
   };
 
   return (
-    <div className="relative w-full h-screen min-h-[750px] bg-[#F3EFE9] flex items-center overflow-hidden font-sans">
+    <div className="relative w-full h-screen min-h-[750px] flex items-center overflow-hidden font-sans bg-[#110C08]">
       {/* Background Image Slider */}
       <motion.div
         initial={{ opacity: 0, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute right-0 top-0 w-full md:w-[75%] lg:w-[65%] h-full z-0"
+        className="absolute inset-0 w-full h-full z-0"
       >
         {images.map((img, index) => (
           <div
@@ -64,82 +64,104 @@ export default function Hero({ images = defaultImages }) {
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
           >
-            {/* Mobile Image (Visible on small screens, hidden on sm and up) */}
             <div
               className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat sm:hidden"
               style={{ backgroundImage: `url(${img.mobile})` }}
             />
-
-            {/* Desktop Image (Hidden on small screens, visible on sm and up) */}
             <div
               className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hidden sm:block"
               style={{ backgroundImage: `url(${img.desktop})` }}
             />
           </div>
         ))}
-        {/* Gradient Overlay to blend images into the background color */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F3EFE9] via-[#F3EFE9]/40 to-transparent md:w-1/2 z-10" />
+
+        {/* Immersive Dark Overlays - Lightened for better image visibility */}
+        <div className="absolute inset-0 bg-black/5 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/5 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/5 to-transparent hidden md:block z-10" />
+      </motion.div>
+
+      {/* Floating Decorative Elements */}
+      <motion.div
+        animate={{
+          y: [0, -15, 0],
+          rotate: [0, 5, 0],
+          opacity: [0.08, 0.15, 0.08],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute left-[8%] top-[18%] z-10 text-white"
+      >
+        <Compass className="h-32 w-32 md:h-48 md:w-48" strokeWidth={0.5} />
+      </motion.div>
+
+      <motion.div
+        animate={{
+          y: [0, 20, 0],
+          rotate: [0, -8, 0],
+          opacity: [0.08, 0.15, 0.08],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute bottom-[15%] right-[10%] z-10 text-white"
+      >
+        <Map className="h-36 w-36 md:h-52 md:w-52" strokeWidth={0.5} />
       </motion.div>
 
       {/* Main Content Wrapper */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto flex items-center px-4 sm:px-8 md:px-12 lg:px-16">
-        {/* Hero Card */}
+      <div className="relative z-30 w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 pt-20">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="relative bg-[#F3EFE9] rounded-[2rem] p-8 md:p-12 w-full max-w-[420px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden"
+          className="max-w-3xl"
         >
-          {/* Top Right Decorative Elements */}
-          <div className="absolute top-8 right-8 flex flex-col items-end text-[#4A3B2A] opacity-60">
-            <Compass strokeWidth={1} size={28} />
-            <div className="flex items-center mt-2 -mr-3 gap-1">
-              <Minus strokeWidth={1} className="w-4 h-4" />
-              <Minus strokeWidth={1} className="w-4 h-4" />
-            </div>
-          </div>
+          {/* Top Label */}
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-4 mb-6"
+          >
+            <div className="w-10 h-[1px] bg-[#B89474]" />
+            <p className="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.35em] text-[#E5D7C5]">
+              Explore Our World
+            </p>
+          </motion.div>
 
-          {/* Bottom Right Decorative Elements */}
-          <div className="absolute bottom-8 right-8 text-[#4A3B2A] opacity-60">
-            <Map strokeWidth={1} size={32} />
-            <div className="absolute -bottom-16 -left-20 w-32 h-32 border-[0.5px] border-[#4A3B2A]/20 rounded-full" />
-          </div>
+          {/* Main Title - Reduced Size */}
+          <motion.h1
+            variants={itemVariants}
+            className="text-[2rem] sm:text-[2.75rem] md:text-[3.5rem] lg:text-[3.75rem] font-semibold leading-[1.1] font-serif text-[#FDFBF7] mb-6 drop-shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
+          >
+            JOURNEYS THAT STAY,
+            <br />
+            <span className="text-[#D4A373]">LONG AFTER</span> YOU RETURN
+          </motion.h1>
 
-          {/* Text Content */}
-          <div className="relative z-20 text-center md:text-left">
-            <motion.h1
-              variants={itemVariants}
-              className="text-[1.5rem] md:text-2xl font-semibold leading-[1.1] font-serif text-[#4A3B2A] mb-6"
-            >
-              JOURNEYS THAT STAY,
-              <br />
-              LONG AFTER YOU RETURN
-            </motion.h1>
+          {/* Description - Reduced Size */}
+          <motion.p
+            variants={itemVariants}
+            className="text-[#F3EFE9] text-base md:text-lg lg:text-xl leading-relaxed mb-10 max-w-xl font-light drop-shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
+          >
+            Trails designed for those who value depth over distance – shaped by
+            stories, places and experiences that stay with you.
+          </motion.p>
 
-            <motion.p
-              variants={itemVariants}
-              className="text-[#4A3B2A] text-[18px] leading-relaxed mb-10 md:pr-4 font-light relative"
-            >
-              Trails designed for those who value depth over distance – shaped
-              by stories, places and experiences that stay with you.
-              <span className="inline-flex items-center mx-1 align-middle opacity-80">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#B89474] mix-blend-multiply relative z-10" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#4A3B2A] -ml-1.5 mix-blend-multiply" />
-              </span>
-            </motion.p>
-
-            <motion.div
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-block"
-            >
-              <BrownBtn
-                text="EXPLORE YOUR JOURNEY"
-                className="!px-7 !py-3.5 !rounded !text-[13px] !tracking-[0.15em] !font-medium"
-              />
-            </motion.div>
-          </div>
+          {/* Button CTA */}
+          <motion.div
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block"
+          >
+            <BrownBtn
+              text="EXPLORE YOUR JOURNEY"
+              onClick={() => {
+                const section = document.getElementById("our-trails");
+                if (section) {
+                  section.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              className="!px-9 !py-4.5 !rounded-full !text-[12px] !tracking-[0.2em] !font-bold transition-all duration-300 shadow-2xl hover:shadow-[#D4A373]/20 bg-[#694924] hover:bg-[#7d502a] text-white"
+            />
+          </motion.div>
         </motion.div>
       </div>
     </div>

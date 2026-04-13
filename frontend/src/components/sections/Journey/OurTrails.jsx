@@ -17,8 +17,7 @@ const trailsData = [
   {
     id: 2,
     title: "Heritage Trails",
-    description:
-      "Journeys through sites of exceptional cultural significance.",
+    description: "Journeys through sites of exceptional cultural significance.",
     icon: Heritage_Icon,
     path: "/journeys/heritage",
   },
@@ -53,7 +52,10 @@ const cardVariants = {
 
 export default function OurTrails() {
   return (
-    <section className="relative overflow-hidden bg-[#F3EFE9] py-20 md:py-28">
+    <section
+      id="our-trails"
+      className="relative overflow-hidden bg-[#F3EFE9] py-20 md:py-28"
+    >
       <div className="absolute inset-x-0 inset-y-6 md:inset-y-10 mx-auto w-[96%] max-w-[84rem] rounded-[48px] bg-[linear-gradient(135deg,rgba(238,228,213,0.85)_0%,rgba(247,242,234,0.4)_55%,rgba(223,207,187,0.55)_100%)]"></div>
       <div className="absolute top-10 left-[8%] h-48 w-48 rounded-full bg-[#D7C3AA]/30 blur-3xl"></div>
       <div className="absolute right-[6%] bottom-24 h-56 w-56 rounded-full bg-[#4A3B2A]/8 blur-3xl"></div>
@@ -100,42 +102,42 @@ export default function OurTrails() {
             <motion.div key={trail.id} variants={cardVariants}>
               <Link
                 to={trail.path}
-                className="group relative flex h-full flex-col items-center overflow-hidden rounded-[32px] border border-[#4A3B2A]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(246,239,230,0.92)_100%)] px-8 py-10 text-center shadow-[0_20px_50px_rgba(74,59,42,0.08)] transition-all duration-300 hover:-translate-y-2 hover:border-[#4A3B2A]/22 hover:shadow-[0_28px_60px_rgba(74,59,42,0.14)]"
+                className="group relative flex aspect-square flex-col items-center overflow-hidden rounded-[32px] border border-[#4A3B2A]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(246,239,230,0.92)_100%)] p-8 text-center shadow-[0_20px_50px_rgba(74,59,42,0.08)] transition-all duration-300 hover:-translate-y-2 hover:border-[#4A3B2A]/22 hover:shadow-[0_28px_60px_rgba(74,59,42,0.14)]"
               >
                 <div className="absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(74,59,42,0.25),transparent)]"></div>
 
-                <div className="relative mb-8 flex h-[8.5rem] w-[8.5rem] items-center justify-center rounded-[30px] bg-[linear-gradient(145deg,#fff8ef_0%,#eadcc9_52%,#d9c1a1_100%)] shadow-[inset_0_2px_12px_rgba(255,255,255,0.75),0_16px_28px_rgba(74,59,42,0.12)] transition-transform duration-300 group-hover:scale-105 md:h-40 md:w-40">
-                  <div className="flex h-[6.5rem] w-[6.5rem] items-center justify-center rounded-[24px] bg-white/50 md:h-32 md:w-32">
-                    <img
-                      src={trail.icon}
-                      alt={trail.title}
-                      className="h-[5.5rem] w-[5.5rem] object-contain md:h-28 md:w-28 rounded-2xl"
-                    />
+                <div className="mb-auto flex w-full flex-col items-center">
+                  <div className="relative mb-6 flex h-24 w-24 items-center justify-center rounded-[22px] bg-[linear-gradient(145deg,#fff8ef_0%,#eadcc9_52%,#d9c1a1_100%)] shadow-[inset_0_2px_12px_rgba(255,255,255,0.75),0_12px_24px_rgba(74,59,42,0.08)] transition-transform duration-300 group-hover:scale-105 md:h-28 md:w-28">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-[16px] bg-white/50 md:h-22 md:w-22">
+                      <img
+                        src={trail.icon}
+                        alt={trail.title}
+                        className="h-12 w-12 object-contain md:h-14 md:w-14 rounded-xl"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex flex-1 flex-col items-center">
-                  <h3 className="mb-4 max-w-[16rem] text-2xl font-bold leading-tight text-[#4A3B2A] md:text-[28px]">
+                  <h3 className="max-w-[14rem] text-xl font-bold leading-tight text-[#4A3B2A] md:text-2xl">
                     {trail.title}
                   </h3>
+                </div>
 
-                  <div className="mt-auto pt-8">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-[#4A3B2A]/12 bg-white/75 px-4 py-2 text-sm font-semibold text-[#4A3B2A] shadow-sm transition-all duration-300 group-hover:border-[#4A3B2A]/22 group-hover:bg-[#4A3B2A] group-hover:text-[#F3EFE9]">
-                      Explore Trail
-                      <svg
-                        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 7l5 5m0 0l-5 5m5-5H6"
-                        />
-                      </svg>
-                    </div>
+                <div className="mt-8">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[#4A3B2A]/12 bg-white/75 px-4 py-1.5 text-md font-semibold text-[#4A3B2A] shadow-sm transition-all duration-300 group-hover:border-[#4A3B2A]/22 group-hover:bg-[#4A3B2A] group-hover:text-[#F3EFE9]">
+                    Explore Trails
+                    <svg
+                      className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
                   </div>
                 </div>
               </Link>

@@ -735,7 +735,7 @@ const TrailItinerary = () => {
           <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)] xl:gap-10">
             <aside className="h-max lg:sticky lg:top-24">
               <div className="rounded-[32px] border border-[#E5D7C5] bg-[#FCF8F2] p-6 shadow-[0_18px_40px_rgba(74,59,42,0.05)]">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8B6B50]">
+                <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
                   Journey notes
                 </p>
 
@@ -776,7 +776,7 @@ const TrailItinerary = () => {
                 </div>
 
                 <div className="mt-8">
-                  <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8B6B50]">
+                  <p className="mb-3 text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
                     Browse the days
                   </p>
 
@@ -878,7 +878,7 @@ const TrailItinerary = () => {
               <div className="rounded-[32px] border border-[#E5D7C5] bg-white p-6 shadow-[0_18px_40px_rgba(74,59,42,0.05)] md:p-8">
                 <div className="grid gap-5 md:grid-cols-[1.1fr_0.9fr] md:items-end">
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8B6B50]">
+                    <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
                       Detailed itinerary
                     </p>
                     <h2 className="mt-3 font-serif text-3xl leading-tight text-[#4A3B2A] md:text-4xl">

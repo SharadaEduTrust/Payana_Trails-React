@@ -192,7 +192,7 @@ export default function Header() {
 
                                     {/* Secondary Dropdown Container */}
                                     <div className="absolute left-full top-0 hidden group-hover/sub:block w-[300px] pl-2">
-                                      <div className="bg-[#F3EFE9] rounded-2xl shadow-xl border border-[#4A3B2A]/10 p-2 flex flex-col gap-1 max-h-[240px] overflow-y-auto custom-scrollbar pb-10">
+                                      <div className="bg-[#F3EFE9] rounded-2xl shadow-xl border border-[#4A3B2A]/10 p-2 flex flex-col gap-1 max-h-[240px] overflow-y-auto custom-scrollbar">
                                         {sub.submenu.map((sub2, s2Idx) => (
                                           <div key={s2Idx}>
                                             {sub2.submenu ? (
@@ -206,7 +206,7 @@ export default function Header() {
                                                   <FiChevronDown className="w-4 h-4 transition-transform group-hover/sub2:rotate-180" />
                                                 </Link>
 
-                                                <div className="hidden group-hover/sub2:block mt-1 mb-2 pr-2">
+                                                <div className="hidden group-hover/sub2:block mt-1 pr-2">
                                                   <div className="bg-[#4A3B2A]/5 rounded-xl p-1 flex flex-col gap-0.5">
                                                     {sub2.submenu.map(
                                                       (sub3, s3Idx) => (

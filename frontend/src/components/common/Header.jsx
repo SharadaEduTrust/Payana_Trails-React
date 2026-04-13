@@ -15,7 +15,9 @@ import { FaWhatsapp } from "react-icons/fa";
 const buildDestinationsSubmenu = (destinations) =>
   DESTINATION_GEOGRAPHIES.map((geography) => {
     const countries = destinations
-      .filter((destination) => getDestinationGeography(destination) === geography)
+      .filter(
+        (destination) => getDestinationGeography(destination) === geography,
+      )
       .map((destination) => ({
         name: destination.name,
         path: buildDestinationListingPath({
@@ -189,30 +191,32 @@ export default function Header() {
                                     </Link>
 
                                     {/* Secondary Dropdown Container */}
-                                    <div className="absolute left-full top-0 hidden group-hover/sub:block w-[260px] pl-2">
-                                      <div className="bg-[#F3EFE9] rounded-2xl shadow-xl border border-[#4A3B2A]/10 p-2 flex flex-col gap-1">
+                                    <div className="absolute left-full top-0 hidden group-hover/sub:block w-[300px] pl-2">
+                                      <div className="bg-[#F3EFE9] rounded-2xl shadow-xl border border-[#4A3B2A]/10 p-2 flex flex-col gap-1 max-h-[240px] overflow-y-auto custom-scrollbar pb-10">
                                         {sub.submenu.map((sub2, s2Idx) => (
                                           <div key={s2Idx}>
                                             {sub2.submenu ? (
                                               <div className="relative group/sub2">
                                                 <Link
                                                   to={sub2.path}
-                                                  className="flex items-center justify-between px-4 py-2 hover:bg-[#E3D5C4] rounded-xl transition-colors"
+                                                  className="flex items-center justify-between px-4 py-2.5 hover:bg-[#E3D5C4] rounded-xl transition-colors"
                                                   onClick={handleNavClick}
                                                 >
                                                   {sub2.name}
-                                                  <FiChevronRight className="w-4 h-4 transition-transform" />
+                                                  <FiChevronDown className="w-4 h-4 transition-transform group-hover/sub2:rotate-180" />
                                                 </Link>
 
-                                                <div className="absolute left-full top-0 hidden group-hover/sub2:block w-[220px] pl-2">
-                                                  <div className="bg-[#F3EFE9] rounded-2xl shadow-xl border border-[#4A3B2A]/10 p-2 flex flex-col gap-1">
+                                                <div className="hidden group-hover/sub2:block mt-1 mb-2 pr-2">
+                                                  <div className="bg-[#4A3B2A]/5 rounded-xl p-1 flex flex-col gap-0.5">
                                                     {sub2.submenu.map(
                                                       (sub3, s3Idx) => (
                                                         <Link
                                                           key={s3Idx}
                                                           to={sub3.path}
-                                                          className="px-4 py-2 hover:bg-[#E3D5C4] rounded-xl transition-colors"
-                                                          onClick={handleNavClick}
+                                                          className="px-4 py-1.5 hover:bg-[#E3D5C4] rounded-lg text-[13.5px] opacity-80 hover:opacity-100 transition-all font-medium"
+                                                          onClick={
+                                                            handleNavClick
+                                                          }
                                                         >
                                                           {sub3.name}
                                                         </Link>

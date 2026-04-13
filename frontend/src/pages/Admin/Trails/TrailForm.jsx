@@ -145,6 +145,19 @@ const TrailForm = ({
               />
             </div>
 
+            <div className="md:col-span-2">
+              <label className="block text-xs font-semibold text-gray-600 mb-1">
+                Pricing (Optional - e.g. Starting from ₹1,20,000)
+              </label>
+              <input
+                type="text"
+                name="pricing"
+                value={formData.pricing}
+                onChange={handleChange}
+                className={inputClasses}
+              />
+            </div>
+
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">
                 Duration

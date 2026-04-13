@@ -45,6 +45,9 @@ const trailSchema = new mongoose.Schema(
       type: String,
       required: function() { return this.status === 'published'; },
     },
+    pricing: {
+      type: String,
+    },
     duration: {
       type: String,
       required: function() { return this.status === 'published'; },

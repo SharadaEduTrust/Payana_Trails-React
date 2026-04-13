@@ -7,6 +7,7 @@ import {
   LuSun,
   LuFileText,
   LuMap,
+  LuTag,
 } from "react-icons/lu";
 
 const containerVariants = {
@@ -28,7 +29,7 @@ const itemVariants = {
 
 const JourneySnapshot = ({ trail }) => {
   const snapshotItems = useMemo(() => {
-    return [
+    const items = [
       {
         icon: LuMapPin,
         label: "Destination",
@@ -55,6 +56,16 @@ const JourneySnapshot = ({ trail }) => {
         value: trail.visa || "Check requirements",
       },
     ];
+
+    if (trail.pricing) {
+      items.push({
+        icon: LuTag,
+        label: "Pricing",
+        value: trail.pricing,
+      });
+    }
+
+    return items;
   }, [trail]);
 
   // Transform trail route into visual nodes/steps

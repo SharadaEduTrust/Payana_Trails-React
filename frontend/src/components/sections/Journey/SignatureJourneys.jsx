@@ -137,6 +137,7 @@ const SignatureJourneys = () => {
                         : null
                     }
                     trailSlug={journey.slug}
+                    pricing={journey.pricing}
                   />
                 </div>
               ))}

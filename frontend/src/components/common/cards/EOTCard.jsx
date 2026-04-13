@@ -12,6 +12,7 @@ const EOTCard = ({
   trail = "Siem Reap - Ho Chi Minh City - Da Nang - Hanoi",
   trailType = "",
   trailSlug,
+  pricing,
 }) => {
   const cardContent = (
     <div className="group relative overflow-hidden w-full h-full max-w-[400px] p-4 bg-linear-to-bl from-[#CDBB9E] to-[#E3D5C4] border-[6px] border-[#5C4033] outline-1 outline-[#3A281F] ring-2 ring-inset ring-[#8B6A55]/30 rounded-[2.2rem] shadow-[0_10px_30px_rgba(92,64,51,0.2),inset_0_4px_15px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(92,64,51,0.3)] font-sans flex flex-col">
@@ -21,7 +22,7 @@ const EOTCard = ({
       <div className="absolute -bottom-10 right-10 w-48 h-48 bg-[#FAF6F0]/40 rounded-full blur-2xl pointer-events-none z-0"></div>
 
       {/* Image Section */}
-      <div className="relative z-10 w-full h-[260px] shrink-0 rounded-[1.8rem] overflow-hidden mb-5 shadow-inner">
+      <div className="relative z-10 w-full h-[260px] shrink-0 rounded-[1.8rem] overflow-hidden mb-4 shadow-inner">
         <img
           src={
             imgSrc ||
@@ -55,26 +56,37 @@ const EOTCard = ({
       </div>
 
       {/* Content Section */}
-      <div className="relative z-10 px-2 pb-1 flex-1 flex flex-col gap-4">
+      <div className="relative z-10 px-2 pb-1 flex-1 flex flex-col gap-3">
         {/* Title, Separator Line & Description Group */}
-        <div className="flex flex-col items-center w-full flex-1">
+        <div className="flex flex-col items-center w-full">
           {/* Title */}
-          <div className="min-h-[3.25rem] flex items-center justify-center w-full">
+          <div className="min-h-[2.8rem] flex items-center justify-center w-full">
             <h3 className="text-[21px] font-bold text-[#4A3B2A] text-center leading-tight line-clamp-2">
               {title}
             </h3>
           </div>
 
           {/* Separator Line */}
-          <hr className="w-[60%] border-[#4A3B2A]/20 my-2.5" />
+          <hr className="w-[60%] border-[#4A3B2A]/20 my-1.5" />
 
           {/* 2) Description (Sub-Heading) */}
-          <div className="min-h-[3rem] flex items-center justify-center w-full">
+          <div className="min-h-[2.6rem] flex items-center justify-center w-full">
             <p className="text-[#4A3B2A]/80 text-[16px] text-center font-medium line-clamp-2 w-full px-2">
               {description}
             </p>
           </div>
         </div>
+
+        {/* Pricing centered in available space */}
+        {pricing ? (
+          <div className="flex-1 flex items-center justify-center w-full py-1">
+            <span className="text-[#4A3B2A] text-[15px] font-bold bg-[#4A3B2A]/5 px-3 py-1 rounded-full border border-[#4A3B2A]/10 shadow-sm">
+              {pricing}
+            </span>
+          </div>
+        ) : (
+          <div className="flex-1" />
+        )}
 
         {/* Info Row: Location (Left) and Duration (Right) */}
         <div className="flex justify-between items-center w-full text-[#4A3B2A] mt-auto gap-2">

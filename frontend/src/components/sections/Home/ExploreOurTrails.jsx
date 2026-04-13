@@ -38,6 +38,7 @@ const ExploreOurTrails = () => {
             trail: trail.trailRoute,
             trailType: trail.trailType || "",
             slug: trail.slug,
+            pricing: trail.pricing,
             // Assuming the hero image is returned as a relative path
             imgSrc: trail.heroImage
               ? `${IMAGE_BASE_URL}${trail.heroImage}`
@@ -151,6 +152,7 @@ const ExploreOurTrails = () => {
                   trailType={service.trailType}
                   imgSrc={service.imgSrc}
                   trailSlug={service.slug}
+                  pricing={service.pricing}
                 />
               ))
             ) : (

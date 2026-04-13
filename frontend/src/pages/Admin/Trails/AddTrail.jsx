@@ -84,6 +84,7 @@ const AddTrail = () => {
     highlights: [{ title: "", description: "" }],
     whatsIncluded: "",
     whatsNotIncluded: "",
+    pricing: "",
     status: "draft",
   };
 

@@ -4,6 +4,16 @@ export const DESTINATION_GEOGRAPHIES = [
   "East Asia",
   "West Asia",
   "Africa",
+  "Central Asia",
+  "Western Europe",
+  "Mediterranean",
+  "Scandinavia",
+  "Eastern Europe",
+  "North America",
+  "Latin America",
+  "Caribbean",
+  "Australia & New Zealand",
+  "Indian Ocean Islands",
 ];
 
 const LEGACY_DESTINATION_GEOGRAPHY_BY_NAME = {

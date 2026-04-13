@@ -316,6 +316,7 @@ const Destinations = () => {
                           : null
                       }
                       trailSlug={trail.slug}
+                      pricing={trail.pricing}
                     />
                   ))}
                 </div>

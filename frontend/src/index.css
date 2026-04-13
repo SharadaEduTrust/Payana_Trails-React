@@ -8,6 +8,22 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Custom Scrollbar for Dropdowns */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #4A3B2A;
+    border-radius: 10px;
+  }
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #4A3B2A transparent;
+  }
 }
 
 @keyframes marquee {

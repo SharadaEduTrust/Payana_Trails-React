@@ -7,7 +7,10 @@ import {
   LuSparkles,
   LuStar,
   LuX,
+  LuArrowRight,
+  LuFileText,
 } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -283,9 +286,29 @@ const InclusionCard = ({ type, items }) => {
 const TrailInclusionsSection = ({
   includedItems = [],
   excludedItems = [],
+  trailSlug,
+  trailState,
+  hasItinerary = false,
 }) => {
+  const navigate = useNavigate();
+  const [isHoveringEnquire, setIsHoveringEnquire] = React.useState(false);
+  const [isHoveringItinerary, setIsHoveringItinerary] = React.useState(false);
+
   const safeIncludedItems = sanitizeItems(includedItems);
   const safeExcludedItems = sanitizeItems(excludedItems);
+
+  const handleEnquireClick = () => {
+    setTimeout(() => {
+      navigate("/connect");
+    }, 400);
+  };
+
+  const handleItineraryClick = () => {
+    if (!trailSlug || !hasItinerary) return;
+    navigate(`/trails/${trailSlug}/itinerary`, {
+      state: trailState ? { trail: trailState } : undefined,
+    });
+  };
 
   return (
     <section className="mx-auto w-full max-w-7xl px-6 py-8 md:px-10">
@@ -324,19 +347,16 @@ const TrailInclusionsSection = ({
         <div className="relative p-6 md:p-8 lg:p-10">
           <motion.div
             variants={itemVariants}
-            className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
+            className="w-full"
           >
-            <div className="w-full">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#4A3B2A]/10 bg-white/70 px-4 py-2 text-[15px] font-semibold uppercase tracking-[0.28em] text-[#6B513C] backdrop-blur-sm">
-                <LuSparkles className="h-4 w-4" />
-                Trail Essentials
-              </div>
-
-              <h2 className="mt-5 font-serif text-[clamp(1.8rem,3.5vw,2.4rem)] leading-[1.1] tracking-tight text-[#2F2319] lg:whitespace-nowrap">
-                What the journey covers, and what you should plan on your own.
-              </h2>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#4A3B2A]/10 bg-white/70 px-4 py-2 text-[15px] font-semibold uppercase tracking-[0.28em] text-[#6B513C] backdrop-blur-sm">
+              <LuSparkles className="h-4 w-4" />
+              Trail Essentials
             </div>
 
+            <h2 className="mt-5 font-serif text-[clamp(1.8rem,3.5vw,2.4rem)] leading-[1.1] tracking-tight text-[#2F2319]">
+              What the journey covers, and what you should plan on your own.
+            </h2>
           </motion.div>
 
           <motion.div
@@ -345,6 +365,75 @@ const TrailInclusionsSection = ({
           >
             <InclusionCard type="included" items={safeIncludedItems} />
             <InclusionCard type="excluded" items={safeExcludedItems} />
+          </motion.div>
+
+          {/* Action Buttons at the Bottom Center */}
+          <motion.div
+            variants={itemVariants}
+            className="mt-12 flex flex-wrap items-center justify-center gap-6"
+          >
+            {/* View Itinerary Button */}
+            <motion.button
+              whileHover={hasItinerary ? { scale: 1.05 } : undefined}
+              whileTap={hasItinerary ? { scale: 0.95 } : undefined}
+              onClick={handleItineraryClick}
+              disabled={!hasItinerary}
+              onMouseEnter={() => setIsHoveringItinerary(true)}
+              onMouseLeave={() => setIsHoveringItinerary(false)}
+              className={`group relative flex items-center justify-center gap-2 overflow-hidden rounded-full px-8 py-4 font-sans text-base font-semibold transition-all duration-300 ${
+                hasItinerary
+                  ? "bg-[#4A3B2A] text-[#F8F2E9] shadow-[0_4px_20px_rgba(74,59,42,0.3)] hover:shadow-[0_8px_30px_rgba(74,59,42,0.4)]"
+                  : "bg-[#4A3B2A]/80 text-[#F8F2E9]/70 cursor-not-allowed border border-[#4A3B2A]/10 shadow-[0_4px_20px_rgba(74,59,42,0.15)]"
+              }`}
+            >
+              {/* Shine effect overlay */}
+              {hasItinerary && (
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out group-hover:translate-x-full" />
+              )}
+
+              <span className="relative z-10 flex items-center gap-2">
+                <LuFileText
+                  className={`h-5 w-5 transition-transform duration-300 ${
+                    hasItinerary ? "group-hover:-translate-y-0.5" : ""
+                  }`}
+                />
+                {hasItinerary ? "View Itinerary" : "Itinerary Coming Soon"}
+              </span>
+            </motion.button>
+
+            {/* Enquire Now Button */}
+            <motion.div
+              className="relative"
+              onMouseEnter={() => setIsHoveringEnquire(true)}
+              onMouseLeave={() => setIsHoveringEnquire(false)}
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleEnquireClick}
+                className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[#4A3B2A] px-10 py-4 font-sans text-base font-semibold text-[#F8F2E9] shadow-[0_4px_20px_rgba(74,59,42,0.3)] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(74,59,42,0.4)]"
+              >
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out group-hover:translate-x-full" />
+
+                <span className="relative z-10 flex items-center gap-2">
+                  Enquire Now
+                  <LuArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  <motion.div
+                    animate={{
+                      rotate: isHoveringEnquire ? [0, 15, -15, 0] : 0,
+                      scale: isHoveringEnquire ? [1, 1.2, 1] : 1,
+                    }}
+                    transition={{
+                      duration: 0.5,
+                      repeat: isHoveringEnquire ? Infinity : 0,
+                      repeatDelay: 1,
+                    }}
+                  >
+                    <LuSparkles className="h-4 w-4 text-[#D4A373]" />
+                  </motion.div>
+                </span>
+              </motion.button>
+            </motion.div>
           </motion.div>
         </div>
       </motion.div>

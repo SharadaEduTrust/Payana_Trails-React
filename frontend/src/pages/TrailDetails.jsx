@@ -9,7 +9,6 @@ import TrailInclusionsSection from "../components/sections/TrailDetail/TrailIncl
 import TrailRouteSection from "../components/sections/TrailDetail/TrailRouteSection";
 import MovingGallery from "../components/sections/TrailDetail/MovingGallery";
 import BrownBtn from "../components/common/buttons/BrownBtn";
-import TrailActionButtons from "../components/sections/TrailDetail/TrailActionButtons";
 import { transformTrailMedia } from "../utils/trailPresentation";
 
 const TrailDetails = () => {
@@ -116,14 +115,6 @@ const TrailDetails = () => {
       <TrailInclusionsSection
         includedItems={transformed.whatsIncluded || []}
         excludedItems={transformed.whatsNotIncluded || []}
-      />
-
-      <MovingGallery
-        images={transformed.gallery}
-        trailName={transformed.trailName}
-      />
-
-      <TrailActionButtons
         trailSlug={transformed.slug || slug}
         trailState={trail}
         hasItinerary={
@@ -138,6 +129,11 @@ const TrailDetails = () => {
               transformed.flights.arrivalAirport?.trim() ||
               transformed.flights.departureAirport?.trim()))
         }
+      />
+
+      <MovingGallery
+        images={transformed.gallery}
+        trailName={transformed.trailName}
       />
       </div>
     </>

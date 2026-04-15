@@ -262,21 +262,32 @@ const FlightsSection = ({ flights }) => {
   if (!flights) return null;
 
   const {
-    domesticIntro, domesticLines,
+    domesticIntro,
+    domesticLines,
     internationalIntro,
-    arrivalAirport, arrivalOptions,
-    departureAirport, departureOptions,
+    arrivalAirport,
+    arrivalOptions,
+    departureAirport,
+    departureOptions,
   } = flights;
 
-  const filledDomesticLines    = (domesticLines    || []).filter((l) => l && l.trim());
-  const filledArrivalOptions   = (arrivalOptions   || []).filter((o) => o && o.trim());
-  const filledDepartureOptions = (departureOptions || []).filter((o) => o && o.trim());
+  const filledDomesticLines = (domesticLines || []).filter(
+    (l) => l && l.trim(),
+  );
+  const filledArrivalOptions = (arrivalOptions || []).filter(
+    (o) => o && o.trim(),
+  );
+  const filledDepartureOptions = (departureOptions || []).filter(
+    (o) => o && o.trim(),
+  );
 
   const hasDomestic = domesticIntro?.trim() || filledDomesticLines.length;
   const hasInternational =
     internationalIntro?.trim() ||
-    arrivalAirport?.trim()     || filledArrivalOptions.length ||
-    departureAirport?.trim()   || filledDepartureOptions.length;
+    arrivalAirport?.trim() ||
+    filledArrivalOptions.length ||
+    departureAirport?.trim() ||
+    filledDepartureOptions.length;
 
   if (!hasDomestic && !hasInternational) return null;
 
@@ -289,19 +300,22 @@ const FlightsSection = ({ flights }) => {
         </div>
         <div>
           <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
-            Flights
+            VOYAGES
           </p>
           <p className="text-sm text-[#8B6B50]">
-            Domestic and international connections for this journey.
+            Domestic journeys and international connections for this
+            itinerary.
           </p>
         </div>
       </div>
 
       <div className="space-y-0 border-t border-[#4A3B2A]/10">
-
         {/* ── Domestic ── */}
         {hasDomestic ? (
-          <div id="itinerary-domestic" className="px-6 py-6 md:px-8 scroll-mt-24">
+          <div
+            id="itinerary-domestic"
+            className="px-6 py-6 md:px-8 scroll-mt-24"
+          >
             {/* Sub-label */}
             <div className="mb-4 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E5D7C5] bg-[#FDFBF7] text-[#8B6B50]">
@@ -309,10 +323,12 @@ const FlightsSection = ({ flights }) => {
               </div>
               <div>
                 <p className="text-[14px] font-semibold uppercase tracking-[0.16em] text-[#8B6B50]">
-                  Domestic flights
+                  DOMESTIC FLIGHTS · TRAINS · CRUISES
                 </p>
                 {domesticIntro?.trim() && (
-                  <p className="mt-0.5 text-sm text-[#8B6B50]">{domesticIntro.trim()}</p>
+                  <p className="mt-0.5 text-sm text-[#8B6B50]">
+                    {domesticIntro.trim()}
+                  </p>
                 )}
               </div>
             </div>
@@ -339,9 +355,12 @@ const FlightsSection = ({ flights }) => {
 
         {/* ── International ── */}
         {hasInternational ? (
-          <div id="itinerary-international" className={`px-6 py-6 md:px-8 space-y-5 scroll-mt-24 ${
-            hasDomestic ? "border-t border-[#4A3B2A]/10" : ""
-          }`}>
+          <div
+            id="itinerary-international"
+            className={`px-6 py-6 md:px-8 space-y-5 scroll-mt-24 ${
+              hasDomestic ? "border-t border-[#4A3B2A]/10" : ""
+            }`}
+          >
             {/* Sub-label */}
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E5D7C5] bg-[#FDFBF7] text-[#8B6B50]">
@@ -352,7 +371,9 @@ const FlightsSection = ({ flights }) => {
                   International flights
                 </p>
                 {internationalIntro?.trim() && (
-                  <p className="mt-0.5 text-sm text-[#8B6B50]">{internationalIntro.trim()}</p>
+                  <p className="mt-0.5 text-sm text-[#8B6B50]">
+                    {internationalIntro.trim()}
+                  </p>
                 )}
               </div>
             </div>
@@ -395,7 +416,8 @@ const FlightsSection = ({ flights }) => {
             )}
 
             {/* Departure sub-card */}
-            {(departureAirport?.trim() || filledDepartureOptions.length > 0) && (
+            {(departureAirport?.trim() ||
+              filledDepartureOptions.length > 0) && (
               <div className="rounded-[24px] border border-[#E5D7C5] bg-white p-5">
                 <div className="mb-4 flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FAF7F2] text-[#8B6B50]">
@@ -818,7 +840,9 @@ const TrailItinerary = () => {
                     ))}
 
                     {/* ── Additional Shortcuts ── */}
-                    {transformed.optionalExperiences?.some(ex => ex?.trim()) && (
+                    {transformed.optionalExperiences?.some((ex) =>
+                      ex?.trim(),
+                    ) && (
                       <button
                         type="button"
                         onClick={() => scrollToId("itinerary-optional")}
@@ -829,14 +853,21 @@ const TrailItinerary = () => {
                             <Sparkles className="h-4 w-4" />
                           </span>
                           <div className="min-w-0">
-                            <p className="text-[10px] uppercase tracking-[0.18em] text-[#8B6B50]">Suggested</p>
-                            <p className="truncate text-sm font-medium text-[#4A3B2A]">Optional Experiences</p>
+                            <p className="text-[10px] uppercase tracking-[0.18em] text-[#8B6B50]">
+                              Suggested
+                            </p>
+                            <p className="truncate text-sm font-medium text-[#4A3B2A]">
+                              Optional Experiences
+                            </p>
                           </div>
                         </div>
                       </button>
                     )}
 
-                    {(transformed.flights?.domesticIntro?.trim() || transformed.flights?.domesticLines?.some(l => l?.trim())) && (
+                    {(transformed.flights?.domesticIntro?.trim() ||
+                      transformed.flights?.domesticLines?.some((l) =>
+                        l?.trim(),
+                      )) && (
                       <button
                         type="button"
                         onClick={() => scrollToId("itinerary-domestic")}
@@ -847,14 +878,20 @@ const TrailItinerary = () => {
                             <PlaneLanding className="h-4 w-4" />
                           </span>
                           <div className="min-w-0">
-                            <p className="text-[10px] uppercase tracking-[0.18em] text-[#8B6B50]">Internal</p>
-                            <p className="truncate text-sm font-medium text-[#4A3B2A]">Domestic Flights</p>
+                            <p className="text-[10px] uppercase tracking-[0.18em] text-[#8B6B50]">
+                              Internal
+                            </p>
+                            <p className="truncate text-sm font-medium text-[#4A3B2A]">
+                              Domestic Flights · Trains · Cruises
+                            </p>
                           </div>
                         </div>
                       </button>
                     )}
 
-                    {(transformed.flights?.internationalIntro?.trim() || transformed.flights?.arrivalAirport?.trim() || transformed.flights?.departureAirport?.trim()) && (
+                    {(transformed.flights?.internationalIntro?.trim() ||
+                      transformed.flights?.arrivalAirport?.trim() ||
+                      transformed.flights?.departureAirport?.trim()) && (
                       <button
                         type="button"
                         onClick={() => scrollToId("itinerary-international")}
@@ -865,8 +902,12 @@ const TrailItinerary = () => {
                             <PlaneTakeoff className="h-4 w-4" />
                           </span>
                           <div className="min-w-0">
-                            <p className="text-[10px] uppercase tracking-[0.18em] text-[#8B6B50]">Logistics</p>
-                            <p className="truncate text-sm font-medium text-[#4A3B2A]">International Flights</p>
+                            <p className="text-[10px] uppercase tracking-[0.18em] text-[#8B6B50]">
+                              Logistics
+                            </p>
+                            <p className="truncate text-sm font-medium text-[#4A3B2A]">
+                              International Flights
+                            </p>
                           </div>
                         </div>
                       </button>

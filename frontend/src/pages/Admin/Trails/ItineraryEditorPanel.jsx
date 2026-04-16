@@ -210,7 +210,10 @@ const ItineraryEditorPanel = ({ trail, onSave, onAutoSave, onClose }) => {
     });
   };
   const toggleCollapse = (dayId) =>
-    setCollapsed((prev) => ({ ...prev, [dayId]: !prev[dayId] }));
+    setCollapsed((prev) => {
+      const currentState = prev[dayId] ?? true;
+      return { ...prev, [dayId]: !currentState };
+    });
   const updateDayField = (dayId, field, value) =>
     setDays((prev) =>
       prev.map((day) => (day.id === dayId ? { ...day, [field]: value } : day)),
@@ -414,7 +417,7 @@ const ItineraryEditorPanel = ({ trail, onSave, onAutoSave, onClose }) => {
         ) : (
           <div className="space-y-4">
             {days.map((day, index) => {
-              const isCollapsed = !!collapsed[day.id];
+              const isCollapsed = collapsed[day.id] ?? true;
               const filledPointCount = day.points.filter((point) =>
                 point.trim(),
               ).length;

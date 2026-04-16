@@ -31,10 +31,10 @@ const TrailItinerary = () => {
 
   const [trail, setTrail] = useState(locationTrail);
   const [loading, setLoading] = useState(!locationTrail);
-  const [openDay, setOpenDay] = useState(0);
+  const [openDay, setOpenDay] = useState(null);
 
   useEffect(() => {
-    setOpenDay(0);
+    setOpenDay(null);
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [slug]);
 

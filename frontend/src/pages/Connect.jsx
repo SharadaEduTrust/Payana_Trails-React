@@ -23,13 +23,10 @@ const Connect = () => {
       />
       
       <EnquiryForm onSuccess={setEnquiryData} />
-      <ReferralForm initialData={enquiryData} />
-      <GiftForm initialData={enquiryData} />
-
-      {/* FAQs Section Link */}
+      
       {/* Premium FAQs Section Link */}
       <section className="py-20 px-4 md:px-8 bg-[#F3EFE9] relative z-10">
-        <div className="max-w-5xl mx-auto relative group">
+        <div className="max-w-6xl mx-auto relative group">
           {/* Decorative background border */}
           <div className="absolute inset-0 border border-[#4A3B2A]/20 transform translate-x-3 translate-y-3 transition-transform duration-500 group-hover:translate-x-4 group-hover:translate-y-4"></div>
           
@@ -66,6 +63,9 @@ const Connect = () => {
           </div>
         </div>
       </section>
+
+      <ReferralForm initialData={enquiryData} />
+      <GiftForm initialData={enquiryData} />
     </div>
   );
 }

@@ -115,7 +115,7 @@ const Footer = () => {
       links: [
         { name: "Enquiry", path: "/connect#enquiry-section" },
         { name: "Connect With Us", path: "/connect#enquiry-section" },
-        { name: "FAQs", path: "/faqs" },
+        { name: "FAQs", path: "/connect/faqs" },
         { name: "Refer Your Friends", path: "/connect#referral-section" },
         { name: "Gift a Journey", path: "/connect#gift-section" },
       ],

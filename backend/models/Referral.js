@@ -23,6 +23,11 @@ const referralSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    referrerLocation: {
+      type: String,
+      required: [true, "Your location is required"],
+      trim: true,
+    },
     friendName: {
       type: String,
       required: [true, "Friend's name is required"],
@@ -41,6 +46,10 @@ const referralSchema = new mongoose.Schema(
       trim: true,
     },
     friendPhone: {
+      type: String,
+      trim: true,
+    },
+    friendLocation: {
       type: String,
       trim: true,
     },

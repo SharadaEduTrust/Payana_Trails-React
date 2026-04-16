@@ -7,7 +7,7 @@ const GiftFields = ({ formData, touched, handleChange, handleCountryChange, hand
   const inputClasses = (name) => `
     w-full px-4 py-3 rounded-xl border transition-all outline-none bg-[#F3EFE9]/10 placeholder:text-[#4A3B2A]/30
     ${touched[name] && !formData[name] && ![
-        'senderPhone', 'recipientPhone', 'occasion', 'personalMessage', 'journeyDetails', 'giftValue'
+        'senderPhone', 'recipientPhone', 'recipientLocation', 'occasion', 'personalMessage', 'journeyDetails', 'giftValue'
     ].includes(name)
       ? "border-red-400 focus:border-red-400"
       : "border-[#4A3B2A]/10 focus:border-[#4A3B2A]/30 focus:ring-0"}
@@ -17,7 +17,7 @@ const GiftFields = ({ formData, touched, handleChange, handleCountryChange, hand
   const isFieldRequired = (name) => {
     if (name === 'journeyDetails') return formData.giftType === 'Journey';
     if (name === 'giftValue') return formData.giftType === 'Credit';
-    return !['senderPhone', 'recipientPhone', 'occasion', 'personalMessage'].includes(name);
+    return !['senderPhone', 'recipientPhone', 'recipientLocation', 'occasion', 'personalMessage'].includes(name);
   };
 
   const ErrorMessage = ({ name }) => (
@@ -89,6 +89,21 @@ const GiftFields = ({ formData, touched, handleChange, handleCountryChange, hand
             />
           </div>
         </div>
+
+        <div className="relative group">
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Your Location *</label>
+          <input
+            type="text"
+            name="senderLocation"
+            value={formData.senderLocation}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder="City, Country"
+            className={inputClasses("senderLocation")}
+            required
+          />
+          <ErrorMessage name="senderLocation" />
+        </div>
       </div>
 
       <hr className="border-[#4A3B2A]/10" />
@@ -143,6 +158,19 @@ const GiftFields = ({ formData, touched, handleChange, handleCountryChange, hand
               className={`${inputClasses("recipientPhone")} flex-1`}
             />
           </div>
+        </div>
+
+        <div className="relative group">
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Recipient's Location (Optional)</label>
+          <input
+            type="text"
+            name="recipientLocation"
+            value={formData.recipientLocation}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder="City, Country"
+            className={inputClasses("recipientLocation")}
+          />
         </div>
       </div>
 

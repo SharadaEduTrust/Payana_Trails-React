@@ -1,5 +1,5 @@
 import React from "react";
-import { FiUser, FiMail, FiPhone } from "react-icons/fi";
+import { FiUser, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import { InputField } from "../FormFields";
 import { validateField } from "../validation";
 import CountryCodeDropdown from "../../../../common/CountryCodeDropdown";
@@ -32,7 +32,7 @@ const ContactSection = ({ formData, touched, handleChange, handleCountryChange, 
           onBlur={handleBlur}
           error={touched.email && validateField("email", formData.email)}
         />
-        <div className="md:col-span-2">
+        <div>
           <InputField
             icon={FiPhone}
             name="phone"
@@ -49,6 +49,19 @@ const ContactSection = ({ formData, touched, handleChange, handleCountryChange, 
             }
             onBlur={handleBlur}
             error={touched.phone && validateField("phone", formData.phone)}
+          />
+        </div>
+        <div>
+          <InputField
+            icon={FiMapPin}
+            name="currentLocation"
+            label="Current Location *"
+            placeholder="City, Country"
+            value={formData.currentLocation}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            required={true}
+            error={touched.currentLocation && !formData.currentLocation && "Location is required"}
           />
         </div>
       </div>

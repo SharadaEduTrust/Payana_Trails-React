@@ -13,11 +13,13 @@ const ReferralForm = ({ initialData = {} }) => {
     referrerCountryCode: "+91",
     referrerCountryIso: "IN",
     referrerPhone: initialData?.phone || "",
+    referrerLocation: "",
     friendName: "",
     friendEmail: "",
     friendCountryCode: "+91",
     friendCountryIso: "IN",
     friendPhone: "",
+    friendLocation: "",
     message: "",
   });
 
@@ -50,7 +52,7 @@ const ReferralForm = ({ initialData = {} }) => {
     setError(null);
 
     // Basic validation
-    if (!formData.referrerName || !formData.referrerEmail || !formData.friendName || !formData.friendEmail) {
+    if (!formData.referrerName || !formData.referrerEmail || !formData.referrerLocation || !formData.friendName || !formData.friendEmail) {
       setError("Please fill in all required fields.");
       setLoading(false);
       return;
@@ -72,6 +74,7 @@ const ReferralForm = ({ initialData = {} }) => {
       friendName: "",
       friendEmail: "",
       friendPhone: "",
+      friendLocation: "",
       message: "",
     }));
     setSubmitted(false);
@@ -101,7 +104,7 @@ const ReferralForm = ({ initialData = {} }) => {
                     className="p-6 md:p-8 space-y-8"
                   >
                     <div className="border-b border-[#4A3B2A]/10 pb-6 mb-6">
-                      <h3 className="text-xl font-semibold text-[#4A3B2A]">
+                      <h3 className="text-2xl font-bold text-[#4A3B2A]">
                         Referral Details
                       </h3>
                       <p className="text-[#4A3B2A]/60 text-sm mt-1">

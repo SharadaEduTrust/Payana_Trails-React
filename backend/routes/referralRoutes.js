@@ -12,10 +12,12 @@ router.post("/", async (req, res) => {
     referrerEmail,
     referrerCountryCode,
     referrerPhone,
+    referrerLocation,
     friendName,
     friendEmail,
     friendCountryCode,
     friendPhone,
+    friendLocation,
     message
   } = req.body;
 
@@ -26,10 +28,12 @@ router.post("/", async (req, res) => {
       referrerEmail,
       referrerCountryCode,
       referrerPhone,
+      referrerLocation,
       friendName,
       friendEmail,
       friendCountryCode,
       friendPhone,
+      friendLocation,
       message,
     });
 
@@ -72,6 +76,10 @@ router.post("/", async (req, res) => {
                 <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9; font-weight: bold;">Mobile #:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9;">${referrerPhone ? `${referrerCountryCode || ''} ${referrerPhone}` : 'Not provided'}</td>
               </tr>
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9; font-weight: bold;">Location:</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9;">${referrerLocation || 'Not provided'}</td>
+              </tr>
             </table>
 
             <h3 style="color: #4A3B2A; border-bottom: 2px solid #F3EFE9; padding-bottom: 10px;">Friend Details</h3>
@@ -87,6 +95,10 @@ router.post("/", async (req, res) => {
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9; font-weight: bold;">Friend's Mobile #:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9;">${friendPhone ? `${friendCountryCode || ''} ${friendPhone}` : 'Not provided'}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9; font-weight: bold;">Friend's Location:</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9;">${friendLocation || 'Not provided'}</td>
               </tr>
             </table>
 

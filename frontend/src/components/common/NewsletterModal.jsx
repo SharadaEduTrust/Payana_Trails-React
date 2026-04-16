@@ -77,7 +77,7 @@ const NewsletterModal = () => {
             {/* Close Button */}
             <button
               onClick={closeNewsletterModal}
-              className="absolute top-4 right-4 p-2 rounded-full hover:bg-[#4A3B2A]/10 text-[#4A3B2A] transition-colors z-10"
+              className="absolute top-4 right-4 p-2 rounded-full hover:bg-[#4A3B2A]/10 text-[#4A3B2A] transition-colors z-50"
               aria-label="Close modal"
             >
               <FaXmark size={24} />

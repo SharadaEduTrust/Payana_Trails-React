@@ -12,6 +12,7 @@ router.post("/", async (req, res) => {
     email, 
     countryCode,
     phone, 
+    currentLocation,
     trailName, 
     otherDestination, 
     travelMonth, 
@@ -29,6 +30,7 @@ router.post("/", async (req, res) => {
       email,
       countryCode,
       phone,
+      currentLocation,
       trailName,
       otherDestination,
       travelMonth,
@@ -76,6 +78,10 @@ router.post("/", async (req, res) => {
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9; font-weight: bold;">Mobile #:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9;">${countryCode} ${phone}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9; font-weight: bold;">Location:</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9;">${currentLocation || "Not provided"}</td>
               </tr>
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #F3EFE9; font-weight: bold;">Trail Name:</td>
@@ -149,6 +155,10 @@ router.post("/", async (req, res) => {
               <tr>
                 <td style="padding: 8px 0; border-bottom: 1px dotted #F3EFE9; font-weight: bold;">Mobile #:</td>
                 <td style="padding: 8px 0; border-bottom: 1px dotted #F3EFE9;">${countryCode} ${phone}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px dotted #F3EFE9; font-weight: bold;">Location:</td>
+                <td style="padding: 8px 0; border-bottom: 1px dotted #F3EFE9;">${currentLocation || "Not provided"}</td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; border-bottom: 1px dotted #F3EFE9; font-weight: bold;">Preferred Date:</td>

@@ -6,7 +6,7 @@ import CountryCodeDropdown from "../../../common/CountryCodeDropdown";
 const ReferralFields = ({ formData, touched, handleChange, handleCountryChange, handleBlur }) => {
   const inputClasses = (name) => `
     w-full px-4 py-3 rounded-xl border transition-all outline-none bg-[#F3EFE9]/10 placeholder:text-[#4A3B2A]/30
-    ${touched[name] && !formData[name] && name !== 'referrerPhone' && name !== 'friendPhone' && name !== 'message'
+    ${touched[name] && !formData[name] && name !== 'referrerPhone' && name !== 'friendPhone' && name !== 'friendLocation' && name !== 'message'
       ? "border-red-400 focus:border-red-400"
       : "border-[#4A3B2A]/10 focus:border-[#4A3B2A]/30 focus:ring-0"}
   `;
@@ -65,9 +65,7 @@ const ReferralFields = ({ formData, touched, handleChange, handleCountryChange, 
           />
           <ErrorMessage name="referrerEmail" />
         </div>
-      </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
         {/* Your Mobile */}
         <div className="relative group">
           <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
@@ -93,6 +91,26 @@ const ReferralFields = ({ formData, touched, handleChange, handleCountryChange, 
           </div>
         </div>
 
+        {/* Your Location */}
+        <div className="relative group">
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Your Location *
+          </label>
+          <input
+            type="text"
+            name="referrerLocation"
+            value={formData.referrerLocation}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={inputClasses("referrerLocation")}
+            placeholder="City, Country"
+            required
+          />
+          <ErrorMessage name="referrerLocation" />
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6">
         {/* Friend's Name */}
         <div className="relative group">
           <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
@@ -110,10 +128,7 @@ const ReferralFields = ({ formData, touched, handleChange, handleCountryChange, 
           />
           <ErrorMessage name="friendName" />
         </div>
-      </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Friend's Email */}
         <div className="relative group">
           <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
             Friend's Email *
@@ -154,6 +169,22 @@ const ReferralFields = ({ formData, touched, handleChange, handleCountryChange, 
               placeholder="98765 43210"
             />
           </div>
+        </div>
+
+        {/* Friend's Location */}
+        <div className="relative group">
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Friend's Location (Optional)
+          </label>
+          <input
+            type="text"
+            name="friendLocation"
+            value={formData.friendLocation}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={inputClasses("friendLocation")}
+            placeholder="City, Country"
+          />
         </div>
       </div>
 

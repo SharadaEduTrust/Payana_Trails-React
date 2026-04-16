@@ -24,6 +24,11 @@ const enquirySchema = new mongoose.Schema(
       required: [true, "Please provide your phone/whatsapp number"],
       trim: true,
     },
+    currentLocation: {
+      type: String,
+      required: [true, "Current location is required"],
+      trim: true,
+    },
     trailName: {
       type: String,
       required: [true, "Please specify a trail or destination"],

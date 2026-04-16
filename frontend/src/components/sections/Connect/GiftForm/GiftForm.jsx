@@ -13,11 +13,13 @@ const GiftForm = ({ initialData = {} }) => {
     senderCountryCode: "+91",
     senderCountryIso: "IN",
     senderPhone: initialData?.phone || "",
+    senderLocation: "",
     recipientName: "",
     recipientEmail: "",
     recipientCountryCode: "+91",
     recipientCountryIso: "IN",
     recipientPhone: "",
+    recipientLocation: "",
     giftType: "Journey",
     journeyDetails: "",
     giftValue: "",
@@ -57,6 +59,7 @@ const GiftForm = ({ initialData = {} }) => {
     const required = [
       "senderName", 
       "senderEmail", 
+      "senderLocation",
       "recipientName", 
       "recipientEmail",
       formData.giftType === "Journey" ? "journeyDetails" : "giftValue"
@@ -85,6 +88,7 @@ const GiftForm = ({ initialData = {} }) => {
       recipientName: "",
       recipientEmail: "",
       recipientPhone: "",
+      recipientLocation: "",
       giftType: "Journey",
       journeyDetails: "",
       giftValue: "",
@@ -118,7 +122,7 @@ const GiftForm = ({ initialData = {} }) => {
                     className="p-6 md:p-8 space-y-8"
                   >
                     <div className="border-b border-[#4A3B2A]/10 pb-6 mb-6">
-                      <h3 className="text-xl font-semibold text-[#4A3B2A]">
+                      <h3 className="text-2xl font-bold text-[#4A3B2A]">
                         Gifting Details
                       </h3>
                       <p className="text-[#4A3B2A]/60 text-sm mt-1">

@@ -18,6 +18,11 @@ const GiftSchema = new mongoose.Schema(
     senderPhone: {
       type: String,
     },
+    senderLocation: {
+      type: String,
+      required: [true, "Your location is required"],
+      trim: true,
+    },
     recipientName: {
       type: String,
       required: [true, "Recipient name is required"],
@@ -33,6 +38,10 @@ const GiftSchema = new mongoose.Schema(
     },
     recipientPhone: {
       type: String,
+    },
+    recipientLocation: {
+      type: String,
+      trim: true,
     },
     giftType: {
       type: String,

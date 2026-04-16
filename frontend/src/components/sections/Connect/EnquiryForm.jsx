@@ -23,6 +23,7 @@ const EnquiryForm = ({ onSuccess }) => {
     countryCode: "+91",
     countryIso: "IN",
     phone: "",
+    currentLocation: "",
     trailName: "",
     otherDestination: "",
     travelMonth: "",
@@ -91,6 +92,7 @@ const EnquiryForm = ({ onSuccess }) => {
       "name",
       "email",
       "phone",
+      "currentLocation",
       "trailName",
       "travelMonth",
       "travelYear",
@@ -122,6 +124,7 @@ const EnquiryForm = ({ onSuccess }) => {
         name: "",
         email: "",
         phone: "",
+        currentLocation: "",
         trailName: "",
         otherDestination: "",
         travelMonth: "",
@@ -166,7 +169,7 @@ const EnquiryForm = ({ onSuccess }) => {
           >
             <div className="bg-white rounded-3xl shadow-xl border border-[#4A3B2A]/10 relative z-10">
               <div className="p-6 md:p-8 border-b border-[#4A3B2A]/10 bg-[#F3EFE9]/30 rounded-t-3xl">
-                <h3 className="text-xl font-semibold text-[#4A3B2A]">
+                <h3 className="text-2xl font-bold text-[#4A3B2A]">
                   Enquiry Form
                 </h3>
                 <p className="text-[#4A3B2A]/60 text-sm mt-1">

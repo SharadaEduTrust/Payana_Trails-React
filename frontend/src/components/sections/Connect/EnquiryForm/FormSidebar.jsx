@@ -34,8 +34,8 @@ const FormSidebar = () => {
               review your preferences within 24 hours.
             </li>
             <li className="flex gap-3">
-              <span className="font-medium text-[#4A3B2A]">2.</span> A travel
-              expert will contact you via your preferred method.
+              <span className="font-medium text-[#4A3B2A]">2.</span> A Trail
+              Curator will contact you via your preferred method.
             </li>
             <li className="flex gap-3">
               <span className="font-medium text-[#4A3B2A]">3.</span> You'll
@@ -49,7 +49,9 @@ const FormSidebar = () => {
             "Every journey begins with a conversation. Let's make yours
             unforgettable."
           </p>
-          <p className="text-[#4A3B2A] font-medium mt-2">— Payana Trails Team</p>
+          <p className="text-[#4A3B2A] font-medium mt-2">
+            — Payana Trails Team
+          </p>
         </div>
       </div>
     </motion.div>

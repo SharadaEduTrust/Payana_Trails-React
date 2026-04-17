@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../Header";
 import Footer from "../Footer";
 import NewsletterModal from "../NewsletterModal";
+import TawkChat from "../TawkChat";
 
 const Layout = ({ children }) => {
   return (
@@ -10,6 +11,7 @@ const Layout = ({ children }) => {
       <main className="flex-1 flex flex-col">{children}</main>
       <Footer />
       <NewsletterModal />
+      <TawkChat />
     </div>
   );
 };

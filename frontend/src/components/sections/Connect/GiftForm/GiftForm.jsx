@@ -48,7 +48,15 @@ const GiftForm = ({ initialData = {} }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => {
+      const nextData = { ...prev, [name]: value };
+
+      if (name === "journeyDetails" && value !== "Others") {
+        nextData.otherDestination = "";
+      }
+
+      return nextData;
+    });
   };
 
   const handleCountryChange = (fieldPrefix, { code, iso }) => {
@@ -71,17 +79,35 @@ const GiftForm = ({ initialData = {} }) => {
 
     // Basic validation
     const required = [
-      "senderName", 
-      "senderEmail", 
+      "senderName",
+      "senderEmail",
       "senderLocation",
-      "recipientName", 
+      "recipientName",
       "recipientEmail",
     ];
 
-    const missing = required.filter(field => !formData[field]);
-    if (missing.length > 0 || (!formData.journeyDetails && !formData.giftValue)) {
-      setError(missing.length > 0 ? "Please fill in all required fields." : "Please provide either a Journey detail or Travel Credit.");
+    const missing = required.filter((field) => !formData[field]);
+    const hasJourney = Boolean(formData.journeyDetails);
+    const hasCredit = Boolean(String(formData.giftValue).trim());
+
+    if (missing.length > 0) {
+      setError("Please fill in all required fields.");
       setLoading(false);
+      return;
+    }
+
+    if (!hasJourney && !hasCredit) {
+      setError(
+        "Please choose one of the 2 options: Specific Journey or Travel Credit.",
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (hasJourney && hasCredit) {
+      setError(
+        "Choose one of the 2 options: Specific Journey or Travel Credit.",
+      );
       return;
     }
 
@@ -98,12 +124,17 @@ const GiftForm = ({ initialData = {} }) => {
         ...formData,
         giftType: formData.journeyDetails ? "Journey" : "Credit",
         // If "Others" was selected, use the manual entry for the final submission
-        journeyDetails: formData.journeyDetails === "Others" ? formData.otherDestination : formData.journeyDetails
+        journeyDetails:
+          formData.journeyDetails === "Others"
+            ? formData.otherDestination
+            : formData.journeyDetails,
       };
       await api.submitGift(submissionData);
       setSubmitted(true);
     } catch (err) {
-      setError(err.message || "Failed to submit gift request. Please try again.");
+      setError(
+        err.message || "Failed to submit gift request. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -128,7 +159,10 @@ const GiftForm = ({ initialData = {} }) => {
   };
 
   return (
-    <section id="gift-section" className="py-24 px-4 bg-[#F3EFE9] border-t border-[#4A3B2A]/5">
+    <section
+      id="gift-section"
+      className="py-24 px-4 bg-[#F3EFE9] border-t border-[#4A3B2A]/5"
+    >
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
           {/* Form on Left */}
@@ -184,7 +218,9 @@ const GiftForm = ({ initialData = {} }) => {
                         disabled={loading}
                         className="w-full py-4 bg-[#4A3B2A] text-[#F3EFE9] rounded-xl font-semibold text-lg hover:bg-[#3A2E21] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-[#4A3B2A]/20"
                       >
-                        {loading ? "Processing..." : (
+                        {loading ? (
+                          "Processing..."
+                        ) : (
                           <>
                             Submit Gift Request <FiSend />
                           </>

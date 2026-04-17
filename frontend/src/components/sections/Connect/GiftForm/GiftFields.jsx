@@ -1,23 +1,59 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiAlertCircle, FiMap, FiCreditCard } from "react-icons/fi";
+import { FiAlertCircle, FiMap, FiCreditCard, FiX, FiCheckCircle } from "react-icons/fi";
 import CountryCodeDropdown from "../../../common/CountryCodeDropdown";
 
-const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountryChange, handleBlur }) => {
+const GiftFields = ({
+  formData,
+  touched,
+  trails = [],
+  handleChange,
+  handleCountryChange,
+  handleBlur,
+}) => {
+  const hasJourney = Boolean(formData.journeyDetails);
+  const hasCredit = Boolean(String(formData.giftValue || "").trim());
+  const hasGiftTypeConflict = hasJourney && hasCredit;
+
+  const handleClear = (name) => {
+    handleChange({
+      target: {
+        name,
+        value: "",
+      },
+    });
+  };
+
   const inputClasses = (name) => `
     w-full px-4 py-3 rounded-xl border transition-all outline-none bg-[#F3EFE9]/10 placeholder:text-[#4A3B2A]/30
-    ${touched[name] && !formData[name] && ![
-        'senderPhone', 'recipientPhone', 'recipientLocation', 'occasion', 'personalMessage', 'journeyDetails', 'giftValue'
-    ].includes(name)
-      ? "border-red-400 focus:border-red-400"
-      : "border-[#4A3B2A]/10 focus:border-[#4A3B2A]/30 focus:ring-0"}
+    ${
+      touched[name] &&
+      !formData[name] &&
+      ![
+        "senderPhone",
+        "recipientPhone",
+        "recipientLocation",
+        "occasion",
+        "personalMessage",
+        "journeyDetails",
+        "giftValue",
+      ].includes(name)
+        ? "border-red-400 focus:border-red-400"
+        : "border-[#4A3B2A]/10 focus:border-[#4A3B2A]/30 focus:ring-0"
+    }
   `;
 
   // Custom function for conditional required fields
   const isFieldRequired = (name) => {
-    if (name === 'journeyDetails') return !formData.giftValue;
-    if (name === 'giftValue') return !formData.journeyDetails;
-    return !['senderPhone', 'recipientPhone', 'recipientLocation', 'occasion', 'personalMessage'].includes(name);
+    if (name === "journeyDetails") return !formData.giftValue;
+    if (name === "giftValue") return !formData.journeyDetails;
+    return ![
+      "senderPhone",
+      "recipientPhone",
+      "recipientLocation",
+      "occasion",
+      "personalMessage",
+    ].includes(name);
   };
 
   const ErrorMessage = ({ name }) => (
@@ -41,7 +77,9 @@ const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountr
       {/* Sender Details */}
       <div className="grid md:grid-cols-2 gap-6">
         <div className="relative">
-          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Your Name *</label>
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Your Name *
+          </label>
           <input
             type="text"
             name="senderName"
@@ -55,7 +93,9 @@ const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountr
           <ErrorMessage name="senderName" />
         </div>
         <div className="relative">
-          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Your Email *</label>
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Your Email *
+          </label>
           <input
             type="email"
             name="senderEmail"
@@ -69,13 +109,15 @@ const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountr
           <ErrorMessage name="senderEmail" />
         </div>
         <div className="relative">
-          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Your Mobile (Optional)</label>
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Your Mobile (Optional)
+          </label>
           <div className="flex gap-2">
             <div className="shrink-0">
               <CountryCodeDropdown
                 value={formData.senderCountryCode}
                 iso={formData.senderCountryIso}
-                onChange={(val) => handleCountryChange('sender', val)}
+                onChange={(val) => handleCountryChange("sender", val)}
               />
             </div>
             <input
@@ -91,7 +133,9 @@ const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountr
         </div>
 
         <div className="relative group">
-          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Your Location *</label>
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Your Location *
+          </label>
           <input
             type="text"
             name="senderLocation"
@@ -111,7 +155,9 @@ const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountr
       {/* Recipient Details */}
       <div className="grid md:grid-cols-2 gap-6">
         <div className="relative">
-          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Recipient's Name *</label>
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Recipient's Name *
+          </label>
           <input
             type="text"
             name="recipientName"
@@ -125,7 +171,9 @@ const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountr
           <ErrorMessage name="recipientName" />
         </div>
         <div className="relative">
-          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Recipient's Email *</label>
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Recipient's Email *
+          </label>
           <input
             type="email"
             name="recipientEmail"
@@ -139,13 +187,15 @@ const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountr
           <ErrorMessage name="recipientEmail" />
         </div>
         <div className="relative">
-          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Recipient's Mobile (Optional)</label>
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Recipient's Mobile (Optional)
+          </label>
           <div className="flex gap-2">
             <div className="shrink-0">
               <CountryCodeDropdown
                 value={formData.recipientCountryCode}
                 iso={formData.recipientCountryIso}
-                onChange={(val) => handleCountryChange('recipient', val)}
+                onChange={(val) => handleCountryChange("recipient", val)}
               />
             </div>
             <input
@@ -161,7 +211,9 @@ const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountr
         </div>
 
         <div className="relative group">
-          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Recipient's Location (Optional)</label>
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Recipient's Location (Optional)
+          </label>
           <input
             type="text"
             name="recipientLocation"
@@ -179,186 +231,278 @@ const GiftFields = ({ formData, touched, trails = [], handleChange, handleCountr
       {/* Gift Configuration */}
       <div className="space-y-10">
         <div className="text-center space-y-2">
-          <h3 className="text-xl font-bold text-[#4A3B2A] tracking-tight">Select Your Gift Type</h3>
-          <p className="text-[#4A3B2A]/40 text-xs uppercase tracking-[0.2em] font-medium">Choose one path for your recipient</p>
+          <h3 className="text-xl font-bold text-[#4A3B2A] tracking-tight">
+            Select Your Gift Type
+          </h3>
+          <p className="text-[#4A3B2A]/50 text-xs uppercase tracking-[0.2em] font-medium">
+            Pick only one option before submitting
+          </p>
+          <p className="text-[#4A3B2A]/60 text-sm">
+            You can change your mind anytime — just keep one option filled.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-[1fr,auto,1fr] gap-4 md:gap-0 items-stretch relative">
-          {/* Specific Journey Option */}
-          <motion.div 
-            layout
-            className={`
-              relative p-6 md:p-8 rounded-[2rem] border transition-all duration-700
-              ${formData.journeyDetails ? "bg-[#4A3B2A]/5 border-[#4A3B2A]/20 shadow-2xl shadow-[#4A3B2A]/10 z-10 scale-[1.02]" : "bg-white border-[#4A3B2A]/10"}
-              ${formData.giftValue ? "filter grayscale(1) blur(3px) opacity-30 pointer-events-none scale-[0.96]" : "hover:border-[#4A3B2A]/30"}
+        <AnimatePresence>
+          {hasGiftTypeConflict && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              className="rounded-2xl border border-amber-300/70 bg-amber-50 px-4 py-3 text-amber-800 flex items-center gap-2 text-sm"
+            >
+              <FiAlertCircle className="shrink-0" size={16} />
+              <span>
+                Choose one of the 2 options: Specific Journey or Travel Credit.
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div className="rounded-[2.5rem] border border-[#4A3B2A]/10 bg-gradient-to-br from-white via-[#FDFBF9] to-white p-3 md:p-4 shadow-xl shadow-[#4A3B2A]/5">
+          <div className="grid md:grid-cols-[1fr,auto,1fr] gap-4 md:gap-0 items-stretch relative">
+            {/* Specific Journey Option */}
+            <motion.div
+              layout
+              className={`
+              relative p-6 md:p-8 rounded-[2rem] border transition-all duration-500 group/card
+              ${
+                hasJourney
+                  ? "bg-[#4A3B2A]/5 border-[#4A3B2A]/30 shadow-2xl shadow-[#4A3B2A]/15 z-10"
+                  : "bg-white/50 border-[#4A3B2A]/10 hover:border-[#4A3B2A]/30 ring-0 hover:shadow-lg"
+              }
             `}
-          >
-            <div className="flex flex-col h-full space-y-6">
-              <div className="flex items-center gap-4">
-                <div className={`p-4 rounded-2xl transition-all duration-500 ${formData.journeyDetails ? "bg-[#4A3B2A] text-[#F3EFE9] rotate-12" : "bg-[#F3EFE9] text-[#4A3B2A]"}`}>
-                  <FiMap size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-[#4A3B2A] text-lg">Specific Journey</h4>
-                  <p className="text-xs text-[#4A3B2A]/50">Gift a curated trail experience</p>
-                </div>
+            >
+              {/* Status Indicators */}
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <AnimatePresence>
+                  {hasJourney && (
+                    <>
+                      <motion.button
+                        initial={{ opacity: 0, scale: 0.8, x: 10 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.8, x: 10 }}
+                        onClick={() => handleClear("journeyDetails")}
+                        className="p-1.5 rounded-full bg-white border border-[#4A3B2A]/10 text-[#4A3B2A]/40 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all shadow-sm"
+                        title="Remove selection"
+                        type="button"
+                      >
+                        <FiX size={14} />
+                      </motion.button>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.5 }}
+                        className="text-[#4A3B2A]"
+                      >
+                        <FiCheckCircle size={20} />
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
               </div>
 
-              <div className="relative flex-1 space-y-4">
-                <div className="relative">
-                  <select
-                    name="journeyDetails"
-                    value={formData.journeyDetails}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className={`
-                      w-full px-4 py-4 rounded-[1.25rem] border transition-all outline-none bg-white/50 appearance-none cursor-pointer text-[#4A3B2A]
-                      ${touched.journeyDetails && !formData.journeyDetails && !formData.giftValue ? "border-red-300" : "border-[#4A3B2A]/5 focus:border-[#4A3B2A]/30"}
-                    `}
-                    required={!formData.giftValue}
+              <div className="flex flex-col h-full space-y-6">
+                <div className="flex items-center gap-4">
+                  <div
+                    className={`p-4 rounded-2xl transition-all duration-500 ${hasJourney ? "bg-[#4A3B2A] text-[#F3EFE9] rotate-6 shadow-lg shadow-[#4A3B2A]/30" : "bg-[#F3EFE9] text-[#4A3B2A] group-hover/card:-translate-y-1"}`}
                   >
-                    <option value="" disabled>Select a Journey</option>
-                    {trails.map((t, idx) => (
-                      <option key={idx} value={`${t.trailName} (${t.trailDestination})`}>
-                        {t.trailName} ({t.trailDestination})
-                      </option>
-                    ))}
-                    <option value="Others">Others (Please specify)</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                    <svg className="w-4 h-4 text-[#4A3B2A]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <FiMap size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#4A3B2A] text-lg">
+                      Specific Journey
+                    </h4>
+                    <p className="text-xs text-[#4A3B2A]/50">
+                      Gift a curated trail experience
+                    </p>
                   </div>
                 </div>
 
-                <AnimatePresence>
-                  {formData.journeyDetails === "Others" && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="relative overflow-hidden"
+                <div className="relative flex-1 space-y-4">
+                  <div className="relative">
+                    <select
+                      name="journeyDetails"
+                      value={formData.journeyDetails}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={`
+                      w-full px-4 py-4 rounded-[1.25rem] border transition-all outline-none bg-white/50 appearance-none cursor-pointer text-[#4A3B2A] font-medium
+                      ${touched.journeyDetails && !formData.journeyDetails && !formData.giftValue ? "border-red-300" : "border-[#4A3B2A]/5 focus:border-[#4A3B2A]/30 sm:hover:bg-white"}
+                    `}
+                      required={!formData.giftValue}
                     >
-                      <input
-                        type="text"
-                        name="otherDestination"
-                        value={formData.otherDestination}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="Specify Destination (e.g., Andaman Islands)"
-                        className={`
+                      <option value="">Select a Journey</option>
+                      {trails.map((t, idx) => (
+                        <option
+                          key={idx}
+                          value={`${t.trailName} (${t.trailDestination})`}
+                        >
+                          {t.trailName} ({t.trailDestination})
+                        </option>
+                      ))}
+                      <option value="Others">Others (Please specify)</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                      <svg
+                        className="w-4 h-4 text-[#4A3B2A]/40"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <AnimatePresence>
+                    {formData.journeyDetails === "Others" && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0, y: -10 }}
+                        animate={{ opacity: 1, height: "auto", y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -10 }}
+                        className="relative overflow-hidden"
+                      >
+                        <input
+                          type="text"
+                          name="otherDestination"
+                          value={formData.otherDestination}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          placeholder="Specify Destination (e.g., Andaman Islands)"
+                          className={`
                           w-full px-4 py-3 rounded-xl border transition-all outline-none bg-white/40 placeholder:text-[#4A3B2A]/30 text-[#4A3B2A]
                           ${touched.otherDestination && !formData.otherDestination ? "border-red-300" : "border-[#4A3B2A]/5 focus:border-[#4A3B2A]/30"}
                         `}
-                        required
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                
-                <AnimatePresence>
-                  {formData.giftValue && (
-                    <motion.div 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="absolute inset-0 flex items-center justify-center rounded-[1.25rem] bg-white/10 backdrop-blur-[2px] z-10"
-                    >
-                      <div className="bg-[#4A3B2A] text-[#F3EFE9] px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-xl flex items-center gap-2">
-                        <FiAlertCircle size={14} className="text-orange-400" />
-                        Option Locked
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                          required
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+                {!hasJourney && <ErrorMessage name="journeyDetails" />}
               </div>
-              <ErrorMessage name="journeyDetails" />
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Divider */}
-          <div className="flex md:flex-col items-center justify-center p-4">
-            <div className="h-px md:h-full w-full md:w-px bg-gradient-to-r md:bg-gradient-to-b from-transparent via-[#4A3B2A]/10 to-transparent relative">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#F3EFE9] p-3 rounded-full border border-[#4A3B2A]/5 shadow-inner">
-                <span className="text-[10px] font-black text-[#4A3B2A]/20 uppercase tracking-[0.2em] italic">OR</span>
+            {/* Divider */}
+            <div className="flex md:flex-col items-center justify-center p-4 relative">
+              <div className="h-px md:h-full w-full md:w-px bg-gradient-to-r md:bg-gradient-to-b from-transparent via-[#4A3B2A]/10 to-transparent relative">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#FDFBF9] p-3 rounded-full border border-[#4A3B2A]/5 shadow-sm">
+                  <span className="text-[10px] font-black text-[#4A3B2A]/30 uppercase tracking-[0.2em] italic">
+                    OR
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Travel Credit Option */}
-          <motion.div 
-            layout
-            className={`
-              relative p-6 md:p-8 rounded-[2rem] border transition-all duration-700
-              ${formData.giftValue ? "bg-[#4A3B2A]/5 border-[#4A3B2A]/20 shadow-2xl shadow-[#4A3B2A]/10 z-10 scale-[1.02]" : "bg-white border-[#4A3B2A]/10"}
-              ${formData.journeyDetails ? "filter grayscale(1) blur(3px) opacity-30 pointer-events-none scale-[0.96]" : "hover:border-[#4A3B2A]/30"}
+            {/* Travel Credit Option */}
+            <motion.div
+              layout
+              className={`
+              relative p-6 md:p-8 rounded-[2rem] border transition-all duration-500 group/card
+              ${
+                hasCredit
+                  ? "bg-[#4A3B2A]/5 border-[#4A3B2A]/30 shadow-2xl shadow-[#4A3B2A]/15 z-10"
+                  : "bg-white/50 border-[#4A3B2A]/10 hover:border-[#4A3B2A]/30 ring-0 hover:shadow-lg"
+              }
             `}
-          >
-            <div className="flex flex-col h-full space-y-6">
-              <div className="flex items-center gap-4">
-                <div className={`p-4 rounded-2xl transition-all duration-500 ${formData.giftValue ? "bg-[#4A3B2A] text-[#F3EFE9] -rotate-12" : "bg-[#F3EFE9] text-[#4A3B2A]"}`}>
-                  <FiCreditCard size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-[#4A3B2A] text-lg">Travel Credit</h4>
-                  <p className="text-xs text-[#4A3B2A]/50">Let them choose their own path</p>
-                </div>
-              </div>
-
-              <div className="relative flex-1">
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#4A3B2A]/30 font-bold">₹</span>
-                  <input
-                    type="text"
-                    name="giftValue"
-                    value={formData.giftValue}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder="Enter amount (e.g. 50,000)"
-                    className={`
-                      w-full pl-8 pr-4 py-4 rounded-[1.25rem] border transition-all outline-none bg-white/50 placeholder:text-[#4A3B2A]/20 text-[#4A3B2A] font-medium
-                      ${touched.giftValue && !formData.giftValue && !formData.journeyDetails ? "border-red-300" : "border-[#4A3B2A]/5 focus:border-[#4A3B2A]/30"}
-                    `}
-                  />
-                </div>
-
+            >
+              {/* Status Indicators */}
+              <div className="absolute top-4 right-4 flex items-center gap-2">
                 <AnimatePresence>
-                  {formData.journeyDetails && (
-                    <motion.div 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="absolute inset-0 flex items-center justify-center rounded-[1.25rem] bg-white/10 backdrop-blur-[2px]"
-                    >
-                      <div className="bg-[#4A3B2A] text-[#F3EFE9] px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-xl flex items-center gap-2">
-                        <FiAlertCircle size={14} className="text-orange-400" />
-                        Option Locked
-                      </div>
-                    </motion.div>
+                  {hasCredit && (
+                    <>
+                      <motion.button
+                        initial={{ opacity: 0, scale: 0.8, x: 10 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.8, x: 10 }}
+                        onClick={() => handleClear("giftValue")}
+                        className="p-1.5 rounded-full bg-white border border-[#4A3B2A]/10 text-[#4A3B2A]/40 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all shadow-sm"
+                        title="Remove selection"
+                        type="button"
+                      >
+                        <FiX size={14} />
+                      </motion.button>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.5 }}
+                        className="text-[#4A3B2A]"
+                      >
+                        <FiCheckCircle size={20} />
+                      </motion.div>
+                    </>
                   )}
                 </AnimatePresence>
               </div>
-              <ErrorMessage name="giftValue" />
-            </div>
-          </motion.div>
+
+              <div className="flex flex-col h-full space-y-6">
+                <div className="flex items-center gap-4">
+                  <div
+                    className={`p-4 rounded-2xl transition-all duration-500 ${hasCredit ? "bg-[#4A3B2A] text-[#F3EFE9] -rotate-6 shadow-lg shadow-[#4A3B2A]/30" : "bg-[#F3EFE9] text-[#4A3B2A] group-hover/card:-translate-y-1"}`}
+                  >
+                    <FiCreditCard size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#4A3B2A] text-lg">
+                      Travel Credit
+                    </h4>
+                    <p className="text-xs text-[#4A3B2A]/50">
+                      Let them choose their own path
+                    </p>
+                  </div>
+                </div>
+
+                <div className="relative flex-1">
+                  <div className="relative">
+                    <span className={`absolute left-4 top-1/2 -translate-y-1/2 font-bold transition-colors ${hasCredit ? "text-[#4A3B2A]/80" : "text-[#4A3B2A]/30"}`}>
+                      ₹
+                    </span>
+                    <input
+                      type="text"
+                      name="giftValue"
+                      value={formData.giftValue}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      placeholder="Enter amount (e.g. 50,000)"
+                      className={`
+                      w-full pl-8 pr-4 py-4 rounded-[1.25rem] border transition-all outline-none bg-white/50 placeholder:text-[#4A3B2A]/20 text-[#4A3B2A] font-medium
+                      ${touched.giftValue && !formData.giftValue && !formData.journeyDetails ? "border-red-300" : "border-[#4A3B2A]/5 focus:border-[#4A3B2A]/30 sm:hover:bg-white"}
+                    `}
+                    />
+                  </div>
+                </div>
+                {!hasCredit && <ErrorMessage name="giftValue" />}
+              </div>
+            </motion.div>
+          </div>
         </div>
 
         <div className="space-y-6">
-            <div className="space-y-2">
-                <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Occasion</label>
-                <input
-                    type="text"
-                    name="occasion"
-                    value={formData.occasion}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder="e.g. Birthday, Anniversary, or just because!"
-                    className={inputClasses("occasion")}
-                />
-            </div>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+              Occasion
+            </label>
+            <input
+              type="text"
+              name="occasion"
+              value={formData.occasion}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="e.g. Birthday, Anniversary, or just because!"
+              className={inputClasses("occasion")}
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">Personal Message</label>
+          <label className="block text-sm font-medium text-[#4A3B2A]/80 mb-2 ml-1">
+            Personal Message
+          </label>
           <textarea
             name="personalMessage"
             value={formData.personalMessage}

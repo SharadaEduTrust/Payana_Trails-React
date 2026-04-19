@@ -32,7 +32,7 @@ const FAQSection = ({ faqs }) => {
   return (
     <section
       id="faq-section"
-      className="py-4 md:py-8 px-4 md:px-8 bg-[#F3EFE9] relative z-10 overflow-hidden"
+      className="py-4 md:py-12 px-4 md:px-8 bg-[#F3EFE9] relative z-10 overflow-hidden"
     >
       {/* Subtle background watermark */}
       <div className="absolute top-0 right-0 text-[15rem] font-serif italic font-bold text-[#F3EFE9]/40 select-none pointer-events-none z-0 tracking-tighter mix-blend-multiply hidden lg:block">

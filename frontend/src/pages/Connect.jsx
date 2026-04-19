@@ -6,6 +6,8 @@ import EnquirySection from "../components/sections/Connect/EnquirySection";
 import FAQSection from "../components/sections/Connect/FAQSection";
 import ReferFriendSection from "../components/sections/Connect/ReferFriendSection";
 import GiftJourneySection from "../components/sections/Connect/GiftJourneySection";
+import ContactDetailsSection from "../components/sections/Connect/ContactDetailsSection";
+import SocialMediaSection from "../components/sections/Connect/SocialMediaSection";
 
 const Connect = () => {
   const { images: heroImgs } = usePageHeroImages("connect");
@@ -32,6 +34,8 @@ const Connect = () => {
         breadcrumbs={[{ label: "HOME", path: "/" }, { label: "CONNECT" }]}
       />
       <EnquirySection />
+      <ContactDetailsSection />
+      <SocialMediaSection />
       <FAQSection faqs={faqs} />
       <ReferFriendSection />
       <GiftJourneySection />

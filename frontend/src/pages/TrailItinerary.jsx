@@ -1,11 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { LuArrowRight, LuSparkles } from "react-icons/lu";
 import { api } from "../services/api";
 import {
   normalizePublicItinerary,
   transformTrailMedia,
 } from "../utils/trailPresentation";
+import { ArrowLeft } from "lucide-react";
 
 // Sub-components
 import {
@@ -32,6 +35,19 @@ const TrailItinerary = () => {
   const [trail, setTrail] = useState(locationTrail);
   const [loading, setLoading] = useState(!locationTrail);
   const [openDay, setOpenDay] = useState(null);
+  const [isHoveringEnquire, setIsHoveringEnquire] = useState(false);
+
+  const handleEnquireClick = () => {
+    setTimeout(() => {
+      navigate("/connect/enquiry", { 
+        state: { 
+          from: location.pathname,
+          section: 'itinerary-footer',
+          trailName: transformed?.trailName 
+        } 
+      });
+    }, 400);
+  };
 
   useEffect(() => {
     setOpenDay(null);
@@ -181,6 +197,23 @@ const TrailItinerary = () => {
                     with included meals and overnight stays where available.
                   </p>
                 </div>
+              <div className="mt-8 flex justify-center">
+                <div className="group relative max-w-2xl overflow-hidden rounded-2xl border border-[#D4A373]/20 bg-[#D4A373]/5 px-6 py-4 backdrop-blur-sm transition-all duration-300 hover:bg-[#D4A373]/10">
+                  {/* Subtle shine effect */}
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+                  
+                  <div className="relative flex items-center gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D4A373]/20 text-[#D4A373]">
+                      <LuSparkles className="h-5 w-5" />
+                    </div>
+                    <p className="text-sm leading-relaxed text-[#8B6B50] md:text-[15px] italic">
+                      This is an indicative itinerary. Every Payana Trails journey
+                      is curated and personalized to match your interests and travel
+                      style.
+                    </p>
+                  </div>
+                </div>
+              </div>
               </div>
 
               {/* Day Cards List */}
@@ -204,6 +237,51 @@ const TrailItinerary = () => {
             </div>
           </div>
         </section>
+        <div className="mb-12 flex flex-wrap items-center justify-center gap-6 px-6">
+          <Link
+            to={`/trails/${transformed.slug}/#trail-essentials`}
+            className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-full border border-[#4A3B2A]/10 bg-[#4A3B2A] px-8 py-4 font-sans text-base font-semibold text-[#F8F2E9] shadow-[0_4px_20px_rgba(74,59,42,0.3)] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(74,59,42,0.4)]"
+          >
+            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out group-hover:translate-x-full" />
+            <span className="relative z-10 flex items-center gap-2">
+              <ArrowLeft className="h-5 w-5 transition-transform duration-300 group-hover:-translate-x-1" />
+              View Full Trail
+            </span>
+          </Link>
+
+          <motion.div
+            className="relative"
+            onMouseEnter={() => setIsHoveringEnquire(true)}
+            onMouseLeave={() => setIsHoveringEnquire(false)}
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleEnquireClick}
+              className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[#4A3B2A] px-10 py-4 font-sans text-base font-semibold text-[#F8F2E9] shadow-[0_4px_20px_rgba(74,59,42,0.3)] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(74,59,42,0.4)]"
+            >
+              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-in-out group-hover:translate-x-full" />
+
+              <span className="relative z-10 flex items-center gap-2">
+                Enquire Now
+                <LuArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                <motion.div
+                  animate={{
+                    rotate: isHoveringEnquire ? [0, 15, -15, 0] : 0,
+                    scale: isHoveringEnquire ? [1, 1.2, 1] : 1,
+                  }}
+                  transition={{
+                    duration: 0.5,
+                    repeat: isHoveringEnquire ? Infinity : 0,
+                    repeatDelay: 1,
+                  }}
+                >
+                  <LuSparkles className="h-4 w-4 text-[#D4A373]" />
+                </motion.div>
+              </span>
+            </motion.button>
+          </motion.div>
+        </div>
       </div>
     </>
   );

@@ -10,19 +10,28 @@ const TawkChat = () => {
     window.Tawk_API = window.Tawk_API || {};
     window.Tawk_LoadStart = new Date();
 
-    // 2. Load Tawk.to Script
-    const s1 = document.createElement("script");
-    const s0 = document.getElementsByTagName("script")[0];
-    s1.async = true;
-    s1.src = "https://embed.tawk.to/6986ba72fcf37c1c39799025/1jgr4gki3";
-    s1.charset = "UTF-8";
-    s1.setAttribute("crossorigin", "*");
-    s0.parentNode.insertBefore(s1, s0);
+    // 2. Load Tawk.to Script (only if not already loaded)
+    const existingScript = document.querySelector('script[src*="embed.tawk.to"]');
+    if (!existingScript) {
+      const s1 = document.createElement("script");
+      const s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = "https://embed.tawk.to/6986ba72fcf37c1c39799025/1jgr4gki3";
+      s1.charset = "UTF-8";
+      s1.setAttribute("crossorigin", "*");
+      s0.parentNode.insertBefore(s1, s0);
+    } else {
+      // If already loaded, set isLoaded to true so the button shows up
+      setIsLoaded(true);
+      // Ensure it starts hidden on re-mount
+      if (window.Tawk_API && typeof window.Tawk_API.hideWidget === "function") {
+        window.Tawk_API.hideWidget();
+      }
+    }
 
     // 3. Configure Tawk.to behavior
     window.Tawk_API.onLoad = function () {
       setIsLoaded(true);
-      // Hide the default bubble immediately
       window.Tawk_API.hideWidget();
     };
 
@@ -31,12 +40,14 @@ const TawkChat = () => {
     };
 
     window.Tawk_API.onChatMinimized = function () {
-      // Re-hide when minimized
       window.Tawk_API.hideWidget();
     };
 
     return () => {
-      // Cleanup if needed (usually not necessary for Tawk.to in SPAs)
+      // 4. Hide the widget when leaving the Connect page
+      if (window.Tawk_API && typeof window.Tawk_API.hideWidget === "function") {
+        window.Tawk_API.hideWidget();
+      }
     };
   }, []);
 

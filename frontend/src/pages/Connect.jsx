@@ -8,6 +8,7 @@ import ReferFriendSection from "../components/sections/Connect/ReferFriendSectio
 import GiftJourneySection from "../components/sections/Connect/GiftJourneySection";
 import ContactDetailsSection from "../components/sections/Connect/ContactDetailsSection";
 import SocialMediaSection from "../components/sections/Connect/SocialMediaSection";
+import TawkChat from "../components/common/TawkChat";
 
 const Connect = () => {
   const { images: heroImgs } = usePageHeroImages("connect");
@@ -39,6 +40,7 @@ const Connect = () => {
       <FAQSection faqs={faqs} />
       <ReferFriendSection />
       <GiftJourneySection />
+      <TawkChat />
     </div>
   );
 };

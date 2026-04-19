@@ -1,6 +1,74 @@
 const Subscriber = require("../models/Subscriber");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const https = require("https");
+
+// ─── Mailchimp Helper ─────────────────────────────────────────────────────────
+// Syncs a subscriber to Mailchimp via the Marketing API.
+// Requires env vars: MAILCHIMP_API_KEY, MAILCHIMP_LIST_ID, MAILCHIMP_DC
+async function syncToMailchimp({ fullName, email, mobile, countryCode }) {
+  const apiKey = process.env.MAILCHIMP_API_KEY;
+  const listId = process.env.MAILCHIMP_LIST_ID;
+  const dc = process.env.MAILCHIMP_DC; // e.g. "us12"
+
+  if (!apiKey || !listId || !dc) {
+    console.log("[Mailchimp] Skipped: MAILCHIMP_API_KEY / MAILCHIMP_LIST_ID / MAILCHIMP_DC not set in .env");
+    return;
+  }
+
+  const payload = JSON.stringify({
+    email_address: email,
+    status: "subscribed",
+    merge_fields: {
+      FNAME: fullName || "",
+      ...(mobile ? { MMERGE7: mobile } : {}),
+    },
+  });
+
+  const options = {
+    hostname: `${dc}.api.mailchimp.com`,
+    path: `/3.0/lists/${listId}/members`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Content-Length": Buffer.byteLength(payload),
+      // Mailchimp ignores the username part; any string + apiKey works
+      Authorization: `Basic ${Buffer.from(`apikey:${apiKey}`).toString("base64")}`,
+    },
+  };
+
+  return new Promise((resolve) => {
+    const req = https.request(options, (res) => {
+      let body = "";
+      res.on("data", (chunk) => (body += chunk));
+      res.on("end", () => {
+        try {
+          const parsed = JSON.parse(body);
+          if (res.statusCode === 200 || res.statusCode === 201) {
+            console.log(`[Mailchimp] Subscribed: ${email}`);
+          } else if (res.statusCode === 400 && parsed.title === "Member Exists") {
+            // Already on the list — that's fine
+            console.log(`[Mailchimp] Member already exists: ${email}`);
+          } else {
+            console.warn(`[Mailchimp] Unexpected response (${res.statusCode}):`, parsed.detail || body);
+          }
+        } catch (_) {
+          console.warn("[Mailchimp] Could not parse response:", body);
+        }
+        resolve();
+      });
+    });
+
+    req.on("error", (err) => {
+      console.error("[Mailchimp] Request error:", err.message);
+      resolve(); // Non-blocking — don't fail the subscription
+    });
+
+    req.write(payload);
+    req.end();
+  });
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 // @desc    Subscribe to newsletter
 // @route   POST /api/newsletter/subscribe
@@ -44,6 +112,14 @@ exports.subscribe = async (req, res) => {
         mobile,
       });
     }
+
+    // Sync to Mailchimp (non-blocking)
+    syncToMailchimp({
+      fullName: subscriber.fullName,
+      email: subscriber.email,
+      mobile: subscriber.mobile,
+      countryCode: subscriber.countryCode,
+    }).catch((err) => console.error("[Mailchimp] Sync failed:", err));
 
     // Send Welcome/Joining Email
     await sendWelcomeEmail(subscriber);

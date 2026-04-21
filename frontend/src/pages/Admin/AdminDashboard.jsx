@@ -4,11 +4,54 @@ import AddTrail from "./Trails/AddTrail";
 import DestinationManager from "./Destinations/DestinationManager";
 import HeroImageManager from "./HeroImages/HeroImageManager";
 import FAQManager from "./FAQs/FAQManager";
+import FormExportsManager from "./FormExports/FormExportsManager";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("trails");
-  // tabs: "trails" | "destinations" | "heroImages" | "faqs"
+  const tabs = [
+    {
+      id: "trails",
+      label: "Trail Management",
+      heading: "Trail Management",
+      iconPath:
+        "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
+      render: () => <AddTrail />,
+    },
+    {
+      id: "destinations",
+      label: "Destinations",
+      heading: "Destinations Management",
+      iconPath:
+        "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+      render: () => <DestinationManager />,
+    },
+    {
+      id: "heroImages",
+      label: "Hero Images",
+      heading: "Hero Image Management",
+      iconPath:
+        "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
+      render: () => <HeroImageManager />,
+    },
+    {
+      id: "faqs",
+      label: "FAQs Management",
+      heading: "FAQs Management",
+      iconPath:
+        "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+      render: () => <FAQManager />,
+    },
+    {
+      id: "formExports",
+      label: "Form Exports",
+      heading: "Form Exports",
+      iconPath:
+        "M12 10v6m0 0l-3-3m3 3l3-3m3 5H6a2 2 0 01-2-2V8a2 2 0 012-2h3.586A2 2 0 0011 5.414l.414-.414A2 2 0 0112.828 4H18a2 2 0 012 2v10a2 2 0 01-2 2z",
+      render: () => <FormExportsManager />,
+    },
+  ];
+  const activeSection = tabs.find((tab) => tab.id === activeTab) || tabs[0];
 
   useEffect(() => {
     const token = sessionStorage.getItem("adminToken");
@@ -41,101 +84,32 @@ const AdminDashboard = () => {
 
           {/* Menu Items */}
           <nav className="px-4 space-y-1 mt-2">
-            <button
-              onClick={() => setActiveTab("trails")}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-sm font-medium ${
-                activeTab === "trails"
-                  ? "bg-[#4A3B2A] text-[#F3EFE9]"
-                  : "text-gray-500 hover:bg-[#F3EFE9] hover:text-[#4A3B2A]"
-              }`}
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-sm font-medium ${
+                  activeTab === tab.id
+                    ? "bg-[#4A3B2A] text-[#F3EFE9]"
+                    : "text-gray-500 hover:bg-[#F3EFE9] hover:text-[#4A3B2A]"
+                }`}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                ></path>
-              </svg>
-              Trail Management
-            </button>
-
-            <button
-              onClick={() => setActiveTab("destinations")}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-sm font-medium ${
-                activeTab === "destinations"
-                  ? "bg-[#4A3B2A] text-[#F3EFE9]"
-                  : "text-gray-500 hover:bg-[#F3EFE9] hover:text-[#4A3B2A]"
-              }`}
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-              Destinations
-            </button>
-
-            <button
-              onClick={() => setActiveTab("heroImages")}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-sm font-medium ${
-                activeTab === "heroImages"
-                  ? "bg-[#4A3B2A] text-[#F3EFE9]"
-                  : "text-gray-500 hover:bg-[#F3EFE9] hover:text-[#4A3B2A]"
-              }`}
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                ></path>
-              </svg>
-              Hero Images
-            </button>
-
-            <button
-              onClick={() => setActiveTab("faqs")}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-sm font-medium ${
-                activeTab === "faqs"
-                  ? "bg-[#4A3B2A] text-[#F3EFE9]"
-                  : "text-gray-500 hover:bg-[#F3EFE9] hover:text-[#4A3B2A]"
-              }`}
-            >
-              <svg 
-                className="w-5 h-5" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth="2" 
-                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              FAQs Management
-            </button>
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d={tab.iconPath}
+                  ></path>
+                </svg>
+                {tab.label}
+              </button>
+            ))}
           </nav>
         </div>
 
@@ -188,10 +162,7 @@ const AdminDashboard = () => {
           {/* Header Text */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-[#4A3B2A] mb-1">
-              {activeTab === "trails" && "Trail Management"}
-              {activeTab === "destinations" && "Destinations Management"}
-              {activeTab === "heroImages" && "Hero Image Management"}
-              {activeTab === "faqs" && "FAQs Management"}
+              {activeSection.heading}
             </h1>
             <p className="text-gray-600 text-sm">
               Manage your website content and settings.
@@ -199,10 +170,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Render Active Component */}
-          {activeTab === "trails" && <AddTrail />}
-          {activeTab === "destinations" && <DestinationManager />}
-          {activeTab === "heroImages" && <HeroImageManager />}
-          {activeTab === "faqs" && <FAQManager />}
+          {activeSection.render()}
         </div>
       </div>
     </div>

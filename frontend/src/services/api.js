@@ -24,6 +24,22 @@ const withAdminAuth = (headers = {}) => {
   };
 };
 
+const getFileNameFromDisposition = (contentDisposition, fallbackFileName) => {
+  if (!contentDisposition) return fallbackFileName;
+
+  const utfMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+  if (utfMatch?.[1]) {
+    return decodeURIComponent(utfMatch[1]);
+  }
+
+  const plainMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+  if (plainMatch?.[1]) {
+    return plainMatch[1];
+  }
+
+  return fallbackFileName;
+};
+
 export const api = {
   // 1. Fetch Trails (For ExploreOurTrails component)
   getTrails: async (category = "All", isAdmin = false) => {
@@ -200,6 +216,56 @@ export const api = {
       return data;
     } catch (error) {
       console.error("API Error (adminResetPassword):", error);
+      throw error;
+    }
+  },
+
+  getAdminFormExports: async () => {
+    try {
+      const response = await fetch(`${ADMIN_BASE_URL}/form-exports`, {
+        headers: withAdminAuth(),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to load form exports");
+      }
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  downloadAdminFormExport: async (formType, format) => {
+    try {
+      const response = await fetch(
+        `${ADMIN_BASE_URL}/form-exports/${formType}/download?format=${format}`,
+        {
+          headers: withAdminAuth(),
+        },
+      );
+
+      if (!response.ok) {
+        let message = "Failed to download form export";
+        try {
+          const errorData = await response.json();
+          message = errorData.message || message;
+        } catch (parseError) {
+          // Ignore JSON parsing errors for binary responses.
+        }
+        throw new Error(message);
+      }
+
+      const blob = await response.blob();
+      const fileName = getFileNameFromDisposition(
+        response.headers.get("content-disposition"),
+        `${formType}.${format}`,
+      );
+
+      return {
+        blob,
+        fileName,
+      };
+    } catch (error) {
       throw error;
     }
   },

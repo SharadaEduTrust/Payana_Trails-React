@@ -68,7 +68,7 @@ const enquirySchema = new mongoose.Schema(
       type: String,
       enum: ["new", "contacted", "closed"],
       default: "new",
-    },
+    },  
   },
   { timestamps: true }
 );

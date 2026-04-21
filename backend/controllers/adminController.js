@@ -51,15 +51,17 @@ exports.forgotPassword = async (req, res) => {
 
     // Send Email
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT) || 587,
+      secure: false, // true for 465, false for 587 (STARTTLS)
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD,
       },
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"${process.env.FROM_NAME}" <${process.env.FROM_EMAIL}>`,
       to: admin.email,
       subject: "Payana Trails Admin - Password Reset OTP",
       text: `Your password reset OTP is: ${otp}. It is valid for 10 minutes.`,
@@ -68,6 +70,7 @@ exports.forgotPassword = async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.json({ message: "OTP sent to email" });
   } catch (error) {
+    console.error("Forgot password email error:", error);
     res.status(500).json({ message: "Error sending email" });
   }
 };

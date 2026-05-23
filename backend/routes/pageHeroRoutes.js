@@ -26,11 +26,8 @@ const cpUpload = upload.fields([
 const decode = (raw) => raw.replace(/~/g, "/");
 
 const getRequestOrigin = (req) => {
-  const forwardedProto = req.get("x-forwarded-proto");
-  const forwardedHost = req.get("x-forwarded-host");
-  const proto = (forwardedProto || req.protocol || "http").split(",")[0].trim();
-  const host = (forwardedHost || req.get("host") || "").split(",")[0].trim();
-
+  const proto = req.protocol;
+  const host = req.get("host") || "";
   return host ? `${proto}://${host}` : "";
 };
 

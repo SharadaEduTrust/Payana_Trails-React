@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const path = require("path");
 const fs = require("fs");
 const app = express();
+app.set("trust proxy", true);
 connectDB();
 
 // Middleware
@@ -69,14 +70,6 @@ if (fs.existsSync(FRONTEND_DIST)) {
   // Serve static assets (JS, CSS, images). Prevent serving index.html automatically.
   app.use(express.static(FRONTEND_DIST, { index: false }));
 
-  function getRequestOrigin(req) {
-    const forwardedProto = req.get("x-forwarded-proto");
-    const forwardedHost = req.get("x-forwarded-host");
-    const proto = (forwardedProto || req.protocol || "http").split(",")[0].trim();
-    const host = (forwardedHost || req.get("host") || "").split(",")[0].trim();
-    return host ? `${proto}://${host}` : "";
-  }
-
   let indexHtmlCache = null;
 
   // SPA catch-all: every non-API, non-file route returns index.html
@@ -91,10 +84,12 @@ if (fs.existsSync(FRONTEND_DIST)) {
     
     let html = indexHtmlCache;
 
-    const requestOrigin = getRequestOrigin(req);
-    const siteUrl = (process.env.SITE_URL || requestOrigin || "https://payanatrails.com").replace(/\/+$/, "");
-    const reqPath = req.path === '/' ? '' : req.path;
-    const fullUrl = req.path === '/' ? siteUrl + '/' : `${siteUrl}${reqPath}`;
+    const siteUrl = "https://payanatrails.com";
+    const reqPath = req.path === "/" ? "" : req.path;
+    const fullUrl =
+      req.path === "/"
+        ? `${siteUrl}/`
+        : `${siteUrl}${reqPath}`;
 
     // Inject self-referencing canonical and og:url for the current route
     html = html

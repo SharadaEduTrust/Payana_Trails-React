@@ -244,6 +244,7 @@ function buildOGHtml({ title, description, imageUrl, pageUrl }) {
 <head>
   <meta charset="UTF-8" />
   <title>${esc(title)}</title>
+  <link rel="canonical" href="${esc(pageUrl)}" />
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website" />
@@ -291,15 +292,6 @@ function stripTrailingSlash(value = "") {
   return value.replace(/\/+$/, "");
 }
 
-function getRequestOrigin(req) {
-  const forwardedProto = req.get("x-forwarded-proto");
-  const forwardedHost = req.get("x-forwarded-host");
-  const proto = (forwardedProto || req.protocol || "http").split(",")[0].trim();
-  const host = (forwardedHost || req.get("host") || "").split(",")[0].trim();
-
-  return host ? `${proto}://${host}` : "";
-}
-
 /** Build the canonical page URL for og:url. */
 function buildPageUrl(siteUrl, originalUrl = "/") {
   const safe = originalUrl.startsWith("/") ? originalUrl : `/${originalUrl}`;
@@ -325,15 +317,10 @@ module.exports = async function ogMiddleware(req, res, next) {
     return next();
   }
 
-  const requestOrigin = getRequestOrigin(req);
-  const SITE_URL = stripTrailingSlash(
-    process.env.SITE_URL || requestOrigin || "http://localhost:5173"
-  );
+  const SITE_URL = "https://payanatrails.com";
   const IMAGE_BASE = stripTrailingSlash(
     process.env.IMAGE_BASE_URL ||
-    process.env.SITE_URL ||
-    requestOrigin ||
-    `http://localhost:${process.env.PORT || 8000}`
+    "https://payanatrails.com"
   );
 
   // Instruct our server NOT to serve stale DB data.

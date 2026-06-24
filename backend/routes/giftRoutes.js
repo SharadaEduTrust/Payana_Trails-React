@@ -2,10 +2,28 @@ const express = require("express");
 const router = express.Router();
 const Gift = require("../models/Gift");
 const nodemailer = require("nodemailer");
+const { body, validationResult } = require("express-validator");
+const { formRateLimiter } = require("../middlewares/rateLimiter");
+const { verifyTurnstile } = require("../middlewares/turnstileMiddleware");
 
 // Create Gift Submission
-router.post("/", async (req, res) => {
-  try {
+router.post(
+  "/",
+  formRateLimiter,
+  verifyTurnstile,
+  [
+    body("senderName").trim().notEmpty().withMessage("Sender name is required").escape(),
+    body("senderEmail").trim().isEmail().withMessage("Valid sender email is required").normalizeEmail(),
+    body("recipientName").trim().notEmpty().withMessage("Recipient name is required").escape(),
+    body("recipientEmail").trim().isEmail().withMessage("Valid recipient email is required").normalizeEmail(),
+    body("personalMessage").optional().trim().escape(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: errors.array().map(e => e.msg).join(", ") });
+    }
+    try {
     const gift = new Gift(req.body);
     await gift.save();
 

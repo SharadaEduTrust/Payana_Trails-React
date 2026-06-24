@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiSend, FiAlertCircle } from "react-icons/fi";
 import { api } from "../../../../services/api";
+import { Turnstile } from "@marsidev/react-turnstile";
 import ReferralFields from "./ReferralFields";
 import ReferralSuccess from "./ReferralSuccess";
 import ReferralSidebar from "./ReferralSidebar";
@@ -21,6 +22,7 @@ const ReferralForm = ({ initialData = {} }) => {
     friendPhone: "",
     friendLocation: "",
     message: "",
+    cfTurnstileResponse: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -54,6 +56,11 @@ const ReferralForm = ({ initialData = {} }) => {
     // Basic validation
     if (!formData.referrerName || !formData.referrerEmail || !formData.referrerLocation || !formData.friendName || !formData.friendEmail) {
       setError("Please fill in all required fields.");
+      setLoading(false);
+      return;
+    }
+    if (!formData.cfTurnstileResponse) {
+      setError("Please complete the CAPTCHA.");
       setLoading(false);
       return;
     }
@@ -151,9 +158,16 @@ const ReferralForm = ({ initialData = {} }) => {
                         </ul>
                       </div>
 
+                      <div className="pt-2">
+                        <Turnstile
+                          siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+                          onSuccess={(token) => setFormData((prev) => ({ ...prev, cfTurnstileResponse: token }))}
+                        />
+                      </div>
+
                       <button
                         type="submit"
-                        disabled={loading}
+                        disabled={loading || !formData.cfTurnstileResponse}
                         className="w-full py-4 bg-[#4A3B2A] text-[#F3EFE9] rounded-xl font-semibold text-lg hover:bg-[#3A2E21] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-[#4A3B2A]/20"
                       >
                         {loading ? "Processing..." : (

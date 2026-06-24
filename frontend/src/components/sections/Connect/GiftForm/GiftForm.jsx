@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiSend, FiAlertCircle } from "react-icons/fi";
 import { api } from "../../../../services/api";
+import { Turnstile } from "@marsidev/react-turnstile";
 import GiftFields from "./GiftFields";
 import GiftSuccess from "./GiftSuccess";
 import GiftSidebar from "./GiftSidebar";
@@ -26,6 +27,7 @@ const GiftForm = ({ initialData = {} }) => {
     giftValue: "",
     occasion: "",
     personalMessage: "",
+    cfTurnstileResponse: "",
   });
 
   const [trails, setTrails] = useState([]);
@@ -96,6 +98,12 @@ const GiftForm = ({ initialData = {} }) => {
       return;
     }
 
+    if (!formData.cfTurnstileResponse) {
+      setError("Please complete the CAPTCHA.");
+      setLoading(false);
+      return;
+    }
+
     if (!hasJourney && !hasCredit) {
       setError(
         "Please choose one of the 2 options: Specific Journey or Travel Credit.",
@@ -108,6 +116,7 @@ const GiftForm = ({ initialData = {} }) => {
       setError(
         "Choose one of the 2 options: Specific Journey or Travel Credit.",
       );
+      setLoading(false);
       return;
     }
 
@@ -213,9 +222,16 @@ const GiftForm = ({ initialData = {} }) => {
                         </motion.div>
                       )}
 
+                      <div className="pt-2">
+                        <Turnstile
+                          siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+                          onSuccess={(token) => setFormData((prev) => ({ ...prev, cfTurnstileResponse: token }))}
+                        />
+                      </div>
+
                       <button
                         type="submit"
-                        disabled={loading}
+                        disabled={loading || !formData.cfTurnstileResponse}
                         className="w-full py-4 bg-[#4A3B2A] text-[#F3EFE9] rounded-xl font-semibold text-lg hover:bg-[#3A2E21] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-[#4A3B2A]/20"
                       >
                         {loading ? (

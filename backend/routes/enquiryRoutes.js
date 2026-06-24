@@ -2,11 +2,27 @@ const express = require("express");
 const router = express.Router();
 const Enquiry = require("../models/Enquiry");
 const nodemailer = require("nodemailer");
+const { body, validationResult } = require("express-validator");
+const { formRateLimiter } = require("../middlewares/rateLimiter");
+const { verifyTurnstile } = require("../middlewares/turnstileMiddleware");
 
 // @desc    Submit an enquiry
 // @route   POST /api/enquiries
 // @access  Public
-router.post("/", async (req, res) => {
+router.post(
+  "/",
+  formRateLimiter,
+  verifyTurnstile,
+  [
+    body("name").trim().notEmpty().withMessage("Name is required").escape(),
+    body("email").trim().isEmail().withMessage("Valid email is required").normalizeEmail(),
+    body("message").optional().trim().escape(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: errors.array().map(e => e.msg).join(", ") });
+    }
   const { 
     name, 
     email, 

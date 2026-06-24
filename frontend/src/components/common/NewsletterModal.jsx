@@ -5,6 +5,7 @@ import { useNewsletter } from "../../context/NewsletterContext";
 import { api } from "../../services/api";
 import BrownBtn from "./buttons/BrownBtn";
 import CountryCodeDropdown from "./CountryCodeDropdown";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 const NewsletterModal = () => {
   const { isModalOpen, closeNewsletterModal } = useNewsletter();
@@ -14,6 +15,7 @@ const NewsletterModal = () => {
     countryCode: "+91",
     countryIso: "IN",
     mobile: "",
+    cfTurnstileResponse: "",
   });
   const [status, setStatus] = useState("idle"); // idle, loading, success, error
   const [message, setMessage] = useState("");
@@ -35,6 +37,11 @@ const NewsletterModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.cfTurnstileResponse) {
+      setStatus("error");
+      setMessage("Please complete the CAPTCHA.");
+      return;
+    }
     setStatus("loading");
     setMessage("");
 
@@ -184,6 +191,13 @@ const NewsletterModal = () => {
                       </div>
                     </div>
 
+                    <div className="pt-2">
+                      <Turnstile
+                        siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+                        onSuccess={(token) => setFormData({ ...formData, cfTurnstileResponse: token })}
+                      />
+                    </div>
+
                     {status === "error" && (
                       <p className="text-red-600 text-sm font-medium mt-2 ml-1 italic">
                         {message}
@@ -194,7 +208,7 @@ const NewsletterModal = () => {
                       <BrownBtn
                         text={status === "loading" ? "Subscribing..." : "Subscribe to our Newsletter \u2192"}
                         className="w-full py-4 text-lg shadow-xl shadow-[#4A3B2A]/10"
-                        disabled={status === "loading"}
+                        disabled={status === "loading" || !formData.cfTurnstileResponse}
                         type="submit"
                       />
                     </div>

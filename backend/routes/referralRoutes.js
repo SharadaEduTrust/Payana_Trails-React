@@ -2,11 +2,29 @@ const express = require("express");
 const router = express.Router();
 const Referral = require("../models/Referral");
 const nodemailer = require("nodemailer");
+const { body, validationResult } = require("express-validator");
+const { formRateLimiter } = require("../middlewares/rateLimiter");
+const { verifyTurnstile } = require("../middlewares/turnstileMiddleware");
 
 // @desc    Submit a referral
 // @route   POST /api/referrals
 // @access  Public
-router.post("/", async (req, res) => {
+router.post(
+  "/",
+  formRateLimiter,
+  verifyTurnstile,
+  [
+    body("referrerName").trim().notEmpty().withMessage("Referrer name is required").escape(),
+    body("referrerEmail").trim().isEmail().withMessage("Valid referrer email is required").normalizeEmail(),
+    body("friendName").trim().notEmpty().withMessage("Friend name is required").escape(),
+    body("friendEmail").trim().isEmail().withMessage("Valid friend email is required").normalizeEmail(),
+    body("message").optional().trim().escape(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: errors.array().map(e => e.msg).join(", ") });
+    }
   const {
     referrerName,
     referrerEmail,

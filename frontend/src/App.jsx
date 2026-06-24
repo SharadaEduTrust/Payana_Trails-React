@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Layout from "./components/common/layout/Layout";
+import CookieConsent from "./components/common/CookieConsent";
 import { NewsletterProvider } from "./context/NewsletterContext";
 
 // ─── Page-level code splitting ───────────────────────────────────────────────
@@ -101,6 +102,7 @@ const App = () => {
     <Router>
       <NewsletterProvider>
         <ScrollToTop />
+        <CookieConsent />
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/admin/login" element={<AdminLogin />} />

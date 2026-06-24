@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { api } from "../../../services/api";
 import { FiSend, FiAlertCircle } from "react-icons/fi";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 // Sub-components
 import FormSidebar from "./EnquiryForm/FormSidebar";
@@ -32,6 +33,7 @@ const EnquiryForm = ({ onSuccess }) => {
     roomPreference: "Standard",
     message: "",
     connectMethod: "eMail",
+    cfTurnstileResponse: "",
   });
   const [trails, setTrails] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -112,6 +114,11 @@ const EnquiryForm = ({ onSuccess }) => {
     const missing = requiredFields.filter((field) => !formData[field]);
     if (missing.length > 0) {
       setError("Please fill in all required fields.");
+      setLoading(false);
+      return;
+    }
+    if (!formData.cfTurnstileResponse) {
+      setError("Please complete the CAPTCHA.");
       setLoading(false);
       return;
     }
@@ -233,9 +240,16 @@ const EnquiryForm = ({ onSuccess }) => {
                       </motion.div>
                     )}
 
+                    <div className="pt-2">
+                      <Turnstile
+                        siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+                        onSuccess={(token) => setFormData((prev) => ({ ...prev, cfTurnstileResponse: token }))}
+                      />
+                    </div>
+
                     <button
                       type="submit"
-                      disabled={loading}
+                      disabled={loading || !formData.cfTurnstileResponse}
                       className="w-full py-4 bg-[#4A3B2A] text-[#F3EFE9] rounded-xl font-semibold text-lg hover:bg-[#3A2E21] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-[#4A3B2A]/20"
                     >
                       {loading ? (

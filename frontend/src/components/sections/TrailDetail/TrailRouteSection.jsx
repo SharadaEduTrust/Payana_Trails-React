@@ -87,54 +87,7 @@ const TrailRouteSection = ({ trail }) => {
         .filter((highlight) => highlight.title || highlight.description),
     [trail?.highlights],
   );
-  const displayItems = useMemo(() => {
-    const items = [];
-    const usedHighlightIndices = new Set();
-
-    routeSteps.forEach((step, index) => {
-      const normalizedStep = normalizeText(step);
-      let matchedHighlightIndex = parsedHighlights.findIndex((h, i) => {
-        if (usedHighlightIndices.has(i)) return false;
-        const normalizedTitle = normalizeText(h.title);
-        return (
-          normalizedTitle &&
-          (normalizedTitle === normalizedStep ||
-            normalizedTitle.includes(normalizedStep) ||
-            normalizedStep.includes(normalizedTitle))
-        );
-      });
-
-      if (
-        matchedHighlightIndex === -1 &&
-        !usedHighlightIndices.has(index) &&
-        parsedHighlights[index]
-      ) {
-        matchedHighlightIndex = index;
-      }
-
-      let highlight = null;
-      if (matchedHighlightIndex !== -1) {
-        highlight = parsedHighlights[matchedHighlightIndex];
-        usedHighlightIndices.add(matchedHighlightIndex);
-      }
-
-      items.push({
-        stepName: step,
-        highlight,
-      });
-    });
-
-    parsedHighlights.forEach((highlight, index) => {
-      if (!usedHighlightIndices.has(index)) {
-        items.push({
-          stepName: highlight.title || `Highlight ${items.length + 1}`,
-          highlight,
-        });
-      }
-    });
-
-    return items;
-  }, [parsedHighlights, routeSteps]);
+  const displayItems = parsedHighlights;
 
   const scenicIcons = [LuMapPin, LuTrees, LuMountain];
   const mapAreaMinHeightClass =
@@ -149,6 +102,10 @@ const TrailRouteSection = ({ trail }) => {
       : displayItems.length <= 4
         ? "max-h-[380px] sm:max-h-[430px] lg:max-h-[470px]"
         : "max-h-[420px] sm:max-h-[500px] lg:max-h-[560px]";
+
+  if (displayItems.length === 0 && !trail?.routeMapUrl) {
+    return null;
+  }
 
   return (
     <section className="mx-auto w-full max-w-7xl px-6 py-8 md:px-10">
@@ -216,11 +173,11 @@ const TrailRouteSection = ({ trail }) => {
                       const Icon = scenicIcons[index % scenicIcons.length];
                       const stepOffset =
                         stepOffsets[index % stepOffsets.length];
-                      const helperText = item.highlight?.description;
+                      const helperText = item.description;
 
                       return (
                         <motion.div
-                          key={`step-${index}`}
+                          key={`highlight-${index}`}
                           variants={itemVariants}
                           className={`relative flex items-start gap-4 rounded-[1.35rem] border border-[rgba(74,59,42,0.08)] bg-white/72 p-4 shadow-[0_10px_25px_rgba(74,59,42,0.08)] backdrop-blur-sm ${stepOffset}`}
                         >
@@ -230,10 +187,10 @@ const TrailRouteSection = ({ trail }) => {
 
                           <div className="min-w-0 flex-1">
                             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8D6A4C]">
-                              Stop {String(index + 1).padStart(2, "0")}
+                              Highlight {String(index + 1).padStart(2, "0")}
                             </p>
                             <h3 className="mt-1 font-serif text-[1.3rem] leading-tight text-[#2F2319] md:text-[1.45rem]">
-                              {item.highlight?.title || item.stepName}
+                              {item.title}
                             </h3>
 
                             {helperText && (
@@ -254,8 +211,7 @@ const TrailRouteSection = ({ trail }) => {
                       variants={itemVariants}
                       className="rounded-[1.35rem] border border-dashed border-[#4A3B2A]/20 bg-white/70 p-5 text-[#5D4837]"
                     >
-                      Route details will appear here once the trail path is
-                      added.
+                      Trail highlights will appear here once added.
                     </motion.div>
                   )}
                 </motion.div>
@@ -269,7 +225,13 @@ const TrailRouteSection = ({ trail }) => {
                     <LuMap className="h-4 w-4" />
                     Route View
                   </span>
-                  <span>{displayItems.length || 0} stops</span>
+                  <span>
+                    {displayItems.length > 0
+                      ? `${displayItems.length} ${displayItems.length === 1 ? "highlight" : "highlights"}`
+                      : routeSteps.length > 0
+                        ? `${routeSteps.length} stops`
+                        : ""}
+                  </span>
                 </div>
 
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(248,241,231,0.08),transparent_40%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]" />
@@ -300,16 +262,21 @@ const TrailRouteSection = ({ trail }) => {
                       className={`relative z-10 flex h-full flex-col items-center justify-center gap-6 p-8 text-center text-[#4A3B2A] ${mapAreaMinHeightClass}`}
                     >
                       <div className="flex items-center gap-3">
-                        {displayItems.slice(0, 3).map((item, index) => (
-                          <React.Fragment key={`icon-${index}`}>
-                            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#4A3B2A]/10 bg-white/80 shadow-sm">
-                              <LuMapPin className="h-5 w-5 text-[#6D5036]" />
-                            </div>
-                            {index < Math.min(displayItems.length, 3) - 1 && (
-                              <LuArrowRight className="h-5 w-5 text-[#6D5036]/60" />
-                            )}
-                          </React.Fragment>
-                        ))}
+                        {(routeSteps.length > 0
+                          ? routeSteps
+                          : displayItems.map((d) => d.title)
+                        )
+                          .slice(0, 3)
+                          .map((item, index, arr) => (
+                            <React.Fragment key={`icon-${index}`}>
+                              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#4A3B2A]/10 bg-white/80 shadow-sm">
+                                <LuMapPin className="h-5 w-5 text-[#6D5036]" />
+                              </div>
+                              {index < arr.length - 1 && (
+                                <LuArrowRight className="h-5 w-5 text-[#6D5036]/60" />
+                              )}
+                            </React.Fragment>
+                          ))}
                       </div>
                       <p className="max-w-sm text-sm leading-6 text-[#5E4938]">
                         Upload a route map to showcase the full path visually.

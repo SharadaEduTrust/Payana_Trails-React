@@ -35,7 +35,7 @@ const AdditionalSection = ({ formData, touched, handleChange, handleSelectChange
             name="referredBy"
             value={formData.referredBy}
             onChange={handleChange}
-            placeholder="Name of the person who referred you"
+            placeholder="Enter the Referral Code OR mention the name of the person who referred you"
             className="w-full px-4 py-3 bg-white border border-[#4A3B2A]/10 rounded-xl focus:border-[#4A3B2A] focus:ring-2 focus:ring-[#4A3B2A]/10 outline-none transition-all duration-200 text-[#4A3B2A] placeholder:text-[#4A3B2A]/30"
           />
         </div>

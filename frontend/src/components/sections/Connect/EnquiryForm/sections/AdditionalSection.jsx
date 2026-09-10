@@ -8,7 +8,8 @@ const AdditionalSection = ({ formData, touched, handleChange, handleSelectChange
   return (
     <div>
       <h4 className="text-base sm:text-lg font-medium text-[#4A3B2A] mb-5 flex items-center gap-2">
-        <FiMessageSquare className="text-[#4A3B2A] shrink-0" /> Additional Details
+        <FiMessageSquare className="text-[#4A3B2A] shrink-0" /> Additional
+        Details
       </h4>
       <div className="space-y-6">
         <SelectField
@@ -26,8 +27,8 @@ const AdditionalSection = ({ formData, touched, handleChange, handleSelectChange
         />
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-sm font-medium text-[#4A3B2A]">
-            <FiUserPlus size={16} className="text-[#4A3B2A]/60" /> Referred By
-            (Optional)
+            <FiUserPlus size={16} className="text-[#4A3B2A]/60" /> Referral Code
+            OR Referred By (Optional)
           </label>
           <input
             type="text"

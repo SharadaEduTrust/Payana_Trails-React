@@ -20,7 +20,12 @@ const Wildlife = () => {
         const data = await api.getTrails();
         
         // Filter only wildlife trails
-        const wildlifeTrails = data.filter(trail => trail.trailTheme === "Wildlife");
+        const wildlifeTrails = data.filter(
+          (trail) =>
+            trail.trailTheme === "Wildlife" ||
+            (trail.trailType &&
+              trail.trailType.toLowerCase().includes("wildlife")),
+        );
         setTrails(wildlifeTrails);
         setLoading(false);
       } catch (err) {

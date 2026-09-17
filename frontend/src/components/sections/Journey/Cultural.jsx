@@ -20,7 +20,12 @@ const Cultural = () => {
         const data = await api.getTrails();
         
         // Filter only cultural trails
-        const culturalTrails = data.filter(trail => trail.trailTheme === "Cultural");
+        const culturalTrails = data.filter(
+          (trail) =>
+            trail.trailTheme === "Cultural" ||
+            (trail.trailType &&
+              trail.trailType.toLowerCase().includes("cultural")),
+        );
         setTrails(culturalTrails);
         setLoading(false);
       } catch (err) {

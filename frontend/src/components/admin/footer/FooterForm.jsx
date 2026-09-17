@@ -33,10 +33,10 @@ const DEFAULT_DATA = {
     {
       heading: "JOURNEYS",
       links: [
-        { label: "Signature Trails", url: "/journeys/signature" },
-        { label: "Wildlife Trails", url: "/journeys/wildlife" },
+        { label: "Fixed Departure Trails", url: "/journeys/fixed-departure" },
         { label: "Heritage Trails", url: "/journeys/heritage" },
         { label: "Cultural & Immersive Trails", url: "/journeys/cultural" },
+        { label: "Wildlife Trails", url: "/journeys/wildlife" },
       ]
     },
     {
@@ -88,13 +88,57 @@ const DEFAULT_DATA = {
 
 const mergeData = (initial, defaults) => {
   if (!initial || Object.keys(initial).length === 0) return defaults;
-  return {
+  const merged = {
     ...defaults,
     ...initial,
     socialLinks: initial.socialLinks?.length ? initial.socialLinks : defaults.socialLinks,
     columns: initial.columns?.length ? initial.columns : defaults.columns.map(c => ({...c})),
     bottomLinks: initial.bottomLinks?.length ? initial.bottomLinks : defaults.bottomLinks,
   };
+
+  if (merged.columns?.length) {
+    merged.columns = merged.columns.map((col) => {
+      if (col.heading?.toUpperCase() === "JOURNEYS") {
+        const updatedLinks = (col.links || []).map((link) => {
+          if (
+            link.label?.toLowerCase().includes("signature") ||
+            link.url === "/journeys/signature"
+          ) {
+            return {
+              ...link,
+              label: "Fixed Departure Trails",
+              url: "/journeys/fixed-departure",
+            };
+          }
+          return link;
+        });
+
+        const desiredOrder = [
+          "fixed departure",
+          "heritage",
+          "cultural",
+          "wildlife",
+        ];
+        const sortedLinks = [...updatedLinks].sort((a, b) => {
+          const aIdx = desiredOrder.findIndex((prefix) =>
+            (a.label || "").toLowerCase().includes(prefix)
+          );
+          const bIdx = desiredOrder.findIndex((prefix) =>
+            (b.label || "").toLowerCase().includes(prefix)
+          );
+          return (aIdx === -1 ? 99 : aIdx) - (bIdx === -1 ? 99 : bIdx);
+        });
+
+        return {
+          ...col,
+          links: sortedLinks,
+        };
+      }
+      return col;
+    });
+  }
+
+  return merged;
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -172,7 +216,7 @@ const SortableLinkItem = ({
           <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Label</label>
           <input
             type="text"
-            placeholder="e.g. Signature Trails"
+            placeholder="e.g. Fixed Departure Trails"
             value={link.label}
             onChange={(e) => updateColumnLink(colIdx, linkIdx, "label", e.target.value)}
             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#4A3B2A] font-medium focus:ring-2 focus:ring-[#4A3B2A]/5 focus:border-[#4A3B2A]/30 transition-all bg-white"
@@ -182,7 +226,7 @@ const SortableLinkItem = ({
           <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Redirect URL</label>
           <input
             type="text"
-            placeholder="e.g. /journeys/signature"
+            placeholder="e.g. /journeys/fixed-departure"
             value={link.url}
             onChange={(e) => updateColumnLink(colIdx, linkIdx, "url", e.target.value)}
             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-600 font-mono focus:ring-2 focus:ring-[#4A3B2A]/5 focus:border-[#4A3B2A]/30 transition-all bg-white"

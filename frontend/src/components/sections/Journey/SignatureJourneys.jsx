@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { api, IMAGE_BASE_URL } from "../../../services/api";
 
 const DEFAULT_CONTENT = {
-  mainTitle: "Signature Journeys",
+  mainTitle: "Fixed Departure Trails",
   subtitle:
     "Discover our carefully curated experiences, blending rich heritage, immersive culture, breathtaking landscapes and unforgettable wildlife encounters.",
 };
@@ -23,12 +23,16 @@ const SignatureJourneys = () => {
       try {
         const data = await api.getTrails();
 
-        // Filter only signature journeys (based on trailType containing 'signature' or being exactly 'Signature Journey')
-        const signatureTrips = data.filter(
-          (trail) =>
-            trail.trailType &&
-            trail.trailType.toLowerCase().includes("signature")
-        );
+        // Filter journeys (based on trailType containing 'fixed departure' or 'signature')
+        const signatureTrips = data.filter((trail) => {
+          const type = (trail.trailType || "").toLowerCase().trim();
+          const theme = (trail.trailTheme || "").toLowerCase().trim();
+          return (
+            type.includes("fixed departure") ||
+            type.includes("signature") ||
+            theme.includes("fixed departure")
+          );
+        });
 
         setJourneys(signatureTrips);
         setLoading(false);
@@ -50,13 +54,15 @@ const SignatureJourneys = () => {
         if (data?.signatureJourneys) {
           setContent({
             mainTitle:
-              data.signatureJourneys.mainTitle || DEFAULT_CONTENT.mainTitle,
+              data.signatureJourneys.mainTitle === "Signature Journeys"
+                ? "Fixed Departure Trails"
+                : data.signatureJourneys.mainTitle || DEFAULT_CONTENT.mainTitle,
             subtitle:
               data.signatureJourneys.subtitle || DEFAULT_CONTENT.subtitle,
           });
         }
       } catch (err) {
-        console.error("Failed to load Signature Journeys section content:", err);
+        console.error("Failed to load section content:", err);
       }
     };
     fetchContent();
@@ -225,11 +231,11 @@ const SignatureJourneys = () => {
           {/* Bottom CTA */}
           <div className="mt-12 sm:mt-16 flex justify-center">
             <Link
-              to="/journeys/signature"
+              to="/journeys/fixed-departure"
               onClick={() => window.scrollTo(0, 0)}
               className="group inline-flex items-center gap-3 rounded-full bg-[#4A3B2A] px-10 py-4 text-base font-semibold text-[#F3EFE9] shadow-[0_14px_28px_rgba(74,59,42,0.16)] transition-all duration-300 hover:bg-[#3A2C1C] hover:-translate-y-1"
             >
-              <span>Explore Signature Trails</span>
+              <span>Explore Fixed Departure Trails</span>
               <ChevronRight size={20} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>

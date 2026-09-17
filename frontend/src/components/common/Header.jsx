@@ -152,10 +152,13 @@ export default function Header() {
           name: "Trails",
           path: "/journeys",
           submenu: [
-            { name: "Signature Trails", path: "/journeys/signature" },
-            { name: "Wildlife Trails", path: "/journeys/wildlife" },
+            {
+              name: "Fixed Departure Trails",
+              path: "/journeys/fixed-departure",
+            },
             { name: "Heritage Trails", path: "/journeys/heritage" },
             { name: "Cultural & Immersive Trails", path: "/journeys/cultural" },
+            { name: "Wildlife Trails", path: "/journeys/wildlife" },
           ],
         },
         destinationSubmenu.length > 0 && {

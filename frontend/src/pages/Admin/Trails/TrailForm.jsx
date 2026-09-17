@@ -222,6 +222,7 @@ const TrailForm = ({
               <input
                 type="text"
                 name="trailType"
+                placeholder="e.g. Fixed Departure Trail"
                 value={formData.trailType}
                 onChange={handleChange}
                 className={inputClasses}

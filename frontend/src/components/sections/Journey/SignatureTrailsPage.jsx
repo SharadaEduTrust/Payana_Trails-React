@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import CommonHero from "../../common/CommonHero";
 import JourneySearchBar from "./JourneySearchBar";
 import EOTCard from "../../common/cards/EOTCard";
@@ -11,22 +12,33 @@ const SignatureTrailsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const { images: heroImgs } = usePageHeroImages("journeys/signature");
-  const heroBg = heroImgs.length > 0 ? (heroImgs[0].desktop || heroImgs[0]) : destinationsImg;
+
+  const SITE_URL = (
+    import.meta.env.VITE_SITE_URL || "https://payanatrails.com"
+  ).replace("www.", "");
+
+  const { images: fixedDepImgs } = usePageHeroImages("journeys/fixed-departure");
+  const { images: signatureImgs } = usePageHeroImages("journeys/signature");
+  const heroImgs = fixedDepImgs?.length > 0 ? fixedDepImgs : signatureImgs;
+  const heroBg = heroImgs?.length > 0 ? (heroImgs[0].desktop || heroImgs[0]) : destinationsImg;
 
   useEffect(() => {
     const fetchTrails = async () => {
       try {
         const data = await api.getTrails();
-        const signatureTrails = data.filter(
-          (trail) =>
-            trail.trailType &&
-            trail.trailType.toLowerCase().includes("signature"),
-        );
+        const fixedDepartureTrails = data.filter((trail) => {
+          const type = (trail.trailType || "").toLowerCase().trim();
+          const theme = (trail.trailTheme || "").toLowerCase().trim();
+          return (
+            type.includes("fixed departure") ||
+            type.includes("signature") ||
+            theme.includes("fixed departure")
+          );
+        });
 
-        setTrails(signatureTrails);
+        setTrails(fixedDepartureTrails);
       } catch (err) {
-        console.error("Error fetching signature trails:", err);
+        console.error("Error fetching fixed departure trails:", err);
         setError("Failed to load trails. Please try again later.");
       } finally {
         setLoading(false);
@@ -54,15 +66,25 @@ const SignatureTrailsPage = () => {
 
   return (
     <div className="bg-[#F3EFE9] min-h-screen font-['Lato',sans-serif]">
+      <Helmet>
+        <title>Fixed Departure Trails | Payana Trails</title>
+        <meta
+          name="description"
+          content="A handpicked collection of Payana Trails fixed departure journeys, designed to bring together the most memorable landscapes, stories, and experiences."
+        />
+        <link rel="canonical" href={`${SITE_URL}/journeys/fixed-departure`} />
+        <meta property="og:url" content={`${SITE_URL}/journeys/fixed-departure`} />
+      </Helmet>
+
       <CommonHero
-        title="Explore Our Signature Trails"
+        title="Explore Our Fixed Departure Trails"
         description="A handpicked collection of Payana Trails journeys, designed to bring together the most memorable landscapes, stories, and experiences."
         images={heroImgs}
         bgImage={destinationsImg}
         breadcrumbs={[
           { label: "HOME", path: "/" },
           { label: "JOURNEY", path: "/journeys" },
-          { label: "SIGNATURE TRAILS" },
+          { label: "FIXED DEPARTURE TRAILS" },
         ]}
       />
 
@@ -97,7 +119,7 @@ const SignatureTrailsPage = () => {
 
         {!loading && !error && trails.length === 0 && (
           <div className="text-center text-[#4A3B2A]/70 py-10 text-lg">
-            No signature trails available at the moment.
+            No fixed departure trails available at the moment.
           </div>
         )}
 

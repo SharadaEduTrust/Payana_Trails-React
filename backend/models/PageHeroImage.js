@@ -11,6 +11,7 @@ const PAGE_KEYS = [
   "stories",
   "connect",
   "journeys/destinations",
+  "journeys/fixed-departure",
   "journeys/signature",
   "journeys/wildlife",
   "journeys/heritage",

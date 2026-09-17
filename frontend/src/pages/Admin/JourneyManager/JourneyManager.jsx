@@ -16,7 +16,7 @@ const JourneyManager = () => {
     },
     {
       id: "signatureJourneys",
-      label: "Signature Journeys",
+      label: "Fixed Departure Trails",
       render: () => <JourneySignatureManager />,
     },
     {

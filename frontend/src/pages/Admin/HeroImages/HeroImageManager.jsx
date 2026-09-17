@@ -75,10 +75,10 @@ const PAGE_META = {
     path: "/journeys/destinations",
     group: "journeys",
   },
-  "journeys/signature": {
-    label: "Signature Trails",
+  "journeys/fixed-departure": {
+    label: "Fixed Departure Trails",
     Icon: Star,
-    path: "/journeys/signature",
+    path: "/journeys/fixed-departure",
     group: "journeys",
   },
   "journeys/wildlife": {

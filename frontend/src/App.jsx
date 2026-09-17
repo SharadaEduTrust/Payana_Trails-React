@@ -123,8 +123,12 @@ const App = () => {
                       <Route path="journeys/wildlife" element={<Wildlife />} />
                       <Route path="journeys/heritage" element={<Heritage />} />
                       <Route
-                        path="journeys/signature"
+                        path="journeys/fixed-departure"
                         element={<SignatureTrailsPage />}
+                      />
+                      <Route
+                        path="journeys/signature"
+                        element={<Navigate to="/journeys/fixed-departure" replace />}
                       />
                       <Route path="journeys/cultural" element={<Cultural />} />
                       <Route

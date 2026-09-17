@@ -45,11 +45,15 @@ const ExploreOurTrails = () => {
               : undefined,
           };
         });
-        // Sort: signature trails first, then the rest (preserve original order within each group)
+        // Sort: fixed departure and signature trails first, then the rest (preserve original order within each group)
         const sorted = [...formattedTrails].sort((a, b) => {
-          const aIsSig = a.trailType?.toLowerCase().includes("signature") ? 0 : 1;
-          const bIsSig = b.trailType?.toLowerCase().includes("signature") ? 0 : 1;
-          return aIsSig - bIsSig;
+          const aType = (a.trailType || "").toLowerCase();
+          const bType = (b.trailType || "").toLowerCase();
+          const aIsPriority =
+            aType.includes("fixed departure") || aType.includes("signature") ? 0 : 1;
+          const bIsPriority =
+            bType.includes("fixed departure") || bType.includes("signature") ? 0 : 1;
+          return aIsPriority - bIsPriority;
         });
         setServices(sorted);
       } catch (error) {

@@ -124,7 +124,10 @@ router.get("/", async (req, res) => {
 router.get("/:pageKey/primary-image", async (req, res) => {
   try {
     const pageKey = decode(req.params.pageKey);
-    const doc = await PageHeroImage.findOne({ pageKey }).select("images").lean();
+    let doc = await PageHeroImage.findOne({ pageKey }).select("images").lean();
+    if ((!doc || !doc.images?.length) && pageKey === "journeys/fixed-departure") {
+      doc = await PageHeroImage.findOne({ pageKey: "journeys/signature" }).select("images").lean();
+    }
     const primaryImage = getPrimaryActiveImage(doc?.images || []);
     const fallbackUrl = toAbsoluteUrl(req, "/heroBg-desktop.webp");
     const imageUrl = primaryImage?.url
@@ -144,7 +147,13 @@ router.get("/:pageKey/primary-image", async (req, res) => {
 router.get("/:pageKey", async (req, res) => {
   try {
     const pageKey = decode(req.params.pageKey);
-    const doc = await PageHeroImage.findOne({ pageKey });
+    let doc = await PageHeroImage.findOne({ pageKey });
+    if ((!doc || !doc.images?.length) && pageKey === "journeys/fixed-departure") {
+      const fallbackDoc = await PageHeroImage.findOne({ pageKey: "journeys/signature" });
+      if (fallbackDoc && fallbackDoc.images?.length) {
+        doc = fallbackDoc;
+      }
+    }
     if (!doc) return res.json({ pageKey, images: [] });
     res.json(doc);
   } catch (err) {

@@ -56,7 +56,7 @@ const getOrCreatePage = async () => {
           "Trails designed for those who value depth over distance – shaped by stories, places and experiences that stay with you.",
       },
       signatureJourneys: {
-        mainTitle: "Signature Journeys",
+        mainTitle: "Fixed Departure Trails",
         subtitle:
           "Discover our carefully curated experiences, blending rich heritage, immersive culture, breathtaking landscapes and unforgettable wildlife encounters.",
       },
@@ -106,6 +106,12 @@ const getOrCreatePage = async () => {
   const MIGRATED_ITALIC = "Every Payana journey\nis carefully designed";
   if (page.payanaJourney.italicText === LEGACY_ITALIC) {
     page.payanaJourney.italicText = MIGRATED_ITALIC;
+    await page.save();
+  }
+
+  // ── Migrate: change legacy "Signature Journeys" title to "Fixed Departure Trails" ──
+  if (page.signatureJourneys?.mainTitle === "Signature Journeys") {
+    page.signatureJourneys.mainTitle = "Fixed Departure Trails";
     await page.save();
   }
 

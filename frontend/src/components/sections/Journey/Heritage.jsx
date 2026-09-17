@@ -20,7 +20,12 @@ const Heritage = () => {
         const data = await api.getTrails();
         
         // Filter only heritage trails
-        const heritageTrails = data.filter(trail => trail.trailTheme === "Heritage");
+        const heritageTrails = data.filter(
+          (trail) =>
+            trail.trailTheme === "Heritage" ||
+            (trail.trailType &&
+              trail.trailType.toLowerCase().includes("heritage")),
+        );
         setTrails(heritageTrails);
         setLoading(false);
       } catch (err) {

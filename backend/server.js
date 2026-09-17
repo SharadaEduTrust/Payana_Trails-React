@@ -89,10 +89,15 @@ const PAGE_META = {
     title: "Journeys | Payana Trails",
     description: "Explore signature, wildlife, heritage, cultural, and destination-led journeys thoughtfully designed by Payana Trails.",
   },
+  "/journeys/fixed-departure": {
+    pageKey: "journeys/fixed-departure",
+    title: "Fixed Departure Trails | Payana Trails",
+    description: "A handpicked collection of Payana Trails fixed departure journeys with unforgettable landscapes, stories, and experiences.",
+  },
   "/journeys/signature": {
-    pageKey: "journeys/signature",
-    title: "Signature Trails | Payana Trails",
-    description: "A handpicked collection of Payana Trails journeys with unforgettable landscapes, stories, and experiences.",
+    pageKey: "journeys/fixed-departure",
+    title: "Fixed Departure Trails | Payana Trails",
+    description: "A handpicked collection of Payana Trails fixed departure journeys with unforgettable landscapes, stories, and experiences.",
   },
   "/journeys/wildlife": {
     pageKey: "journeys/wildlife",

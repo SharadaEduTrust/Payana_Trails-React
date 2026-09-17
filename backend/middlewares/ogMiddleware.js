@@ -101,11 +101,17 @@ const STATIC_PAGE_META = {
   },
 
   // ── Sub-journeys ──────────────────────────────────────────────────────────
-  "/journeys/signature": {
-    pageKey: "journeys/signature",
-    title: "Signature Trails | Payana Trails",
+  "/journeys/fixed-departure": {
+    pageKey: "journeys/fixed-departure",
+    title: "Fixed Departure Trails | Payana Trails",
     description:
-      "A handpicked collection of Payana Trails journeys with unforgettable landscapes, stories, and experiences.",
+      "A handpicked collection of Payana Trails fixed departure journeys with unforgettable landscapes, stories, and experiences.",
+  },
+  "/journeys/signature": {
+    pageKey: "journeys/fixed-departure",
+    title: "Fixed Departure Trails | Payana Trails",
+    description:
+      "A handpicked collection of Payana Trails fixed departure journeys with unforgettable landscapes, stories, and experiences.",
   },
   "/journeys/wildlife": {
     pageKey: "journeys/wildlife",
@@ -216,6 +222,7 @@ const PAGE_FALLBACK_OG_IMAGES = {
   stories: "/og-stories.webp",
   connect: "/heroBg-desktop.webp",
   "journeys/destinations": "/og-destinations.webp",
+  "journeys/fixed-departure": "/og-destinations.webp",
   "journeys/signature": "/og-destinations.webp",
   "journeys/heritage": "/og-heritage.webp",
   "journeys/cultural": "/og-cultural.webp",

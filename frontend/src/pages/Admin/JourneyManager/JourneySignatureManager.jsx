@@ -21,12 +21,15 @@ const JourneySignatureManager = () => {
       const data = await api.getJourneyPage();
       if (data?.signatureJourneys) {
         setFormData({
-          mainTitle: data.signatureJourneys.mainTitle || "",
+          mainTitle:
+            data.signatureJourneys.mainTitle === "Signature Journeys"
+              ? "Fixed Departure Trails"
+              : data.signatureJourneys.mainTitle || "Fixed Departure Trails",
           subtitle: data.signatureJourneys.subtitle || "",
         });
       }
     } catch (error) {
-      console.error("Error fetching Signature Journeys data:", error);
+      console.error("Error fetching Fixed Departure Trails data:", error);
       showAutoHidingMessage("error", "Failed to load section data.");
     } finally {
       setIsLoading(false);
@@ -49,11 +52,11 @@ const JourneySignatureManager = () => {
       await api.updateJourneySignatureSection(formData);
       showAutoHidingMessage(
         "success",
-        "Signature Journeys section updated successfully!"
+        "Fixed Departure Trails section updated successfully!"
       );
     } catch (error) {
-      console.error("Error saving Signature Journeys section:", error);
-      showAutoHidingMessage("error", "Failed to save Signature Journeys section.");
+      console.error("Error saving Fixed Departure Trails section:", error);
+      showAutoHidingMessage("error", "Failed to save Fixed Departure Trails section.");
     } finally {
       setIsSaving(false);
     }
@@ -90,7 +93,7 @@ const JourneySignatureManager = () => {
             onChange={handleChange}
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#4A3B2A] focus:border-[#4A3B2A]"
-            placeholder="e.g. Signature Journeys"
+            placeholder="e.g. Fixed Departure Trails"
           />
         </div>
 

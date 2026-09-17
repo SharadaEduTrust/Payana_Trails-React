@@ -97,66 +97,109 @@ const Footer = () => {
     url: link.url || socialIconMap[link.platform]?.defaultUrl || "",
   }));
 
-  const footerMenus =
-    data?.columns?.length > 0
-      ? data.columns
-      : [
-          {
-            heading: "Journeys",
-            links: [
-              { label: "Signature Trails", url: "/journeys/signature" },
-              { label: "Wildlife Trails", url: "/journeys/wildlife" },
-              { label: "Heritage Trails", url: "/journeys/heritage" },
-              {
-                label: "Cultural & Immersive Trails",
-                url: "/journeys/cultural",
-              },
-            ],
-          },
-          {
-            heading: "The Payana Way",
-            links: [
-              { label: "A Journey Begins", url: "/payana-way#ajourneybegins" },
-              {
-                label: "The Payana Difference",
-                url: "/payana-way#the-payana-difference",
-              },
-              {
-                label: "Journeys with Purpose",
-                url: "/payana-way#journeys-with-purpose",
-              },
-              { label: "In the Media", url: "/payana-way#in-the-media" },
-            ],
-          },
-          {
-            heading: "Stories",
-            links: [
-              { label: "Travel Stories", url: "/stories#travel-stories" },
-              {
-                label: "Stories from our Guests",
-                url: "/stories#guest-stories",
-              },
-              {
-                label: "Voices from the Trail",
-                url: "/stories#voices-from-the-trail",
-              },
-              { label: "Newsletter", url: "/stories#newsletter" },
-            ],
-          },
-          {
-            heading: "Connect",
-            links: [
-              { label: "Enquiry", url: "/connect#enquiry-section" },
-              { label: "FAQs", url: "/connect#faq-section" },
-              { label: "Refer Your Friends", url: "/connect#referral-section" },
-              { label: "Gift a Journey", url: "/connect#gift-section" },
-              {
-                label: "Connect With Us",
-                url: "/connect#contact-details-section",
-              },
-            ],
-          },
-        ];
+  const defaultColumns = [
+    {
+      heading: "Journeys",
+      links: [
+        {
+          label: "Fixed Departure Trails",
+          url: "/journeys/fixed-departure",
+        },
+        { label: "Heritage Trails", url: "/journeys/heritage" },
+        {
+          label: "Cultural & Immersive Trails",
+          url: "/journeys/cultural",
+        },
+        { label: "Wildlife Trails", url: "/journeys/wildlife" },
+      ],
+    },
+    {
+      heading: "The Payana Way",
+      links: [
+        { label: "A Journey Begins", url: "/payana-way#ajourneybegins" },
+        {
+          label: "The Payana Difference",
+          url: "/payana-way#the-payana-difference",
+        },
+        {
+          label: "Journeys with Purpose",
+          url: "/payana-way#journeys-with-purpose",
+        },
+        { label: "In the Media", url: "/payana-way#in-the-media" },
+      ],
+    },
+    {
+      heading: "Stories",
+      links: [
+        { label: "Travel Stories", url: "/stories#travel-stories" },
+        {
+          label: "Stories from our Guests",
+          url: "/stories#guest-stories",
+        },
+        {
+          label: "Voices from the Trail",
+          url: "/stories#voices-from-the-trail",
+        },
+        { label: "Newsletter", url: "/stories#newsletter" },
+      ],
+    },
+    {
+      heading: "Connect",
+      links: [
+        { label: "Enquiry", url: "/connect#enquiry-section" },
+        { label: "FAQs", url: "/connect#faq-section" },
+        { label: "Refer Your Friends", url: "/connect#referral-section" },
+        { label: "Gift a Journey", url: "/connect#gift-section" },
+        {
+          label: "Connect With Us",
+          url: "/connect#contact-details-section",
+        },
+      ],
+    },
+  ];
+
+  const rawColumns =
+    data?.columns?.length > 0 ? data.columns : defaultColumns;
+
+  const footerMenus = rawColumns.map((col) => {
+    if (col.heading?.toUpperCase() === "JOURNEYS") {
+      const updatedLinks = col.links.map((link) => {
+        if (
+          link.label?.toLowerCase().includes("signature") ||
+          link.url === "/journeys/signature"
+        ) {
+          return {
+            ...link,
+            label: "Fixed Departure Trails",
+            url: "/journeys/fixed-departure",
+          };
+        }
+        return link;
+      });
+
+      const desiredOrder = [
+        "fixed departure",
+        "heritage",
+        "cultural",
+        "wildlife",
+      ];
+      const sortedLinks = [...updatedLinks].sort((a, b) => {
+        const aIdx = desiredOrder.findIndex((prefix) =>
+          (a.label || "").toLowerCase().includes(prefix)
+        );
+        const bIdx = desiredOrder.findIndex((prefix) =>
+          (b.label || "").toLowerCase().includes(prefix)
+        );
+        return (aIdx === -1 ? 99 : aIdx) - (bIdx === -1 ? 99 : bIdx);
+      });
+
+      return {
+        ...col,
+        links: sortedLinks,
+      };
+    }
+    return col;
+  });
 
   const bottomLinks =
     data?.bottomLinks?.length > 0

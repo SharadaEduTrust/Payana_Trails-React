@@ -15,7 +15,7 @@ const journeyPageSchema = new mongoose.Schema(
       },
     },
     signatureJourneys: {
-      mainTitle: { type: String, default: "Signature Journeys" },
+      mainTitle: { type: String, default: "Fixed Departure Trails" },
       subtitle: {
         type: String,
         default:

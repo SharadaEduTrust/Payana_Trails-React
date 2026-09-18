@@ -175,7 +175,7 @@ const SortableImageCard = ({
       <button
         {...attributes}
         {...listeners}
-        className="absolute top-2 left-2 z-10 p-1 bg-white/80 rounded-md text-gray-400 hover:text-gray-600 cursor-grab active:cursor-grabbing opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute top-2 left-2 z-20 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-md cursor-grab active:cursor-grabbing opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all shadow-md"
         title="Drag to reorder"
       >
         <GripVertical size={14} />
@@ -228,7 +228,7 @@ const SortableImageCard = ({
         </div>
         {/* Desktop mode: show mobile badge if mobile version exists */}
         {!isMobileView && hasMobile && (
-          <div className="absolute top-1 left-1 flex items-center gap-0.5 bg-[#4A3B2A]/70 rounded px-1 py-0.5">
+          <div className="absolute top-1 left-8 flex items-center gap-0.5 bg-[#4A3B2A]/80 rounded px-1.5 py-0.5">
             <Smartphone size={8} className="text-white" />
             <span className="text-[8px] text-white font-medium">+M</span>
           </div>
@@ -256,15 +256,24 @@ const SortableImageCard = ({
         </button>
         {/* Hide/show — only meaningful in desktop mode (order is shared) */}
         {isMobileView ? (
-          // Mobile mode: remove just the mobile file, keep desktop entry
-          <button
-            onClick={() => onRemoveMobile(image._id)}
-            className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-xs font-medium text-red-500 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
-            title="Remove mobile image"
-          >
-            <Trash2 size={12} />
-            Remove
-          </button>
+          // Mobile mode: allow removing just the mobile file OR deleting the entire image
+          <>
+            <button
+              onClick={() => onRemoveMobile(image._id)}
+              className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors"
+              title="Remove mobile image only (keeps desktop)"
+            >
+              <Trash2 size={12} />
+              Remove
+            </button>
+            <button
+              onClick={() => onDelete(image._id)}
+              className="flex items-center justify-center p-1.5 text-red-500 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+              title="Delete entire image (desktop + mobile)"
+            >
+              <Trash2 size={14} />
+            </button>
+          </>
         ) : (
           <>
             <button
@@ -899,7 +908,11 @@ const HeroImageManager = () => {
   const [pageSelectOpen, setPageSelectOpen] = useState(false);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
     useSensor(KeyboardSensor),
   );
 
@@ -930,25 +943,29 @@ const HeroImageManager = () => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    // const oldIndex = images.findIndex((img) => img._id === active.id);
-    // const newIndex = images.findIndex((img) => img._id === over.id);
-    // const newOrder = arrayMove(images, oldIndex, newIndex);
-
     const isMobileView = uploadVariant === "mobile";
     const displayImages = isMobileView
       ? images.filter((img) => img.mobileUrl)
       : images;
 
-    const oldIndex = displayImages.findIndex((img) => img._id === active.id);
-    const newIndex = displayImages.findIndex((img) => img._id === over.id);
+    const oldIndex = displayImages.findIndex(
+      (img) => String(img._id) === String(active.id),
+    );
+    const newIndex = displayImages.findIndex(
+      (img) => String(img._id) === String(over.id),
+    );
     if (oldIndex < 0 || newIndex < 0) return;
 
     const reorderedDisplay = arrayMove(displayImages, oldIndex, newIndex);
 
     const newOrder = isMobileView
       ? (() => {
-          const reorderedIds = new Set(reorderedDisplay.map((img) => img._id));
-          const untouched = images.filter((img) => !reorderedIds.has(img._id));
+          const reorderedIds = new Set(
+            reorderedDisplay.map((img) => String(img._id)),
+          );
+          const untouched = images.filter(
+            (img) => !reorderedIds.has(String(img._id)),
+          );
           return [...reorderedDisplay, ...untouched];
         })()
       : reorderedDisplay;
@@ -958,8 +975,9 @@ const HeroImageManager = () => {
     try {
       await api.reorderPageHeroImages(
         selectedPage,
-        newOrder.map((img) => img._id),
+        newOrder.map((img) => String(img._id)),
       );
+      showMessage("success", "Images reordered successfully.");
     } catch (err) {
       showMessage("error", "Failed to save new order");
       fetchImages(); // revert

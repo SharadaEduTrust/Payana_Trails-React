@@ -108,12 +108,65 @@ const processAndSave = async (file, folder, basePath, variant = "desktop") => {
   };
 };
 
+/**
+ * Resolves a PageHeroImage document for a given pageKey.
+ * Handles seamless backward compatibility and automatic migration between
+ * "journeys/signature" (legacy key) and "journeys/fixed-departure" (new key).
+ */
+const resolvePageHeroDoc = async (pageKey, createIfNotFound = false) => {
+  let doc = await PageHeroImage.findOne({ pageKey });
+
+  if (pageKey === "journeys/fixed-departure") {
+    if (!doc || !doc.images || doc.images.length === 0) {
+      const legacyDoc = await PageHeroImage.findOne({ pageKey: "journeys/signature" });
+      if (legacyDoc && legacyDoc.images && legacyDoc.images.length > 0) {
+        if (!doc) {
+          legacyDoc.pageKey = "journeys/fixed-departure";
+          await legacyDoc.save();
+          return legacyDoc;
+        } else {
+          doc.images = legacyDoc.images;
+          await doc.save();
+          return doc;
+        }
+      }
+    }
+  } else if (pageKey === "journeys/signature") {
+    if (!doc || !doc.images || doc.images.length === 0) {
+      const fixedDoc = await PageHeroImage.findOne({ pageKey: "journeys/fixed-departure" });
+      if (fixedDoc && fixedDoc.images && fixedDoc.images.length > 0) {
+        return fixedDoc;
+      }
+    }
+  }
+
+  if (!doc && createIfNotFound) {
+    doc = new PageHeroImage({ pageKey, images: [] });
+  }
+
+  return doc;
+};
+
 // ── GET  /api/page-heroes ─────────────────────────────────────────────────────
 router.get("/", async (req, res) => {
   try {
     const docs = await PageHeroImage.find().sort({ pageKey: 1 });
     const map = {};
     docs.forEach((d) => { map[d.pageKey] = d; });
+
+    // Ensure journeys/fixed-departure and journeys/signature are aligned
+    if (
+      map["journeys/signature"] &&
+      (!map["journeys/fixed-departure"] || !map["journeys/fixed-departure"].images?.length)
+    ) {
+      map["journeys/fixed-departure"] = map["journeys/signature"];
+    } else if (
+      map["journeys/fixed-departure"] &&
+      (!map["journeys/signature"] || !map["journeys/signature"].images?.length)
+    ) {
+      map["journeys/signature"] = map["journeys/fixed-departure"];
+    }
+
     res.json({ pages: map, pageKeys: PAGE_KEYS });
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch page heroes", error: err.message });
@@ -124,10 +177,7 @@ router.get("/", async (req, res) => {
 router.get("/:pageKey/primary-image", async (req, res) => {
   try {
     const pageKey = decode(req.params.pageKey);
-    let doc = await PageHeroImage.findOne({ pageKey }).select("images").lean();
-    if ((!doc || !doc.images?.length) && pageKey === "journeys/fixed-departure") {
-      doc = await PageHeroImage.findOne({ pageKey: "journeys/signature" }).select("images").lean();
-    }
+    const doc = await resolvePageHeroDoc(pageKey);
     const primaryImage = getPrimaryActiveImage(doc?.images || []);
     const fallbackUrl = toAbsoluteUrl(req, "/heroBg-desktop.webp");
     const imageUrl = primaryImage?.url
@@ -147,13 +197,7 @@ router.get("/:pageKey/primary-image", async (req, res) => {
 router.get("/:pageKey", async (req, res) => {
   try {
     const pageKey = decode(req.params.pageKey);
-    let doc = await PageHeroImage.findOne({ pageKey });
-    if ((!doc || !doc.images?.length) && pageKey === "journeys/fixed-departure") {
-      const fallbackDoc = await PageHeroImage.findOne({ pageKey: "journeys/signature" });
-      if (fallbackDoc && fallbackDoc.images?.length) {
-        doc = fallbackDoc;
-      }
-    }
+    const doc = await resolvePageHeroDoc(pageKey);
     if (!doc) return res.json({ pageKey, images: [] });
     res.json(doc);
   } catch (err) {
@@ -221,7 +265,7 @@ router.post("/:pageKey/images", cpUpload, async (req, res) => {
 
     // ── Mobile-only upload: attach to existing entries by position ────────────
     if (desktopFiles.length === 0 && mobileFiles.length > 0) {
-      const doc = await PageHeroImage.findOne({ pageKey });
+      const doc = await resolvePageHeroDoc(pageKey);
       if (!doc || doc.images.length === 0) {
         return res.status(400).json({
           message: "No desktop images exist for this page yet. Upload desktop images first.",
@@ -242,8 +286,8 @@ router.post("/:pageKey/images", cpUpload, async (req, res) => {
 
         const { url: mobileUrl, stat } = await processAndSave(
           mobileFiles[i],
-          heroFolder(pageKey, "mobile"),
-          heroBasePath(pageKey, "mobile"),
+          heroFolder(doc.pageKey, "mobile"),
+          heroBasePath(doc.pageKey, "mobile"),
           "mobile"
         );
         imageStats.push(stat);
@@ -259,13 +303,13 @@ router.post("/:pageKey/images", cpUpload, async (req, res) => {
 
         // Use MongoDB arrayFilters — bypasses Mongoose change tracking entirely
         await PageHeroImage.updateOne(
-          { pageKey },
+          { pageKey: doc.pageKey },
           { $set: { "images.$[elem].mobileUrl": mobileUrl } },
           { arrayFilters: [{ "elem._id": target._id }] }
         );
       }
 
-      const updated = await PageHeroImage.findOne({ pageKey });
+      const updated = await PageHeroImage.findOne({ pageKey: doc.pageKey });
       return res.status(200).json({ page: updated, imageStats });
     }
 
@@ -301,8 +345,7 @@ router.post("/:pageKey/images", cpUpload, async (req, res) => {
       });
     }
 
-    let doc = await PageHeroImage.findOne({ pageKey });
-    if (!doc) doc = new PageHeroImage({ pageKey, images: [] });
+    let doc = await resolvePageHeroDoc(pageKey, true);
 
     const startOrder = doc.images.length;
     newImages.forEach((img, i) => doc.images.push({ ...img, order: startOrder + i }));
@@ -324,14 +367,22 @@ router.put("/:pageKey/images/reorder", async (req, res) => {
       return res.status(400).json({ message: "orderedIds must be an array" });
     }
 
-    const doc = await PageHeroImage.findOne({ pageKey });
+    const doc = await resolvePageHeroDoc(pageKey);
     if (!doc) return res.status(404).json({ message: "Page not found" });
 
     const imageMap = {};
     doc.images.forEach((img) => { imageMap[img._id.toString()] = img; });
     const reordered = orderedIds
-      .filter((id) => imageMap[id])
-      .map((id, index) => { const img = imageMap[id]; img.order = index; return img; });
+      .filter((id) => imageMap[String(id)])
+      .map((id, index) => { const img = imageMap[String(id)]; img.order = index; return img; });
+
+    // Ensure images not explicitly in orderedIds are preserved at the end (e.g. mobile subset)
+    const orderedSet = new Set(orderedIds.map(String));
+    const remaining = doc.images.filter((img) => !orderedSet.has(img._id.toString()));
+    remaining.forEach((img, idx) => {
+      img.order = reordered.length + idx;
+      reordered.push(img);
+    });
 
     doc.images = reordered;
     await doc.save();
@@ -351,7 +402,7 @@ router.patch("/:pageKey/images/:imageId", cpUpload, async (req, res) => {
   try {
     const pageKey = decode(req.params.pageKey);
     const { imageId } = req.params;
-    const doc = await PageHeroImage.findOne({ pageKey });
+    const doc = await resolvePageHeroDoc(pageKey);
     if (!doc) return res.status(404).json({ message: "Page not found" });
 
     const imgEntry = doc.images.id(imageId);
@@ -364,8 +415,8 @@ router.patch("/:pageKey/images/:imageId", cpUpload, async (req, res) => {
     if (desktopFile) {
       const { url: newUrl, stat } = await processAndSave(
         desktopFile,
-        heroFolder(pageKey, "desktop"),
-        heroBasePath(pageKey, "desktop"),
+        heroFolder(doc.pageKey, "desktop"),
+        heroBasePath(doc.pageKey, "desktop"),
         "desktop"
       );
       imageStats.push(stat);
@@ -384,8 +435,8 @@ router.patch("/:pageKey/images/:imageId", cpUpload, async (req, res) => {
     if (mobileFile) {
       const { url: newMobileUrl, stat } = await processAndSave(
         mobileFile,
-        heroFolder(pageKey, "mobile"),
-        heroBasePath(pageKey, "mobile"),
+        heroFolder(doc.pageKey, "mobile"),
+        heroBasePath(doc.pageKey, "mobile"),
         "mobile"
       );
       imageStats.push(stat);
@@ -427,7 +478,7 @@ router.delete("/:pageKey/images/:imageId", async (req, res) => {
   try {
     const pageKey = decode(req.params.pageKey);
     const { imageId } = req.params;
-    const doc = await PageHeroImage.findOne({ pageKey });
+    const doc = await resolvePageHeroDoc(pageKey);
     if (!doc) return res.status(404).json({ message: "Page not found" });
 
     const imgEntry = doc.images.id(imageId);
@@ -436,10 +487,14 @@ router.delete("/:pageKey/images/:imageId", async (req, res) => {
     // Delete both desktop and mobile files
     const deleteFile = (url) => {
       if (!url) return;
-      const fp = resolveUploadPath(url);
-      fs.unlink(fp, (e) => {
-        if (e && e.code !== "ENOENT") console.error("Failed to delete hero image file:", e.message);
-      });
+      try {
+        const fp = resolveUploadPath(url);
+        fs.unlink(fp, (e) => {
+          if (e && e.code !== "ENOENT") console.error("Failed to delete hero image file:", e.message);
+        });
+      } catch (e) {
+        console.error("Error resolving upload path:", e.message);
+      }
     };
     deleteFile(imgEntry.url);
     deleteFile(imgEntry.mobileUrl);
